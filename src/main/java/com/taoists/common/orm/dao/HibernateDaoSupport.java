@@ -65,21 +65,6 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		return (List<T>) page.getDatas();
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<T> findPage(final Page page, final Criterion... criterions) {
-		Assert.notNull(page, "page is required.");
-		Criteria criteria = createCriteria(criterions);
-		if (page.isAutoCount()) {
-			long totalCount = countCriteriaResult(criteria);
-			page.setTotalCount(totalCount);
-		}
-
-		setPageParameterToCriteria(criteria, page);
-		page.setDatas(criteria.list());
-		return (List<T>) page.getDatas();
-	}
-
 	protected Criteria setPageParameterToCriteria(final Criteria criteria, final Page page) {
 		Assert.isTrue(page.getPageSize() > 0, "Page Size must larger than zero");
 
@@ -129,7 +114,7 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		return totalCount;
 	}
 
-	protected Criteria createCriteria(final Criterion... criterions) {
+	private Criteria createCriteria(final Criterion... criterions) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		for (Criterion c : criterions) {
 			detachedCriteria.add(c);
@@ -138,11 +123,35 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<T> findPage(final Page page, final List<PropertyFilter> filters) {
-		return findPage(page, buildCriterionByPropertyFilter(filters));
+		Assert.notNull(page, "page is required.");
+		Criteria criteria = createCriteria(buildCriterionByPropertyFilter(filters));
+		
+		createAlias(criteria, filters);
+		
+		if (page.isAutoCount()) {
+			long totalCount = countCriteriaResult(criteria);
+			page.setTotalCount(totalCount);
+		}
+
+		setPageParameterToCriteria(criteria, page);
+		page.setDatas(criteria.list());
+		return (List<T>) page.getDatas();
+	}
+	
+	private void createAlias(Criteria criteria, final List<PropertyFilter> filters){
+		for(PropertyFilter filter: filters){
+			for(String propertyName: filter.getPropertyNames()){
+				if(propertyName.indexOf(".") != -1){
+					String alias = propertyName.substring(0, propertyName.indexOf("."));
+					criteria.createAlias(alias, alias);
+				}
+			}
+		}
 	}
 
-	protected Criterion[] buildCriterionByPropertyFilter(final List<PropertyFilter> filters) {
+	private Criterion[] buildCriterionByPropertyFilter(final List<PropertyFilter> filters) {
 		List<Criterion> criterions = Lists.newArrayList();
 		for (PropertyFilter filter : filters) {
 			if (filter.hasMultiProperties()) {

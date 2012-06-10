@@ -40,6 +40,7 @@
 				<value>com.taoists.base.entity</value>
 				<value>com.taoists.code.entity</value>
 				<value>com.taoists.crm.entity</value>
+				<value>com.taoists.ias.entity</value>
 				<value>com.taoists.sys.entity</value>
 			</list>
 		</property>

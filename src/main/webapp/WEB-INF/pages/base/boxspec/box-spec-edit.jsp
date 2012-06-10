@@ -24,6 +24,12 @@
 								</td>
 							</tr>
 							<tr class="th">
+								<th class="rth">编号：</th>
+								<td class="ltd">
+									<input class="input-xlarge required" name="specNo" value="${boxSpec.specNo}" type="text" style="width: 50%;"/>
+								</td>
+							</tr>
+							<tr class="th">
 								<th class="rth">产品名称：</th>
 								<td class="ltd">
 									<select name="product.id" class="input-xlarge required" style="width: 50%;">

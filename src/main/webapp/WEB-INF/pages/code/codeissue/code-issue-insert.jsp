@@ -48,24 +48,11 @@
 								</td>
 							</tr>
 							<tr class="th">
-								<th class="rth">条形码：</th>
-								<td class="ltd">
-									<input class="input-xlarge" name="barCode" type="text" style="width:50%"/>
-								</td>
-							</tr>
-							<tr class="th">
 								<th class="rth">码长度：</th>
 								<td class="ltd">
 									<select name="codeLength" style="width:50%">
 										<option value="12">12 位</option>
 									</select>
-								</td>
-							</tr>
-							<tr class="th">
-								<th class="rth">状态：</th>
-								<td class="ltd">
-									启用<input class="input-xlarge" name="status" style="margin-right: 20px;" value="true" type="radio" checked="checked"/>
-									禁用<input class="input-xlarge" name="status" value="false" type="radio"/>
 								</td>
 							</tr>
 							<tr class="th">

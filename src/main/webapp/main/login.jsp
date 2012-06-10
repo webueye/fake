@@ -8,6 +8,14 @@
 		<link href="${pageContext.request.contextPath}/css/twitter/bootstrap.css" rel="stylesheet" />
 		<link href="${pageContext.request.contextPath}/css/twitter/bootstrap-responsive.css" rel="stylesheet" />
 		<link href="${pageContext.request.contextPath}/css/twitter/docs.css" rel="stylesheet" />
+		
+		<style type="text/css">
+		<!-- 
+			body {
+				background-image: url(../images/grid-18px-masked.png);
+			}
+		-->
+		</style>
 	</head>
 
 	<body>

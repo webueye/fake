@@ -2,12 +2,12 @@ package com.taoists.code.service.impl;
 
 import org.springframework.stereotype.Service;
 
-import com.taoists.code.dao.impl.CodeIssueDaoImpl;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.CodeIssue;
 import com.taoists.code.entity.FakeCode;
 import com.taoists.code.service.CodeIssueService;
+import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.common.util.CodeUtils;
 
 /**
@@ -15,7 +15,7 @@ import com.taoists.common.util.CodeUtils;
  * @since 2012-6-3
  */
 @Service("codeRuleDao")
-public class CodeIssueServiceImpl extends CodeIssueDaoImpl implements CodeIssueService {
+public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> implements CodeIssueService {
 
 	public void genCode(CodeIssue codeIssue) {
 		save(codeIssue);

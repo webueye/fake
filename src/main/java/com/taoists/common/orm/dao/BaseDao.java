@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
 
 import com.taoists.common.bean.Page;
@@ -44,8 +43,6 @@ public interface BaseDao<T extends BaseEntity> {
 	List<T> findDatas(String propertyName, Object value, Page page);
 
 	List<T> findPage(DetachedCriteria detachedCriteria, Page page);
-
-	List<T> findPage(final Page page, final Criterion... criterions);
 
 	List<T> findPage(final Page page, final List<PropertyFilter> filters);
 

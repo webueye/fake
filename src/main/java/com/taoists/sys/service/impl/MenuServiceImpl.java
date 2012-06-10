@@ -1,14 +1,20 @@
 package com.taoists.sys.service.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.taoists.common.Cons;
-import com.taoists.sys.dao.impl.MenuDaoImpl;
+import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.sys.entity.Menu;
 import com.taoists.sys.service.MenuService;
 
@@ -18,27 +24,69 @@ import com.taoists.sys.service.MenuService;
  */
 @Transactional
 @Service("menuService")
-public class MenuServiceImpl extends MenuDaoImpl implements MenuService {
+public class MenuServiceImpl extends HibernateDaoSupport<Menu> implements MenuService {
 
+	@Override
+	public List<Menu> getRootMenus() {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		detachedCriteria.add(Restrictions.isNull("parent"));
+		detachedCriteria.addOrder(Order.asc("orderValue"));
+		return findDatas(detachedCriteria);
+	}
+
+	@Override
+	public List<Menu> findMenus(Menu menu, boolean parentIsNull) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		detachedCriteria.add(Example.create(menu));
+		detachedCriteria.addOrder(Order.asc("orderValue"));
+		if (parentIsNull) {
+			detachedCriteria.add(Restrictions.isNull("parent"));
+		}
+		return findDatas(detachedCriteria);
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Menu> findMenusByParent(Serializable parentId) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
+		criteria.add(Restrictions.eq("parent.id", parentId));
+		detachedCriteria.addOrder(Order.asc("orderValue"));
+		return criteria.list();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Menu> findMenusByParent(Serializable parentId, boolean isLeaf) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
+		criteria.add(Restrictions.eq("parent.id", parentId));
+		criteria.add(Restrictions.eq("leaf", isLeaf));
+		detachedCriteria.addOrder(Order.asc("orderValue"));
+		return criteria.list();
+	}
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Menu> loopQueryMenusByParent(List<Menu> menus) {
 		if (menus != null) {
 			for (Menu menu : menus) {
 				if (BooleanUtils.isTrue(menu.getExpanded())) {
-					menu.setChild(super.findMenusByParent(menu.getId()));
+					menu.setChild(findMenusByParent(menu.getId()));
 					loopQueryMenusByParent((List<Menu>) menu.getChild());
 				}
 			}
 		}
 		return menus;
 	}
-	
+
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Menu> loopQueryMenusByParent(List<Menu> menus, boolean isLeaf) {
 		if (menus != null) {
 			for (Menu menu : menus) {
 				if (BooleanUtils.isTrue(menu.getExpanded())) {
-					menu.setChild(super.findMenusByParent(menu.getId()));
+					menu.setChild(findMenusByParent(menu.getId()));
 					loopQueryMenusByParent((List<Menu>) menu.getChild(), isLeaf);
 				}
 			}
@@ -46,15 +94,16 @@ public class MenuServiceImpl extends MenuDaoImpl implements MenuService {
 		return menus;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Menu> handle(long menuId, List<Menu> menus) {
 		if (menus != null) {
 			for (Menu menu : menus) {
 				if (menu.getId() == menuId) {
 					menu.setExpanded(!BooleanUtils.isTrue(menu.getExpanded()));
-					
+
 					if (BooleanUtils.isTrue(menu.getExpanded()) && CollectionUtils.isEmpty(menu.getChild())) {
-						menu.setChild(super.findMenusByParent(menu.getId()));
+						menu.setChild(findMenusByParent(menu.getId()));
 						loopQueryMenusByParent((List<Menu>) menu.getChild());
 					}
 					return menus;
@@ -66,9 +115,9 @@ public class MenuServiceImpl extends MenuDaoImpl implements MenuService {
 		return menus;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<Menu> updateMenus(List<Menu> menus, Menu menu, long id,
-			String type) {
+	public List<Menu> updateMenus(List<Menu> menus, Menu menu, long id, String type) {
 		if (menus != null) {
 			for (Menu chilMenu : menus) {
 				if (id == chilMenu.getId()) {

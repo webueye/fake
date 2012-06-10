@@ -24,17 +24,23 @@ import com.taoists.common.orm.PropertyFilter;
 @RequestMapping(ResultPath.fakeCode)
 public class FakeCodeController extends CommonController {
 
-	@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping
 	public String list(FakeCode fakeCode, Page page) {
 		logger.debug("list: fakeCode[{}]", fakeCode);
 		getFakeCodeService().findPage(fakeCode, page);
 		return forword(ViewName.list);
 	}
 
+	@RequestMapping(value = "/boxcode")
+	public String listByBoxCode(HttpServletRequest request, Page page) {
+		search(request, page);
+		return forword(ViewName.list);
+	}
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page) {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-		getBoxCodeService().findPage(page, filters);
+		getFakeCodeService().findPage(page, filters);
 		extractParams(request);
 		return forword(ViewName.list);
 	}

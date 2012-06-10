@@ -1,10 +1,12 @@
 package com.taoists.code.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,6 +17,7 @@ import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
 import com.taoists.common.controller.Module;
 import com.taoists.common.orm.PropertyFilter;
+import com.taoists.common.util.StringUtils;
 
 /**
  * @author rubys@vip.qq.com
@@ -23,6 +26,27 @@ import com.taoists.common.orm.PropertyFilter;
 @Controller
 @RequestMapping(ResultPath.boxCode)
 public class BoxCodeController extends CommonController {
+
+	@RequestMapping("/to-bind")
+	public String toBind() {
+		return Module.code + "/boxcode/box-fake-bind";
+	}
+
+	@RequestMapping("/bind")
+	public String bind(String codeList, Model model) {
+		logger.debug("bind: codeList[{}]", codeList);
+		
+
+		Map<String, String> map = getBoxCodeService().bind(StringUtils.stringTokenizer(codeList));
+		if (map.get("boxCodeNotExist") != null) {
+			model.addAttribute("boxCodeNotExist", map.get("boxCodeNotExist"));
+		} else if (map.get("fakeCodeNotExist") != null) {
+			model.addAttribute("codeList", map.get("fakeCodeNotExist"));
+		}else{
+			model.addAttribute("success", "success");
+		}
+		return Module.code + "/boxcode/box-fake-bind";
+	}
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(BoxCode boxCode, Page page) {
@@ -38,7 +62,7 @@ public class BoxCodeController extends CommonController {
 		extractParams(request);
 		return forword(ViewName.list);
 	}
-
+	
 	private String forword(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxCode, viewName);
 	}

@@ -1,15 +1,24 @@
 package com.taoists.sys.service;
 
+import java.io.Serializable;
 import java.util.List;
 
-import com.taoists.sys.dao.MenuDao;
+import com.taoists.common.orm.dao.BaseDao;
 import com.taoists.sys.entity.Menu;
 
 /**
  * @author rubys@vip.qq.com
  * @since 2012-5-29
  */
-public interface MenuService extends MenuDao {
+public interface MenuService extends BaseDao<Menu> {
+	
+	List<Menu> getRootMenus();
+
+	List<Menu> findMenus(Menu menu, boolean parentIsNull);
+
+	List<Menu> findMenusByParent(Serializable parentId);
+
+	List<Menu> findMenusByParent(Serializable parentId, boolean isLeaf);
 
 	List<Menu> loopQueryMenusByParent(List<Menu> menus);
 

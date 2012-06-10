@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="ueye" uri="ueye" %>
 <!DOCTYPE html>
 <html>
 
@@ -45,9 +45,11 @@
 									<td>${boxCode.boxSpec.specName}</td>
 									<td>${boxCode.boxSpec.capacity}</td>
 									<td>${boxCode.status.value}</td>
-									<td>${boxCode.createDateTime}</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/box-code/show/${boxCode.id}">详情</a>
+										<ueye:dateFormat value="${boxCode.createDateTime}"/>
+									</td>
+									<td>
+										<a href="${pageContext.request.contextPath}/fake-code/boxcode?filter_LIKES_boxCode.boxCode=${boxCode.boxCode}">详情</a>
 									</td>
 								</tr>
 							</c:forEach>

@@ -22,18 +22,19 @@
 	<div style="margin: 1px;">
 		
 		<span>
-			Showing ${page.beginIndex+1} to ${page.endIndex} of ${page.totalCount} entries
+			总记录${page.totalCount}条
+			第${page.pageNum}页/共${page.totalPages}页
 		</span>
 		
 		<span>
-			Show
+			每页显示
 			<select name="pageSize" style="height:25px; line-height: 20px;width: 55px;margin:3px;" onchange='paginationHandle("${page.pageNum}", this.value)'>
 				<option ${page.pageSize == '10'? 'selected': ''}>10</option>
 				<option ${page.pageSize == '25'? 'selected': ''}>25</option>
 				<option ${page.pageSize == '50'? 'selected': ''}>50</option>
 				<option ${page.pageSize == '100'? 'selected': ''}>100</option>
 			</select>
-			entries
+			条记录
 		</span>
 		
 		<span style="float:right;margin:5px;">

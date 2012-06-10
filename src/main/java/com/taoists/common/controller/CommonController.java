@@ -18,6 +18,7 @@ import com.taoists.code.service.CodeIssueService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.ViewName;
 import com.taoists.crm.service.CompanyService;
+import com.taoists.ias.service.PurchaseService;
 import com.taoists.sys.service.AccountService;
 import com.taoists.sys.service.MenuService;
 
@@ -78,7 +79,7 @@ public class CommonController {
 		Enumeration<String> keys = request.getParameterNames();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
-			request.setAttribute(key, request.getParameter(key));
+			request.setAttribute(key.replaceAll("\\.", "_"), request.getParameter(key));
 		}
 	}
 
@@ -92,6 +93,15 @@ public class CommonController {
 	private CodeIssueService codeIssueService;
 	private BoxCodeService boxCodeService;
 	private FakeCodeService fakeCodeService;
+	private PurchaseService purchaseService;
+
+	public void setPurchaseService(PurchaseService purchaseService) {
+		this.purchaseService = purchaseService;
+	}
+
+	public PurchaseService getPurchaseService() {
+		return purchaseService;
+	}
 
 	public void setFakeCodeService(FakeCodeService fakeCodeService) {
 		this.fakeCodeService = fakeCodeService;

@@ -20,6 +20,8 @@ public class BoxSpec extends BaseEntity {
 
 	@Comment("名称")
 	private String specName;
+	@Comment("编号")
+	private String specNo;
 	@Comment("产品")
 	@ManyToOne
 	private Product product;
@@ -38,6 +40,14 @@ public class BoxSpec extends BaseEntity {
 
 	public void setSpecName(String specName) {
 		this.specName = specName;
+	}
+
+	public String getSpecNo() {
+		return specNo;
+	}
+
+	public void setSpecNo(String specNo) {
+		this.specNo = specNo;
 	}
 
 	public Product getProduct() {
