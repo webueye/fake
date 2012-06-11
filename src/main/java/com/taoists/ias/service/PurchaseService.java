@@ -8,5 +8,7 @@ import com.taoists.ias.entity.Purchase;
  * @since 2012-6-9
  */
 public interface PurchaseService extends BaseDao<Purchase> {
+	
+	void save(Purchase purchase, String[] boxCodes);
 
 }

@@ -82,6 +82,10 @@ public abstract class BaseDaoSupport<T extends BaseEntity> implements BaseDao<T>
 	@SuppressWarnings("unchecked")
 	public List<T> findDatas(String propertyName, Object value) {
 		Criteria criteria = createDetachedCriteria().getExecutableCriteria(getSession());
+		if(propertyName.indexOf(".") != -1){
+			String alias = propertyName.substring(0, propertyName.indexOf("."));
+			criteria.createAlias(alias, alias);
+		}
 		criteria.add(Restrictions.eq(propertyName, value));
 		return criteria.list();
 	}

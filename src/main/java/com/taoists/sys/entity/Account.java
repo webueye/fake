@@ -117,4 +117,11 @@ public class Account extends BaseEntity {
 		this.companyId = companyId;
 	}
 
+	@Override
+	public String toString() {
+		return "Account [userNo=" + userNo + ", nickname=" + nickname + ", email=" + email + ", username=" + username + ", password=" + password
+				+ ", status=" + status + ", admin=" + admin + ", sex=" + sex + ", phone=" + phone + ", mobile=" + mobile + ", companyId=" + companyId
+				+ "]";
+	}
+
 }

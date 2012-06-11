@@ -32,7 +32,6 @@ public class Purchase extends BaseEntity {
 	@ManyToOne
 	@JoinColumn(name = "purchase_company_id")
 	private Company purchaseCompany;
-
 	@Comment("业务类型")
 	private Integer purchaseType;
 	@Comment("业务状态（1：新建；2：在途；3：收货）")
@@ -46,9 +45,9 @@ public class Purchase extends BaseEntity {
 	@Comment("备注")
 	private String memo;
 	@Comment("发货人ID")
-	private Integer deliveryId;
+	private Long deliveryId;
 	@Comment("发货人姓名")
-	private Integer deliveryName;
+	private String deliveryName;
 	@Comment("发货时间")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime deliveryDateTime;
@@ -59,6 +58,13 @@ public class Purchase extends BaseEntity {
 	@Comment("收货时间")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime arrivalDateTime;
+
+	private Long createrId;
+	private String creater;
+	private Long completerId;
+	private String completer;
+	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
+	private DateTime completeDateTime;
 
 	public String getPurchaseNo() {
 		return purchaseNo;
@@ -132,19 +138,19 @@ public class Purchase extends BaseEntity {
 		this.memo = memo;
 	}
 
-	public Integer getDeliveryId() {
+	public Long getDeliveryId() {
 		return deliveryId;
 	}
 
-	public void setDeliveryId(Integer deliveryId) {
+	public void setDeliveryId(Long deliveryId) {
 		this.deliveryId = deliveryId;
 	}
 
-	public Integer getDeliveryName() {
+	public String getDeliveryName() {
 		return deliveryName;
 	}
 
-	public void setDeliveryName(Integer deliveryName) {
+	public void setDeliveryName(String deliveryName) {
 		this.deliveryName = deliveryName;
 	}
 
@@ -178,6 +184,46 @@ public class Purchase extends BaseEntity {
 
 	public void setArrivalDateTime(DateTime arrivalDateTime) {
 		this.arrivalDateTime = arrivalDateTime;
+	}
+
+	public Long getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(Long createrId) {
+		this.createrId = createrId;
+	}
+
+	public String getCreater() {
+		return creater;
+	}
+
+	public void setCreater(String creater) {
+		this.creater = creater;
+	}
+
+	public Long getCompleterId() {
+		return completerId;
+	}
+
+	public void setCompleterId(Long completerId) {
+		this.completerId = completerId;
+	}
+
+	public String getCompleter() {
+		return completer;
+	}
+
+	public void setCompleter(String completer) {
+		this.completer = completer;
+	}
+
+	public DateTime getCompleteDateTime() {
+		return completeDateTime;
+	}
+
+	public void setCompleteDateTime(DateTime completeDateTime) {
+		this.completeDateTime = completeDateTime;
 	}
 
 }

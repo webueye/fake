@@ -18,6 +18,7 @@ import com.taoists.code.service.CodeIssueService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.ViewName;
 import com.taoists.crm.service.CompanyService;
+import com.taoists.ias.service.PurchaseBoxService;
 import com.taoists.ias.service.PurchaseService;
 import com.taoists.sys.service.AccountService;
 import com.taoists.sys.service.MenuService;
@@ -94,6 +95,15 @@ public class CommonController {
 	private BoxCodeService boxCodeService;
 	private FakeCodeService fakeCodeService;
 	private PurchaseService purchaseService;
+	private PurchaseBoxService purchaseBoxService;
+
+	public void setPurchaseBoxService(PurchaseBoxService purchaseBoxService) {
+		this.purchaseBoxService = purchaseBoxService;
+	}
+
+	public PurchaseBoxService getPurchaseBoxService() {
+		return purchaseBoxService;
+	}
 
 	public void setPurchaseService(PurchaseService purchaseService) {
 		this.purchaseService = purchaseService;

@@ -24,6 +24,7 @@
 						           	<span style="margin-left: 10px;">经销商： </span>
 						            <input class="input-large" name="filter_LIKES_purchaseCompany.companyName" value="${filter_LIKES_purchaseCompany_companyName}" style="width: 100px;" placeholder="经销商名称"/>
 								  	<button type="submit" class="btn btn-primary">查询</button>
+						            <input name="filter_EQL_supplierId" value="${currentAccount.companyId}" type="hidden"/>
 						        </div>
 							</div>
 						  </div>
@@ -35,13 +36,13 @@
 							</tr>
 							
 							<tr>
-								<td>编号</td>
-								<td>经销商</td>
-								<td>发货日期</td>
-								<td>状态</td>
-								<td>操作员</td>
-								<td>备注</td>
-								<td>供货明细</td>
+								<th>编号</th>
+								<th>经销商</th>
+								<th>发货日期</th>
+								<th>状态</th>
+								<th>操作员</th>
+								<th>备注</th>
+								<th>操作</th>
 							</tr>
 							
 							<c:forEach var="purchase" items="${page.datas}">
@@ -52,10 +53,11 @@
 										<ueye:dateFormat value="${purchase.deliveryDateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 									</td>
 									<td>${purchase.status.value}</td>
-									<td></td>
+									<td>${purchase.creater}</td>
 									<td>${purchase.memo}</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/purchase/detail/${purchase.id}">明细</a>
+										<a href="${pageContext.request.contextPath}/purchase/detail/${purchase.id}">发送</a>
+										<a href="${pageContext.request.contextPath}/purchase/show/${purchase.id}">明细</a>
 									</td>
 								</tr>
 							</c:forEach>
