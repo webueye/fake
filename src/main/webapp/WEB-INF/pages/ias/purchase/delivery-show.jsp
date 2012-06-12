@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="row">
 					
-				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/purchase">	
+				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/delivery">	
 					<table class="table table-bordered table-striped">
 						<tbody>
 							<tr class="th">
@@ -54,14 +54,14 @@
 						</thead>
 						
 						<tbody id="purchaseDetailContent">
-							<c:forEach var="purchaseDetailModel" items="${purchaseDetailModels}">
+							<c:forEach var="boxModel" items="${boxModels}">
 								<tr>
-									<td>${purchaseDetailModel.product.productNo}</td>
-									<td>${purchaseDetailModel.product.name}</td>
-									<td>${purchaseDetailModel.boxCount}</td>
-									<td>${purchaseDetailModel.totalCount}</td>
+									<td>${boxModel.product.productNo}</td>
+									<td>${boxModel.product.name}</td>
+									<td>${boxModel.boxCount}</td>
+									<td>${boxModel.totalCount}</td>
 									<td>
-										<c:forEach var="boxCode" items="${purchaseDetailModel.boxCodes}">
+										<c:forEach var="boxCode" items="${boxModel.boxCodes}">
 											<div>
 												[${boxCode.boxCode}] [${boxCode.boxSpec.specName}] [${boxCode.boxSpec.capacity}]
 											</div>

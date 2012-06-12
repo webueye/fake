@@ -7,7 +7,7 @@
 <html>
 
 	<head>
-		<title>经销商采购列表</title>
+		<title>经销商供货列表</title>
 		<jsp:include page="/common/header.jsp"/>
 	</head>
 
@@ -21,10 +21,10 @@
 						<div class="row">
 							<div class="span10">
 								<div class="control-group">
-						           	<span style="margin-left: 10px;">供应商： </span>
-						            <input class="input-large" name="filter_LIKES_supplierCompany.companyName" value="${filter_LIKES_supplierCompany_companyName}" style="width: 100px;" placeholder="供应商名称"/>
+						           	<span style="margin-left: 10px;">经销商： </span>
+						            <input class="input-large" name="filter_LIKES_purchaseCompany.companyName" value="${filter_LIKES_purchaseCompany_companyName}" style="width: 100px;" placeholder="经销商名称"/>
 								  	<button type="submit" class="btn btn-primary">查询</button>
-						            <input name="filter_EQL_purchaseCompany.id" value="${currentAccount.companyId}" type="hidden"/>
+						            <input name="filter_EQL_supplierCompany.id" value="${currentAccount.companyId}" type="hidden"/>
 						        </div>
 							</div>
 						  </div>
@@ -32,12 +32,12 @@
 					<table class="table table-bordered table-striped">
 						<tbody>
 							<tr class="th">
-								<th class="rth" colspan="7">采购列表</th>
+								<th class="rth" colspan="7">供货列表</th>
 							</tr>
 							
 							<tr>
 								<th>编号</th>
-								<th>供应商</th>
+								<th>经销商</th>
 								<th>发货日期</th>
 								<th>收货日期</th>
 								<th>状态</th>
@@ -49,7 +49,7 @@
 							<c:forEach var="purchase" items="${page.datas}">
 								<tr>
 									<td>${purchase.id}</td>
-									<td>${purchase.supplierCompany.companyName}</td>
+									<td>${purchase.purchaseCompany.companyName}</td>
 									<td>
 										<ueye:dateFormat value="${purchase.deliveryDateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 									</td>
@@ -60,7 +60,7 @@
 									<td>${purchase.creater}</td>
 									<td>${purchase.memo}</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}">收货</a>
+										<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}">发送</a>
 										<a href="${pageContext.request.contextPath}/delivery/show/${purchase.id}">明细</a>
 									</td>
 								</tr>

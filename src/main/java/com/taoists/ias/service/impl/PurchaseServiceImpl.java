@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.taoists.code.controller.BoxModel;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
-import com.taoists.ias.controller.PurchaseDetailModel;
 import com.taoists.ias.entity.Purchase;
 import com.taoists.ias.entity.PurchaseBox;
 import com.taoists.ias.entity.PurchaseItem;
@@ -29,8 +29,8 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 		this.save(purchase);
 
 		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(Arrays.asList(boxCodeValues));
-		List<PurchaseDetailModel> models = PurchaseDetailModel.groupByProduct(boxCodes);
-		for (PurchaseDetailModel model : models) {
+		List<BoxModel> models = BoxModel.groupByProduct(boxCodes);
+		for (BoxModel model : models) {
 			PurchaseItem purchaseItem = new PurchaseItem();
 			purchaseItem.setPurchase(purchase);
 			purchaseItem.setProduct(model.getProduct());

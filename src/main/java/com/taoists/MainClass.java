@@ -25,11 +25,11 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.taoists.base.entity.Product;
+import com.taoists.code.controller.BoxModel;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.common.bean.Page;
 import com.taoists.common.util.StringUtils;
-import com.taoists.ias.controller.PurchaseDetailModel;
 import com.taoists.sys.entity.Menu;
 import com.taoists.sys.service.MenuService;
 
@@ -53,11 +53,11 @@ public class MainClass {
 		for (BoxCode boxCode : boxCodes) {
 			map.put(boxCode.getBoxSpec().getProduct(), boxCode);
 		}
-		List<PurchaseDetailModel> models = Lists.newArrayList();
+		List<BoxModel> models = Lists.newArrayList();
 		Iterator<Entry<Product, Collection<BoxCode>>> it = map.asMap().entrySet().iterator();
 		while(it.hasNext()){
 			Entry<Product, Collection<BoxCode>> entry = it.next();
-			PurchaseDetailModel model = new PurchaseDetailModel();
+			BoxModel model = new BoxModel();
 			model.setProduct(entry.getKey());
 			model.setBoxCodes(entry.getValue());
 			models.add(model);

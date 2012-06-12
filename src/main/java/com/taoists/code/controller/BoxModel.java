@@ -1,4 +1,4 @@
-package com.taoists.ias.controller;
+package com.taoists.code.controller;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,22 +15,22 @@ import com.taoists.code.entity.BoxCode;
  * @author rubys@vip.qq.com
  * @since 2012-6-10
  */
-public class PurchaseDetailModel {
+public class BoxModel {
 
 	private Product product;
 	private Collection<BoxCode> boxCodes;
 	
-	public static List<PurchaseDetailModel> groupByProduct(List<BoxCode> boxCodes){
+	public static List<BoxModel> groupByProduct(List<BoxCode> boxCodes){
 		Multimap<Product, BoxCode> map = HashMultimap.create();
 		for (BoxCode boxCode : boxCodes) {
 			map.put(boxCode.getBoxSpec().getProduct(), boxCode);
 		}
 
-		List<PurchaseDetailModel> models = Lists.newArrayList();
+		List<BoxModel> models = Lists.newArrayList();
 		Iterator<Entry<Product, Collection<BoxCode>>> it = map.asMap().entrySet().iterator();
 		while (it.hasNext()) {
 			Entry<Product, Collection<BoxCode>> entry = it.next();
-			PurchaseDetailModel model = new PurchaseDetailModel();
+			BoxModel model = new BoxModel();
 			model.setProduct(entry.getKey());
 			model.setBoxCodes(entry.getValue());
 			models.add(model);

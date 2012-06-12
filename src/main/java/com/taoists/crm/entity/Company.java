@@ -60,6 +60,14 @@ public class Company extends BaseEntity {
 	private String shippingPhone;
 	@Comment("备注")
 	private String memo;
+	
+	public Company(){
+		
+	}
+	
+	public Company(Long id){
+		setId(id);
+	}
 
 	public String getCompnayNo() {
 		return compnayNo;

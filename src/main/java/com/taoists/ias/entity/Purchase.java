@@ -26,9 +26,11 @@ public class Purchase extends BaseEntity {
 
 	@Comment("单据编号")
 	private String purchaseNo;
-	@Comment("负责供货的供应商ID")
-	private Long supplierId;
-	@Comment("进行采购的经销商ID")
+	@Comment("负责供货的供应商")
+	@ManyToOne
+	@JoinColumn(name = "supplier_company_id")
+	private Company supplierCompany;
+	@Comment("进行采购的经销商")
 	@ManyToOne
 	@JoinColumn(name = "purchase_company_id")
 	private Company purchaseCompany;
@@ -74,12 +76,12 @@ public class Purchase extends BaseEntity {
 		this.purchaseNo = purchaseNo;
 	}
 
-	public Long getSupplierId() {
-		return supplierId;
+	public Company getSupplierCompany() {
+		return supplierCompany;
 	}
 
-	public void setSupplierId(Long supplierId) {
-		this.supplierId = supplierId;
+	public void setSupplierCompany(Company supplierCompany) {
+		this.supplierCompany = supplierCompany;
 	}
 
 	public Company getPurchaseCompany() {
