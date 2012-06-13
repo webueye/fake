@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.taoists.base.service.BoxSpecService;
 import com.taoists.base.service.DataDictService;
@@ -20,6 +21,7 @@ import com.taoists.common.ViewName;
 import com.taoists.crm.service.CompanyService;
 import com.taoists.ias.service.PurchaseBoxService;
 import com.taoists.ias.service.PurchaseService;
+import com.taoists.ias.service.WarehousingService;
 import com.taoists.sys.service.AccountService;
 import com.taoists.sys.service.MenuService;
 
@@ -42,7 +44,7 @@ public class CommonController {
 	protected String redirect(String action) {
 		return ViewName.redirect.getValue() + action;
 	}
-
+	
 	protected String show = "/show/";
 	protected String edit = "/edit/";
 	protected String update = "/update/";
@@ -96,6 +98,9 @@ public class CommonController {
 	private FakeCodeService fakeCodeService;
 	private PurchaseService purchaseService;
 	private PurchaseBoxService purchaseBoxService;
+	@Autowired
+	protected WarehousingService warehousingService;
+	
 
 	public void setPurchaseBoxService(PurchaseBoxService purchaseBoxService) {
 		this.purchaseBoxService = purchaseBoxService;

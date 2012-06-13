@@ -16,6 +16,7 @@ import com.taoists.crm.entity.Company;
  * @author rubys@vip.qq.com
  * @since 2012-6-12
  */
+@Comment("出入库流水表")
 @SuppressWarnings("serial")
 @Entity
 @Table(name = Cons.tablePrefix + "purchase_item")
@@ -38,7 +39,7 @@ public class Stock extends BaseEntity {
 	@Comment("单据编号")
 	private String billNo;
 	@Comment("出入库类型")
-	private Integer changeType;
+	private ChangeTypeStatus changeType;
 
 	public static enum ChangeTypeStatus {
 		in(1, "入库"), out(2, "出库");
@@ -132,11 +133,11 @@ public class Stock extends BaseEntity {
 		this.billNo = billNo;
 	}
 
-	public Integer getChangeType() {
+	public ChangeTypeStatus getChangeType() {
 		return changeType;
 	}
 
-	public void setChangeType(Integer changeType) {
+	public void setChangeType(ChangeTypeStatus changeType) {
 		this.changeType = changeType;
 	}
 

@@ -9,4 +9,6 @@ import com.taoists.ias.entity.Warehousing;
  */
 public interface WarehousingService extends BaseDao<Warehousing> {
 
+	void save(Warehousing warehousing, String[] boxCodeValues);
+
 }

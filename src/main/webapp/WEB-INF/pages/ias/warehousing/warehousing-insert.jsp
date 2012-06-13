@@ -13,23 +13,30 @@
 	
 		<div class="container">
 			<div class="row">
-					
+			
+				<div class="search">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bold;">
+					     <b>箱码贴箱入库</b>
+					</div>
+				</div>
+				
+				<div align="center" style="margin: 10px;"><font color="red">${param.msg == 'success'? '已成功入库': ''}</font></div>
+				
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/warehousing">	
 					
 					<table class="table table-bordered table-striped">
 						<thead>
-							<tr class="th">
-								<th class="rth" colspan="5">箱码贴箱入库：</th>
-							</tr>
 							
 							<tr>
 								<td>输入箱码</td>
 								<td colspan="3">
+									<input name="company.id" value="${currentAccount.companyId}" type="hidden"/>
+								
 									<textarea id="boxCodeValues" name="boxCodeValues" rows="5" cols="80"></textarea>
 									<label id="boxCodeValuesVerify" for="boxCodeValues" class="error" style="display: none;">请输入输入箱码</label>
 								</td>
 								<td>
-									<button type="button" class="btn btn-primary" onclick="boxGroup();">添加</button>
+									<button type="button" class="btn btn-primary" onclick="boxCode.group();">添加</button>
 								</td>
 							</tr>
 							
@@ -66,68 +73,6 @@
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>
-		
-		<script type="text/javascript">
-			function removeElement(boxCode){
-				var bcValues = $("#boxCodeValues").val().replace(boxCode, "");
-				bcValues = bcValues.replace("\n", "");
-				$("#boxCodeValues").val(bcValues);
-				if(bcValues == ''){
-					$("#detailContent").html("");
-				}else{
-					boxGroup();
-				}
-			}
-			
-			function boxGroup(){
-				var codeValues = $("#boxCodeValues").val();
-				if(codeValues == ''){
-					$("#boxCodeValues").addClass("error");
-					$("#boxCodeValuesVerify").show();
-					return;
-				}
-				var data = {boxCodeValues: codeValues};
-				$.ajax({
-					type : 'get',
-					url : '${pageContext.request.contextPath}/box-code/box-group',
-					data: data,
-					dataType : 'json',
-					success : function(data) {
-						if (data) {
-							var con = new Array();
-							for (var i = 0; i < data.length; i++) {
-								con.push("<tr>");
-								con.push("	<td>");
-								con.push(		data[i].product.productNo);
-								con.push("	</td>");
-								con.push("	<td>");
-								con.push(		data[i].product.name);
-								con.push("	</td>");
-								con.push("	<td>");
-								con.push(		data[i].boxCount);
-								con.push("	</td>");
-								con.push("	<td>");
-								con.push(		data[i].totalCount);
-								con.push("	</td>");
-								con.push("	<td>");
-								for(var j = 0; j < data[i].boxCodes.length; j++){
-									con.push("<div>");
-									con.push("<input type='hidden' class='boxCodes' name='boxCodes' value='"+data[i].boxCodes[j].boxCode+"'/>");	
-									con.push("["+data[i].boxCodes[j].boxCode+"] ");	
-									con.push("["+data[i].boxCodes[j].boxSpec.specName+"] ");	
-									con.push("["+data[i].boxCodes[j].boxSpec.capacity+"] ");	
-									con.push("<span style='cursor: pointer;' onclick='removeElement("+data[i].boxCodes[j].boxCode+");'>[删除]</span>");	
-									con.push("</div>");
-								}
-								con.push("	</td>");
-								con.push("</tr>");
-							}
-							$("#detailContent").html(con.join(""));
-						}
-					}
-				});				
-			}
-		</script>
 		
 	</body>
 

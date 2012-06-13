@@ -1,3 +1,9 @@
+<script type="text/javascript">
+<!--
+	var basePath = "${pageContext.request.contextPath}";
+//-->
+</script>
+
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/twitter/bootstrap.min.js"></script>
@@ -6,6 +12,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/validate/messages_cn.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/date/WdatePicker.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/fake.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {

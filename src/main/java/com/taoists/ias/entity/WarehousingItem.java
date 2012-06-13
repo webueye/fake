@@ -23,6 +23,7 @@ public class WarehousingItem extends BaseEntity {
 
 	@ManyToOne
 	private Warehousing warehousing;
+	@ManyToOne
 	private Product product;
 	private Integer qty;
 	private BigDecimal price;

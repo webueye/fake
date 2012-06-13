@@ -54,7 +54,7 @@
 									<label id="boxCodeValuesVerify" for="boxCodeValues" class="error" style="display: none;">请输入输入箱码</label>
 								</td>
 								<td>
-									<button type="button" class="btn btn-primary" onclick="boxGroup();">添加</button>
+									<button type="button" class="btn btn-primary" onclick="boxCode.group();">添加</button>
 								</td>
 							</tr>
 							
@@ -68,7 +68,7 @@
 							
 						</thead>
 						
-						<tbody id="purchaseDetailContent">
+						<tbody id="detailContent">
 							
 						</tbody>
 							
@@ -89,65 +89,6 @@
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>
-		
-		<script type="text/javascript">
-			function removeElement(elem){
-				if($(".boxCodes").size() == 1){
-					$(elem).parent().parent().parent().remove();
-				}else{
-					$(elem).parent().remove();
-				}
-			}
-			
-			function boxGroup(){
-				var codeValues = $("#boxCodeValues").val();
-				if(codeValues == ''){
-					$("#boxCodeValues").addClass("error");
-					$("#boxCodeValuesVerify").show();
-					return;
-				}
-				var data = {boxCodeValues: codeValues};
-				$.ajax({
-					type : 'get',
-					url : '${pageContext.request.contextPath}/box-code/box-group',
-					data: data,
-					dataType : 'json',
-					success : function(data) {
-						if (data) {
-							var con = new Array();
-							for (var i = 0; i < data.length; i++) {
-								con.push("<tr>");
-								con.push("	<td>");
-								con.push(		data[i].product.productNo);
-								con.push("	</td>");
-								con.push("	<td>");
-								con.push(		data[i].product.name);
-								con.push("	</td>");
-								con.push("	<td>");
-								con.push(		data[i].boxCount);
-								con.push("	</td>");
-								con.push("	<td>");
-								con.push(		data[i].totalCount);
-								con.push("	</td>");
-								con.push("	<td>");
-								for(var j = 0; j < data[i].boxCodes.length; j++){
-									con.push("<div>");
-									con.push("<input type='hidden' class='boxCodes' name='boxCodes' value='"+data[i].boxCodes[j].boxCode+"'/>");	
-									con.push("["+data[i].boxCodes[j].boxCode+"] ");	
-									con.push("["+data[i].boxCodes[j].boxSpec.specName+"] ");	
-									con.push("["+data[i].boxCodes[j].boxSpec.capacity+"] ");	
-									con.push("<span style='cursor: pointer;' onclick='removeElement(this);'>[删除]</span>");	
-									con.push("</div>");
-								}
-								con.push("	</td>");
-								con.push("</tr>");
-							}
-							$("#purchaseDetailContent").html(con.join(""));
-						}
-					}
-				});				
-			}
-		</script>
 		
 	</body>
 

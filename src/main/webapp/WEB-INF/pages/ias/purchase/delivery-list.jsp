@@ -32,7 +32,7 @@
 					<table class="table table-bordered table-striped">
 						<tbody>
 							<tr class="th">
-								<th class="rth" colspan="7">供货列表</th>
+								<th class="rth" colspan="8">供货列表</th>
 							</tr>
 							
 							<tr>
@@ -60,7 +60,9 @@
 									<td>${purchase.creater}</td>
 									<td>${purchase.memo}</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}">发送</a>
+										<c:if test="${purchase.status.code == 1}">
+											<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}">发送</a>
+										</c:if>
 										<a href="${pageContext.request.contextPath}/delivery/show/${purchase.id}">明细</a>
 									</td>
 								</tr>

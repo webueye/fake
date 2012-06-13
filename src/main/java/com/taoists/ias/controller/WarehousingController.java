@@ -3,17 +3,15 @@ package com.taoists.ias.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.taoists.common.ViewName;
 import com.taoists.common.controller.CommonController;
 import com.taoists.common.controller.Module;
-import com.taoists.crm.entity.Company;
 import com.taoists.ias.controller.path.ResultPath;
-import com.taoists.ias.entity.Purchase;
-import com.taoists.sys.entity.Account;
+import com.taoists.ias.entity.Warehousing;
 
 /**
  * @author rubys@vip.qq.com
@@ -33,13 +31,13 @@ public class WarehousingController extends CommonController {
 	public String editNew() {
 		return forword(ViewName.insert);
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(HttpServletRequest request, @ModelAttribute("currentAccount") Account account) {
-
+	public String create(HttpServletRequest request, Warehousing warehousing, RedirectAttributes redirectAttributes) {
 		String[] boxCodes = request.getParameterValues("boxCodes");
-
-		return redirect(ResultPath.purchase + "/delivery-edit-new");
+		warehousingService.save(warehousing, boxCodes);
+		redirectAttributes.addAttribute("msg", "success");
+		return redirect(ResultPath.warehousing + "/edit-new");
 	}
 
 	private String forword(ViewName viewName) {

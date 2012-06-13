@@ -1,6 +1,7 @@
 package com.taoists.ias.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -9,6 +10,8 @@ import org.joda.time.DateTime;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
+import com.taoists.crm.entity.Company;
+import com.taoists.sys.entity.Account;
 
 /**
  * @author rubys@vip.qq.com
@@ -21,10 +24,13 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class Warehousing extends BaseEntity {
 
 	private String warehousingNo;
-	private Long companyId;
+	@ManyToOne
+	private Company company;
 	private String memo;
-	private Long operatorId;
-	private String operator;
+	// private Long operatorId;
+	// private String operator;
+	@ManyToOne
+	private Account operator;
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime warehousingDateTime;
 
@@ -36,12 +42,12 @@ public class Warehousing extends BaseEntity {
 		this.warehousingNo = warehousingNo;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public Company getCompany() {
+		return company;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public String getMemo() {
@@ -52,19 +58,11 @@ public class Warehousing extends BaseEntity {
 		this.memo = memo;
 	}
 
-	public Long getOperatorId() {
-		return operatorId;
-	}
-
-	public void setOperatorId(Long operatorId) {
-		this.operatorId = operatorId;
-	}
-
-	public String getOperator() {
+	public Account getOperator() {
 		return operator;
 	}
 
-	public void setOperator(String operator) {
+	public void setOperator(Account operator) {
 		this.operator = operator;
 	}
 
