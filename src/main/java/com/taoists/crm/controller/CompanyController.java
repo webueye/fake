@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.taoists.base.entity.DictCode;
 import com.taoists.common.ViewName;
@@ -26,11 +27,13 @@ import com.taoists.crm.entity.Company;
  * @since 2012-6-2
  */
 @Controller
+@SessionAttributes("currentAccount")
 @RequestMapping(ResultPath.company)
 public class CompanyController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Company company, Page page) {
+	public String list(Company company, Page page, Model model) {
+		company.setParentId(getAccount(model).getCompanyId());
 		getCompanyService().findPage(company, page);
 		return forword(ViewName.list);
 	}

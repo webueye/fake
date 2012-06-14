@@ -16,7 +16,7 @@
 		<div class="container">
 			<div class="row">
 					
-				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/delivery/search">	
+				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/purchase/search">	
 					<div class="search">
 						<div class="row">
 							<div class="span10">
@@ -41,7 +41,8 @@
 								<th>发货日期</th>
 								<th>收货日期</th>
 								<th>状态</th>
-								<th>操作员</th>
+								<th>发货人</th>
+								<th>收货人</th>
 								<th>备注</th>
 								<th>操作</th>
 							</tr>
@@ -57,11 +58,12 @@
 										<ueye:dateFormat value="${purchase.arrivalDateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 									</td>
 									<td>${purchase.status.value}</td>
-									<td>${purchase.creater}</td>
+									<td>${purchase.deliveryName}</td>
+									<td>${purchase.arrivalName}</td>
 									<td>${purchase.memo}</td>
 									<td>
 										<c:if test="${purchase.status.code == 2}">
-											<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}">收货</a>
+											<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}" onclick="return showDeliveryModal('${purchase.id}');">收货</a>
 										</c:if>
 										<a href="${pageContext.request.contextPath}/delivery/show/${purchase.id}">明细</a>
 									</td>
@@ -73,7 +75,7 @@
 					</table>
 					
 					<jsp:include page="/common/page.jsp">
-						<jsp:param name="actionURL" value="delivery"/>
+						<jsp:param name="actionURL" value="purchase"/>
 					</jsp:include>
 					
 				</form>	
@@ -81,7 +83,46 @@
 			</div>
 		</div>
 		
+		<div id="deliveryModal" class="modal hide fade in">
+            <div class="modal-header">
+              	<button data-dismiss="modal" class="close" type="button">X</button>
+              	<h3>确认收货</h3>
+            </div>
+            <div class="modal-body">
+            	<h4 style="margin-bottom: 10px;">备注</h4>
+              	<span>
+              		<input id="id" name="id" value="" type="hidden">
+              		<textarea id="arrivalMemo" name="arrivalMemo" rows="3" style="width:100%;"></textarea>
+              	</span>
+            </div>
+            <div class="modal-footer">
+              	<a data-dismiss="modal" class="btn" href="#">关闭</a>
+              	<a class="btn btn-primary" href="#" onclick="deliverySubmit();">收货</a>
+            </div>
+          </div>
+		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			function showDeliveryModal(id){
+				$("#deliveryModal").modal({
+					backdrop:true
+				});
+				$("#id").val(id);
+				return false;
+			}
+			
+			function deliverySubmit(){
+				var id = $("#id").val();
+				var url = "/delivery/state/" + id;
+				var data = {id: id, state: 4, arrivalMemo: $("#arrivalMemo").val()};
+				common.post(data, url, function(data){
+					alert("已收货");
+					$("#deliveryModal").hide();
+					$("#validateForm").submit();
+				});
+			}
+		</script>
 		
 	</body>
 

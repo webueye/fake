@@ -41,7 +41,8 @@
 								<th>发货日期</th>
 								<th>收货日期</th>
 								<th>状态</th>
-								<th>操作员</th>
+								<th>发货人</th>
+								<th>收货人</th>
 								<th>备注</th>
 								<th>操作</th>
 							</tr>
@@ -57,11 +58,15 @@
 										<ueye:dateFormat value="${purchase.arrivalDateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 									</td>
 									<td>${purchase.status.value}</td>
-									<td>${purchase.creater}</td>
+									<td>${purchase.deliveryName}</td>
+									<td>${purchase.arrivalName}</td>
 									<td>${purchase.memo}</td>
 									<td>
 										<c:if test="${purchase.status.code == 1}">
-											<a href="${pageContext.request.contextPath}/delivery/detail/${purchase.id}">发送</a>
+											<a href="#" onclick="return showDeliveryModal('${purchase.id}');">发送</a>
+										</c:if>
+										<c:if test="${purchase.status.code == 4}">
+											<a href="${pageContext.request.contextPath}/delivery/complete/${purchase.id}">完成</a>
 										</c:if>
 										<a href="${pageContext.request.contextPath}/delivery/show/${purchase.id}">明细</a>
 									</td>
@@ -81,7 +86,48 @@
 			</div>
 		</div>
 		
+		
+		<div id="deliveryModal" class="modal hide fade in">
+            <div class="modal-header">
+              	<button data-dismiss="modal" class="close" type="button">X</button>
+              	<h3>确认发货</h3>
+            </div>
+            <div class="modal-body">
+            	<h4 style="margin-bottom: 10px;">备注</h4>
+              	<span>
+              		<input id="deliveryId" name="deliveryId" value="" type="hidden">
+              		<textarea id="deliveryMemo" name="deliveryMemo" rows="3" style="width:100%;"></textarea>
+              	</span>
+            </div>
+            <div class="modal-footer">
+              	<a data-dismiss="modal" class="btn" href="#">关闭</a>
+              	<a class="btn btn-primary" href="#" onclick="deliverySubmit();">发货</a>
+            </div>
+          </div>
+		
+		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			function showDeliveryModal(id){
+				$("#deliveryModal").modal({
+					backdrop:true
+				});
+				$("#deliveryId").val(id);
+				return false;
+			}
+			
+			function deliverySubmit(){
+				var id = $("#deliveryId").val();
+				var url = "/delivery/state/" + id;
+				var data = {id: id, state: 2, deliveryMemo: $("#deliveryMemo").val()};
+				common.post(data, url, function(data){
+					alert("已发送");
+					$("#deliveryModal").hide();
+					$("#validateForm").submit();
+				});
+			}
+		</script>
 		
 	</body>
 

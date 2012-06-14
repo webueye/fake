@@ -50,7 +50,7 @@
 							<tr>
 								<td>输入箱码:</td>
 								<td colspan="3">
-									<textarea id="boxCodeValues" name="boxCodeValues" rows="1" cols="80"></textarea>
+									<textarea id="boxCodeValues" name="boxCodeValues" rows="3" style="width: 90%;"></textarea>
 									<label id="boxCodeValuesVerify" for="boxCodeValues" class="error" style="display: none;">请输入输入箱码</label>
 								</td>
 								<td>

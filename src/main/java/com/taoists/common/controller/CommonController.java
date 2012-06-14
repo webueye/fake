@@ -1,6 +1,7 @@
 package com.taoists.common.controller;
 
 import java.util.Enumeration;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,7 +10,9 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
+import com.google.common.collect.Sets;
 import com.taoists.base.service.BoxSpecService;
 import com.taoists.base.service.DataDictService;
 import com.taoists.base.service.DictCategoryService;
@@ -22,6 +25,7 @@ import com.taoists.crm.service.CompanyService;
 import com.taoists.ias.service.PurchaseBoxService;
 import com.taoists.ias.service.PurchaseService;
 import com.taoists.ias.service.WarehousingService;
+import com.taoists.sys.entity.Account;
 import com.taoists.sys.service.AccountService;
 import com.taoists.sys.service.MenuService;
 
@@ -44,14 +48,15 @@ public class CommonController {
 	protected String redirect(String action) {
 		return ViewName.redirect.getValue() + action;
 	}
-	
-	protected String show = "/show/";
-	protected String edit = "/edit/";
-	protected String update = "/update/";
-	protected String[] methods = { show, edit, update };
+
+	protected String show = "show";
+	protected String edit = "edit";
+	protected String update = "update";
+	protected Set<String> methods = Sets.newHashSet(show, edit, update);
 
 	protected Long extractId(String requestURI) {
 		for (String method : methods) {
+			method = "/" + method + "/";
 			if (StringUtils.contains(requestURI, method)) {
 				String id = requestURI.substring(requestURI.indexOf(method) + method.length());
 				if (id.indexOf("/") != -1) {
@@ -86,6 +91,18 @@ public class CommonController {
 		}
 	}
 
+	protected void addMethod(String method) {
+		this.methods.add(method);
+	}
+	
+	protected Account getAccount(Model model){
+		Object value = model.asMap().get("currentAccount");
+		if(value != null && value instanceof Account){
+			return (Account) value;
+		}
+		throw new IllegalStateException();
+	}
+
 	private CompanyService companyService;
 	private BoxSpecService boxSpecService;
 	private DataDictService dataDictService;
@@ -100,7 +117,6 @@ public class CommonController {
 	private PurchaseBoxService purchaseBoxService;
 	@Autowired
 	protected WarehousingService warehousingService;
-	
 
 	public void setPurchaseBoxService(PurchaseBoxService purchaseBoxService) {
 		this.purchaseBoxService = purchaseBoxService;

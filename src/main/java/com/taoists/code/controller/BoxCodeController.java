@@ -66,7 +66,7 @@ public class BoxCodeController extends CommonController {
 		return forword(ViewName.list);
 	}
 
-	@RequestMapping(value = "/box-group", produces = "text/plain;charset=UTF-8")
+	@RequestMapping(value = "/box-group", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody
 	String boxGroup(String boxCodeValues) {
 		List<BoxCode> boxCodes = getBoxCodeService().findBoxCodes(StringUtils.stringTokenizer(boxCodeValues));

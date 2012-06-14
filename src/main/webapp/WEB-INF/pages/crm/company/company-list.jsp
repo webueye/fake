@@ -19,8 +19,9 @@
 						<div class="span10">
 							<div class="control-group">
 					           	<span style="margin-left: 10px;">企业名称 </span>
-					            <input id="categoryCode" class="input-large" name="filter_LIKES_specName" value="${filter_LIKES_specName}" style="width: 100px;" placeholder="企业名称"/>
+					            <input class="input-large" name="filter_LIKES_companyName" value="${filter_LIKES_companyName}" style="width: 100px;" placeholder="企业名称"/>
 							  	<button type="submit" class="btn btn-primary">查询</button>
+					            <input class="input-large" name="filter_EQL_parentId" value="${currentAccount.companyId}" type="hidden"/>
 					        </div>
 						</div>
 					  </div>

@@ -3,6 +3,8 @@ package com.taoists.ias.entity;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -37,6 +39,7 @@ public class Purchase extends BaseEntity {
 	@Comment("业务类型")
 	private Integer purchaseType;
 	@Comment("业务状态（1：新建；2：在途；3：收货）")
+	@Enumerated(EnumType.ORDINAL)
 	private PurchaseStatus status;
 	@Comment("优惠金额")
 	private BigDecimal discountAmount;
@@ -53,13 +56,18 @@ public class Purchase extends BaseEntity {
 	@Comment("发货时间")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime deliveryDateTime;
+	@Comment("发货备注")
+	private String deliveryMemo;
+
 	@Comment("收货人ID")
-	private Integer arrivalId;
+	private Long arrivalId;
 	@Comment("收货人姓名")
 	private String arrivalName;
 	@Comment("收货时间")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime arrivalDateTime;
+	@Comment("收货备注")
+	private String arrivalMemo;
 
 	private Long createrId;
 	private String creater;
@@ -164,11 +172,19 @@ public class Purchase extends BaseEntity {
 		this.deliveryDateTime = deliveryDateTime;
 	}
 
-	public Integer getArrivalId() {
+	public String getDeliveryMemo() {
+		return deliveryMemo;
+	}
+
+	public void setDeliveryMemo(String deliveryMemo) {
+		this.deliveryMemo = deliveryMemo;
+	}
+
+	public Long getArrivalId() {
 		return arrivalId;
 	}
 
-	public void setArrivalId(Integer arrivalId) {
+	public void setArrivalId(Long arrivalId) {
 		this.arrivalId = arrivalId;
 	}
 
@@ -186,6 +202,14 @@ public class Purchase extends BaseEntity {
 
 	public void setArrivalDateTime(DateTime arrivalDateTime) {
 		this.arrivalDateTime = arrivalDateTime;
+	}
+
+	public String getArrivalMemo() {
+		return arrivalMemo;
+	}
+
+	public void setArrivalMemo(String arrivalMemo) {
+		this.arrivalMemo = arrivalMemo;
 	}
 
 	public Long getCreaterId() {

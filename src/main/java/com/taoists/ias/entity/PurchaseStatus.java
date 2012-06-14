@@ -6,9 +6,7 @@ package com.taoists.ias.entity;
  */
 public enum PurchaseStatus {
 
-	// @Comment("业务状态（1：新建；2：在途；3：收货）")
-
-	create(1, "新建"), inTransit(2, "在途"), cancel(3, "取消"), receive(4, "收货"), closed(5, "关闭");
+	create(1, "新建"), inTransit(2, "在途"), cancel(3, "取消"), receive(4, "收货"), complete(5, "完成");
 
 	int code;
 	String value;

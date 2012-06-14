@@ -4,12 +4,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.common.collect.Lists;
@@ -24,6 +26,7 @@ import com.taoists.crm.entity.Company;
 import com.taoists.ias.controller.path.ResultPath;
 import com.taoists.ias.entity.Purchase;
 import com.taoists.ias.entity.PurchaseBox;
+import com.taoists.ias.entity.PurchaseStatus;
 import com.taoists.sys.entity.Account;
 
 /**
@@ -50,7 +53,7 @@ public class DeliveryController extends CommonController {
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		model.addAttribute("companies", getCompanyService().findAll());
+		model.addAttribute("companies", getCompanyService().findDatas("parentId", getAccount(model).getCompanyId()));
 		return forword(ViewName.insert);
 	}
 
@@ -60,20 +63,16 @@ public class DeliveryController extends CommonController {
 		purchase.setCreaterId(account.getId());
 		purchase.setCreater(account.getNickname());
 		purchase.setSupplierCompany(new Company(account.getCompanyId()));
-
 		String[] boxCodes = request.getParameterValues("boxCodes");
-
-		// purchase.setDeliveryDateTime(DateUtils.toDateTime(deliveryDate));
-
+//		purchase.setDeliveryDateTime(DateUtils.toDateTime(deliveryDate));
 		getPurchaseService().save(purchase, boxCodes);
-		// return redirect(ResultPath.purchase);
-		return redirect(ResultPath.purchase + "/delivery-edit-new");
+		return redirect(ResultPath.delivery);
 	}
 
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable long id, Model model) {
 		logger.debug("edit: id[{}]", id);
-		model.addAttribute("companies", getCompanyService().findAll());
+		model.addAttribute("companies", getCompanyService().findDatas("parentId", getAccount(model).getCompanyId()));
 		return forword(ViewName.edit);
 	}
 
@@ -91,29 +90,39 @@ public class DeliveryController extends CommonController {
 		return forword(ViewName.show);
 	}
 
-	@RequestMapping(value = "/update/{purchase.id}", method = RequestMethod.POST)
-	public String update(Purchase purchase) {
-		logger.debug("update: boxSpec[{}]", purchase);
+	@RequestMapping(value = "/state/{purchase.id}", method = RequestMethod.POST)
+	public @ResponseBody
+	String updateState(Purchase purchase, int state, @ModelAttribute("currentAccount") Account account) {
+		logger.debug("send: purchase[{}]", purchase);
+		Purchase pur = getPurchaseService().get(purchase.getId());
+		if (PurchaseStatus.inTransit.getCode() == state) {
+			pur.setDeliveryMemo(purchase.getDeliveryMemo());
+			pur.setStatus(PurchaseStatus.inTransit);
+			pur.setDeliveryDateTime(new DateTime());
+			pur.setDeliveryId(account.getId());
+			pur.setDeliveryName(account.getNickname());
+		} else if (PurchaseStatus.receive.getCode() == state) {
+			pur.setArrivalMemo(purchase.getArrivalMemo());
+			pur.setStatus(PurchaseStatus.receive);
+			pur.setArrivalDateTime(new DateTime());
+			pur.setArrivalId(account.getId());
+			pur.setArrivalName(account.getNickname());
+		}
+		getPurchaseService().saveOrUpdate(pur);
+		return "";
+	}
+
+	@RequestMapping("/complete/{id}")
+	public String complete(@PathVariable long id, @ModelAttribute("currentAccount") Account account) {
+		logger.debug("complete: id[{}]", id);
+		Purchase purchase = getPurchaseService().get(id);
+		purchase.setStatus(PurchaseStatus.complete);
+		purchase.setCompleteDateTime(new DateTime());
+		purchase.setCompleterId(account.getId());
+		purchase.setCompleter(account.getNickname());
 		getPurchaseService().saveOrUpdate(purchase);
 		return redirect(ResultPath.purchase);
 	}
-
-	@RequestMapping("/destroy/{id}")
-	public String destroy(@PathVariable long id) {
-		logger.debug("destroy: id[{}]", id);
-		getBoxSpecService().delete(id);
-		return redirect(ResultPath.purchase);
-	}
-
-//	@RequestMapping(value = "/create-detail", produces = "text/plain;charset=UTF-8")
-//	public @ResponseBody
-//	String createDetail(String boxCodeValues) {
-//		List<BoxCode> boxCodes = getBoxCodeService().findBoxCodes(StringUtils.stringTokenizer(boxCodeValues));
-//
-//		JsonConfig conf = new JsonConfig();
-//		conf.setExcludes(new String[] { "", "createDateTime", "lastModifyDateTime" });
-//		return JSONArray.fromObject(BoxModel.groupByProduct(boxCodes), conf).toString();
-//	}
 
 	@ModelAttribute("purchase")
 	public Purchase getPurchase(HttpServletRequest request) {
@@ -126,7 +135,7 @@ public class DeliveryController extends CommonController {
 		}
 		return getPurchaseService().get(id);
 	}
-
+	
 	private String forword(ViewName viewName) {
 		return Module.ias + "/purchase/delivery-" + viewName;
 	}
