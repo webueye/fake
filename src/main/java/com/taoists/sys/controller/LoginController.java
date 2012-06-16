@@ -43,12 +43,18 @@ public class LoginController extends CommonController {
 			redirectAttributes.addFlashAttribute("msg", "passwordNotCorrect");
 			return redirect("/login");
 		}
-		if(BooleanUtils.isFalse(acc.getStatus())){
+		if (BooleanUtils.isFalse(acc.getStatus())) {
 			redirectAttributes.addFlashAttribute("msg", "accountInactive");
 			return redirect("/login");
 		}
 		session.setAttribute("currentAccount", acc);
 		return redirect("/main/index.jsp");
+	}
+
+	@RequestMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return redirect(ResultPath.login);
 	}
 
 }

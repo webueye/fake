@@ -20,7 +20,7 @@
 							<span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Sign Out</a></li>
+							<li><a href="${pageContext.request.contextPath}/login/logout">退出</a></li>
 						</ul>
 					</div>
 	
