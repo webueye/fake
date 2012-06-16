@@ -29,7 +29,8 @@ public class DictCategoryController extends CommonController {
 	@RequestMapping
 	public String list(HttpServletRequest request, Page page) {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-		getDictCategoryService().findPage(page, filters);
+		dictCategoryService.findPage(page, filters);
+		extractParams(request);
 		return forward(ViewName.list);
 	}
 
@@ -42,7 +43,7 @@ public class DictCategoryController extends CommonController {
 	public String create(DictCategory dictCategory) {
 		logger.debug("create: dictCategory[{}]", dictCategory);
 
-		getDictCategoryService().save(dictCategory);
+		dictCategoryService.save(dictCategory);
 		return redirect(ResultPath.dictCategory);
 	}
 
@@ -56,7 +57,7 @@ public class DictCategoryController extends CommonController {
 	public String update(DictCategory dictCategory) {
 		logger.debug("update: dictCategory[{}]", dictCategory);
 
-		getDictCategoryService().saveOrUpdate(dictCategory);
+		dictCategoryService.saveOrUpdate(dictCategory);
 		return redirect(ResultPath.dictCategory);
 	}
 
@@ -64,7 +65,7 @@ public class DictCategoryController extends CommonController {
 	public String destroy(@PathVariable long id) {
 		logger.debug("remove: id[{}]", id);
 
-		getDictCategoryService().delete(id);
+		dictCategoryService.delete(id);
 		return redirect(ResultPath.dictCategory);
 	}
 
@@ -77,7 +78,7 @@ public class DictCategoryController extends CommonController {
 		if (id == null) {
 			return new DictCategory();
 		}
-		return getDictCategoryService().get(id);
+		return dictCategoryService.get(id);
 	}
 
 	private String forward(ViewName viewName) {

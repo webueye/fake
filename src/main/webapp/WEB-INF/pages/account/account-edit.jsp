@@ -36,13 +36,10 @@
 							</tr>
 							<tr>
 								<td>登陆名称：</td>
-								<td>
+								<td colspan="3">
 									<input class="input-xlarge required" name="username" value="${account.username}" type="text" style="width: 80%"/>
 								</td>
-								<td>登陆密码：</td>
-								<td>
-									<input class="input-xlarge" name="password" type="password" style="width: 80%"/>
-								</td>
+								
 							</tr>
 							<tr>
 								<td>邮箱：</td>

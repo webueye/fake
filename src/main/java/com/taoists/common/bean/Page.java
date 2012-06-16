@@ -73,6 +73,9 @@ public class Page {
 	}
 
 	public int getPageNum() {
+		if (pageNum > totalPages) {
+			return totalPages;
+		}
 		return pageNum;
 	}
 
@@ -139,6 +142,12 @@ public class Page {
 
 	public String getOrderBy() {
 		return orderBy;
+	}
+
+	@Override
+	public String toString() {
+		return "Page [pageSize=" + pageSize + ", totalCount=" + totalCount + ", pageNum=" + pageNum + ", totalPages=" + totalPages + ", autoCount="
+				+ autoCount + ", orderBy=" + orderBy + ", order=" + order + "]";
 	}
 
 }

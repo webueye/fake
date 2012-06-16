@@ -28,7 +28,7 @@
 						<thead>
 							
 							<tr>
-								<td>输入箱码</td>
+								<td><b>输入箱码</b></td>
 								<td colspan="3">
 									<input name="company.id" value="${currentAccount.companyId}" type="hidden"/>
 								

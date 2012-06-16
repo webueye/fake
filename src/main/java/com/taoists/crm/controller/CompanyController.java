@@ -34,14 +34,14 @@ public class CompanyController extends CommonController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Company company, Page page, Model model) {
 		company.setParentId(getAccount(model).getCompanyId());
-		getCompanyService().findPage(company, page);
+		companyService.findPage(company, page);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page, Model model) {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-		getCompanyService().findPage(page, filters);
+		companyService.findPage(page, filters);
 		extractParams(request);
 		return forword(ViewName.list);
 	}
@@ -53,9 +53,9 @@ public class CompanyController extends CommonController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(Company company) {
-		logger.debug("create: company[{}]", company);
-		getCompanyService().save(company);
+	public String create(Company company, ContactModel contactModel) {
+		logger.debug("create: company[{}], contactModel[{}]", company, contactModel);
+		companyService.save(company, contactModel);
 		return redirect(ResultPath.company);
 	}
 
@@ -69,23 +69,23 @@ public class CompanyController extends CommonController {
 	@RequestMapping("/state/{id}")
 	public String state(@PathVariable long id) {
 		logger.debug("state: id[{}]", id);
-		Company company = getCompanyService().get(id);
+		Company company = companyService.get(id);
 		company.setStatus(!BooleanUtils.isTrue(company.getStatus()));
-		getCompanyService().update(company);
+		companyService.update(company);
 		return redirect(ResultPath.company);
 	}
 
 	@RequestMapping(value = "/update/{dictCategory.id}", method = RequestMethod.POST)
 	public String update(Company company) {
 		logger.debug("update: company[{}]", company);
-		getCompanyService().saveOrUpdate(company);
+		companyService.saveOrUpdate(company);
 		return redirect(ResultPath.company);
 	}
 
 	@RequestMapping("/destroy/{id}")
 	public String destroy(@PathVariable long id) {
 		logger.debug("remove: id[{}]", id);
-		getCompanyService().delete(id);
+		companyService.delete(id);
 		return redirect(ResultPath.company);
 	}
 
@@ -98,14 +98,14 @@ public class CompanyController extends CommonController {
 		if (id == null) {
 			return new Company();
 		}
-		return getCompanyService().get(id);
+		return companyService.get(id);
 	}
 
 	private void initDict(Model model) {
-		model.addAttribute(DictCode.companyType.concat("s"), getDataDictService().findDataDictByCategoryCode(DictCode.companyType));
-		model.addAttribute(DictCode.companyNature.concat("s"), getDataDictService().findDataDictByCategoryCode(DictCode.companyNature));
-		model.addAttribute(DictCode.saleForm.concat("s"), getDataDictService().findDataDictByCategoryCode(DictCode.saleForm));
-		model.addAttribute(DictCode.saleRegion.concat("s"), getDataDictService().findDataDictByCategoryCode(DictCode.saleRegion));
+		model.addAttribute(DictCode.companyType.concat("s"), dataDictService.findDataDictByCategoryCode(DictCode.companyType));
+		model.addAttribute(DictCode.companyNature.concat("s"), dataDictService.findDataDictByCategoryCode(DictCode.companyNature));
+		model.addAttribute(DictCode.saleForm.concat("s"), dataDictService.findDataDictByCategoryCode(DictCode.saleForm));
+		model.addAttribute(DictCode.saleRegion.concat("s"), dataDictService.findDataDictByCategoryCode(DictCode.saleRegion));
 	}
 
 	private String forword(ViewName viewName) {

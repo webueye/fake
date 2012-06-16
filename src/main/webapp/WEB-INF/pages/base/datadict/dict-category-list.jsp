@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="u" uri="ueye"%>
 
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
 		
 		<div class="container">
 			
-			<form class="form-horizontal" method="get" action="${pageContext.request.contextPath}/dict-category">
+			<form id="validateForm" class="form-horizontal" method="get" action="${pageContext.request.contextPath}/dict-category">
 				<div class="search">
 					<div class="row">
 						<div class="span10">
@@ -21,7 +22,7 @@
 					           	<span style="margin-left: 10px;">类型编码 </span>
 					            <input id="categoryCode" class="input-large" name="filter_LIKES_categoryCode" value="${filter_LIKES_categoryCode}" style="width: 100px;" placeholder="类型编码"/>
 					           	<span style="margin-left: 10px;">类型名称 </span>
-					            <input id="categoryCode" class="input-large" name="filter_LIKES_categoryName" style="width: 100px;" placeholder="类型名称"/>
+					            <input id="categoryCode" class="input-large" name="filter_LIKES_categoryName" value="${filter_LIKES_categoryName}" style="width: 100px;" placeholder="类型名称"/>
 							  	<button type="submit" class="btn btn-primary">查询</button>
 					        </div>
 						</div>
@@ -55,7 +56,9 @@
 									<td>${dictCategory.categoryCode}</td>
 									<td>${dictCategory.categoryName}</td>
 									<td>${dictCategory.categoryDesc}</td>
-									<td>${dictCategory.createDateTime}</td>
+									<td>
+										<u:dateFormat value="${dictCategory.createDateTime}"/>
+									</td>
 									<td>
 										<a href="${pageContext.request.contextPath}/data-dict/list/${dictCategory.id}">字典数据</a>
 									</td>

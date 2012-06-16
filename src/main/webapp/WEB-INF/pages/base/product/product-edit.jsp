@@ -41,27 +41,31 @@
 							<tr class="th">
 								<th class="rth">分类：</th>
 								<td class="ltd">
-									<select name="" style="width:80%;">
+									<select name="productCategory.id" style="width:80%;" class="required">
 										<option value="">--请选择--</option>
+										<c:forEach var="productCategory" items="${productCategories}">
+											<option value="${productCategory.id}" ${product.productCategory.id == productCategory.id? 'selected': ''}>${productCategory.name}</option>
+										</c:forEach>
 									</select>
 								</td>
 								<th class="rth">品牌：</th>
 								<td class="ltd"> 
-									<select name="" style="width:80%;">
+									<select name="brand.id" style="width:80%;" class="required">
 										<option value="">--请选择--</option>
+										<c:forEach var="brand" items="${brands}">
+											<option value="${brand.id}" ${brand.id == product.brand.id? 'selected': ''}>${brand.brandName}</option>
+										</c:forEach>
 									</select>
 								</td>
 							</tr>
 							<tr class="th">
 								<th class="rth">建议零售价：</th>
 								<td class="ltd">
-									<input class="input-xlarge" name="marketPrice" value="${product.marketPrice}" type="text"/>
+									<input class="input-xlarge required number" name="marketPrice" value="${product.marketPrice}" type="text"/>
 								</td>
 								<th class="rth">保持期：</th>
 								<td class="ltd">
-									<select name="retentioPeriod" style="width:80%;">
-										<option value="">--请选择--</option>
-									</select>
+									<input class="input-xlarge required number" name="retentioPeriod" value="${product.retentioPeriod}" type="text"/>
 								</td>
 							</tr>
 							<tr class="th">

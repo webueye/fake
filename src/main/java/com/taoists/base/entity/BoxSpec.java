@@ -1,6 +1,7 @@
 package com.taoists.base.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,7 +24,7 @@ public class BoxSpec extends BaseEntity {
 	@Comment("编号")
 	private String specNo;
 	@Comment("产品")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Product product;
 	@Comment("创建公司")
 	private Long creationCompanyId;
@@ -88,6 +89,12 @@ public class BoxSpec extends BaseEntity {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	@Override
+	public String toString() {
+		return "BoxSpec [specName=" + specName + ", specNo=" + specNo + ", product=" + product + ", creationCompanyId=" + creationCompanyId
+				+ ", capacity=" + capacity + ", status=" + status + ", memo=" + memo + "]";
 	}
 
 }

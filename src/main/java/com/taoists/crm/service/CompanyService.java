@@ -1,6 +1,7 @@
 package com.taoists.crm.service;
 
 import com.taoists.common.orm.dao.BaseDao;
+import com.taoists.crm.controller.ContactModel;
 import com.taoists.crm.entity.Company;
 
 /**
@@ -8,5 +9,7 @@ import com.taoists.crm.entity.Company;
  * @since 2012-6-2
  */
 public interface CompanyService extends BaseDao<Company> {
+
+	void save(Company company, ContactModel contactModel);
 
 }

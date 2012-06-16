@@ -9,5 +9,6 @@ public interface ResultPath {
 	String purchase = "/purchase";
 	String delivery = "/delivery";
 	String warehousing = "/warehousing";
+	String warehousingBox = "/warehousing-box";
 
 }

@@ -1,7 +1,10 @@
 package com.taoists.sys.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
+import com.taoists.common.util.EncodeUtils;
 import com.taoists.sys.controller.path.ResultPath;
 import com.taoists.sys.entity.Account;
 
@@ -27,25 +31,33 @@ public class AccountController extends CommonController {
 	public String list(Account account, Page page, Model model) {
 		logger.debug("account[{}], page [{}]", account, page);
 
-		getAccountService().findPage(account, page);
+		accountService.findPage(account, page);
 		if (account.getCompanyId() != null) {
-			model.addAttribute("company", getCompanyService().get(account.getCompanyId()));
+			model.addAttribute("company", companyService.get(account.getCompanyId()));
 		}
 		return forward(ResultPath.account, ViewName.list);
 	}
 
-	@RequestMapping("/new/{companyId}")
+	@RequestMapping("/edit-new/{companyId}")
 	public String editNew(@PathVariable Long companyId, Model model) {
 		logger.debug("editNew: companyId[{}]", companyId);
-		model.addAttribute("company", getCompanyService().get(companyId));
+		model.addAttribute("company", companyService.get(companyId));
 		return forward(ResultPath.account, ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(Account account) {
+	public String create(Account account, Model model) {
 		logger.debug("create: account[{}]", account);
 
-		getAccountService().save(account);
+		List<Account> accounts = accountService.findDatas("username", account.getUsername());
+		if (CollectionUtils.isNotEmpty(accounts)) {
+			model.addAttribute("msg", "用户名已存在");
+			model.addAttribute("company", companyService.get(account.getCompanyId()));
+			return forward(ResultPath.account, ViewName.insert);
+		}
+
+		account.setPassword(EncodeUtils.md5(account.getPassword()));
+		accountService.save(account);
 		return redirect(ResultPath.account + "?companyId=" + account.getCompanyId());
 	}
 
@@ -53,7 +65,7 @@ public class AccountController extends CommonController {
 	public String edit(@PathVariable long id, Account account, Model model) {
 		logger.debug("edit: id[{}], account[{}]", id, account);
 
-		model.addAttribute("company", getCompanyService().get(account.getCompanyId()));
+		model.addAttribute("company", companyService.get(account.getCompanyId()));
 		return forward(ResultPath.account, ViewName.edit);
 	}
 
@@ -61,7 +73,7 @@ public class AccountController extends CommonController {
 	public String update(Account account) {
 		logger.debug("update: account[{}]", account);
 
-		getAccountService().saveOrUpdate(account);
+		accountService.saveOrUpdate(account);
 		return redirect(ResultPath.account + "?companyId=" + account.getCompanyId());
 	}
 
@@ -75,7 +87,7 @@ public class AccountController extends CommonController {
 	public String destroy(@PathVariable long id) {
 		logger.debug("remove[{}]", id);
 
-		getAccountService().delete(id);
+		accountService.delete(id);
 		return redirect(ResultPath.account);
 	}
 
@@ -88,7 +100,7 @@ public class AccountController extends CommonController {
 		if (id == null) {
 			return new Account();
 		}
-		return getAccountService().get(id);
+		return accountService.get(id);
 	}
 
 }

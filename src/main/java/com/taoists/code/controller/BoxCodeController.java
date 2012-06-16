@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.taoists.base.entity.Product;
 import com.taoists.code.controller.path.ResultPath;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.common.ViewName;
@@ -40,7 +41,7 @@ public class BoxCodeController extends CommonController {
 	public String bind(String codeList, Model model) {
 		logger.debug("bind: codeList[{}]", codeList);
 
-		Map<String, String> map = getBoxCodeService().bind(StringUtils.stringTokenizer(codeList));
+		Map<String, String> map = boxCodeService.bind(StringUtils.stringTokenizer(codeList));
 		if (map.get("boxCodeNotExist") != null) {
 			model.addAttribute("boxCodeNotExist", map.get("boxCodeNotExist"));
 		} else if (map.get("fakeCodeNotExist") != null) {
@@ -54,26 +55,35 @@ public class BoxCodeController extends CommonController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(BoxCode boxCode, Page page) {
 		logger.debug("list: boxCode[{}]", boxCode);
-		getBoxCodeService().findPage(boxCode, page);
+		boxCodeService.findPage(boxCode, page);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page) {
+		logger.debug("search: page[{}]", page);
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-		getBoxCodeService().findPage(page, filters);
+		boxCodeService.findPage(page, filters);
 		extractParams(request);
+		System.err.println(request);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping(value = "/box-group", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody
 	String boxGroup(String boxCodeValues) {
-		List<BoxCode> boxCodes = getBoxCodeService().findBoxCodes(StringUtils.stringTokenizer(boxCodeValues));
+		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(StringUtils.stringTokenizer(boxCodeValues));
 
 		JsonConfig conf = new JsonConfig();
-		conf.setExcludes(new String[] { "", "createDateTime", "lastModifyDateTime" });
-		return JSONArray.fromObject(BoxModel.groupByProduct(boxCodes), conf).toString();
+		conf.setExcludes(new String[] { "createDateTime", "lastModifyDateTime" });
+		List<BoxModel> boxModels = BoxModel.groupByProduct(boxCodes);
+		for (BoxModel boxModel : boxModels) {
+			for (BoxCode boxCode : boxModel.getBoxCodes()) {
+				boxCode.getBoxSpec().setProduct(null);
+			}
+			boxModel.setProduct(new Product(boxModel.getProduct().getProductNo(), boxModel.getProduct().getName()));
+		}
+		return JSONArray.fromObject(boxModels, conf).toString();
 	}
 
 	private String forword(ViewName viewName) {

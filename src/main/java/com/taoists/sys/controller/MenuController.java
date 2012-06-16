@@ -32,17 +32,17 @@ public class MenuController extends CommonController {
 
 	@RequestMapping
 	public String list(HttpSession session) {
-		List<Menu> menus = getMenuService().getRootMenus();
-		getMenuService().loopQueryMenusByParent(menus);
-		session.setAttribute("menus", getMenuService().loopQueryMenusByParent(menus));
+		List<Menu> menus = menuService.getRootMenus();
+		menuService.loopQueryMenusByParent(menus);
+		session.setAttribute("menus", menuService.loopQueryMenusByParent(menus));
 		return forward(ResultPath.menu, ViewName.list);
 	}
 
 	@RequestMapping("/left")
 	public String left(HttpSession session) {
-		List<Menu> menus = getMenuService().getRootMenus();
-		getMenuService().loopQueryMenusByParent(menus);
-		session.setAttribute("menus", getMenuService().loopQueryMenusByParent(menus));
+		List<Menu> menus = menuService.getRootMenus();
+		menuService.loopQueryMenusByParent(menus);
+		session.setAttribute("menus", menuService.loopQueryMenusByParent(menus));
 		return redirect("/main/left.jsp");
 	}
 
@@ -72,7 +72,7 @@ public class MenuController extends CommonController {
 			parent.setId(Long.parseLong(parentId));
 			menu.setParent(parent);
 		}
-		getMenuService().save(menu);
+		menuService.save(menu);
 		return redirect(ResultPath.menu);
 	}
 
@@ -85,7 +85,7 @@ public class MenuController extends CommonController {
 			parent.setId(Long.parseLong(parentId));
 			menu.setParent(parent);
 		}
-		getMenuService().merge(menu);
+		menuService.merge(menu);
 		return redirect(ResultPath.menu);
 	}
 
@@ -93,7 +93,7 @@ public class MenuController extends CommonController {
 	@RequestMapping("{id}/expand")
 	public String expand(@PathVariable long id, HttpSession session) {
 		List<Menu> menus = (List<Menu>) session.getAttribute("menus");
-		getMenuService().handle(id, menus);
+		menuService.handle(id, menus);
 		session.setAttribute("menus", menus);
 		return forward(ResultPath.menu, ViewName.list);
 	}
@@ -102,7 +102,7 @@ public class MenuController extends CommonController {
 	@RequestMapping("{id}/menu")
 	public String menu(@PathVariable long id, HttpSession session) {
 		List<Menu> menus = (List<Menu>) session.getAttribute("menus");
-		getMenuService().handle(id, menus);
+		menuService.handle(id, menus);
 		session.setAttribute("menus", menus);
 		return redirect("/main/left.jsp");
 	}
@@ -111,7 +111,7 @@ public class MenuController extends CommonController {
 	public String show(@PathVariable long id, Model model) {
 		logger.debug("show[{}]", id);
 
-		model.addAttribute("menu", getMenuService().get(id));
+		model.addAttribute("menu", menuService.get(id));
 		return forward(ResultPath.menu, ViewName.edit);
 	}
 
@@ -119,9 +119,9 @@ public class MenuController extends CommonController {
 	@RequestMapping("/destroy/{id}")
 	public String remove(@PathVariable long id, HttpSession session) {
 		logger.debug("remove[{}]", id);
-		getMenuService().delete(id);
+		menuService.delete(id);
 		List<Menu> menus = (List<Menu>) session.getAttribute("menus");
-		getMenuService().updateMenus(menus, new Menu(), id, Cons.delete);
+		menuService.updateMenus(menus, new Menu(), id, Cons.delete);
 		return redirect(ResultPath.menu);
 	}
 
@@ -132,7 +132,7 @@ public class MenuController extends CommonController {
 		Menu rootMenu = new Menu();
 		rootMenu.setLeaf(false);
 
-		List<Menu> rootMenus = getMenuService().findMenus(rootMenu, true);
+		List<Menu> rootMenus = menuService.findMenus(rootMenu, true);
 		forEachMenus(list, rootMenus);
 		return JSONArray.fromObject(list).toString();
 	}
@@ -156,7 +156,7 @@ public class MenuController extends CommonController {
 			if (CollectionUtils.isNotEmpty(menu.getChild())) {
 				forEachMenus(list, (List<Menu>) menu.getChild());
 			} else {
-				forEachMenus(list, getMenuService().findMenusByParent(m.getId(), false));
+				forEachMenus(list, menuService.findMenusByParent(m.getId(), false));
 			}
 		}
 	}

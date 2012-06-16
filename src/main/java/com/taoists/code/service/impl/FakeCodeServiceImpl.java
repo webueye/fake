@@ -15,6 +15,7 @@ import com.taoists.common.orm.dao.HibernateDaoSupport;
 @Service("fakeCodeService")
 public class FakeCodeServiceImpl extends HibernateDaoSupport<FakeCode> implements FakeCodeService {
 
+	@Override
 	public FakeCode getByPlainCode(String plainCode) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		detachedCriteria.add(Restrictions.eq("plainCode", plainCode));

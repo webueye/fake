@@ -26,8 +26,8 @@
 							<tr class="th">
 								<th class="rth">码类型：</th>
 								<td class="ltd">
-									箱码<input class="input-xlarge" name="codeType" style="margin-right: 20px;" value="true" type="radio" checked="checked"/>
-									防伪码<input class="input-xlarge" name="codeType" value="false" type="radio"/>
+									箱码<input class="input-xlarge required" name="codeType" style="margin-right: 20px;" value="true" type="radio"/>
+									防伪码<input class="input-xlarge required" name="codeType" value="false" type="radio"/>
 								</td>
 							</tr>
 							<tr class="th">

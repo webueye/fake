@@ -34,8 +34,9 @@
 					action="${pageContext.request.contextPath }/login" name="loginForm">
 					<fieldset style="font-size: 20px;">
 						<div style="margin-bottom: 25px;color:red;">
-							${param.msg == 'notExist'? '用户不存在': ''}
+							${param.msg == 'accountNotExist'? '用户不存在': ''}
 							${param.msg == 'passwordNotCorrect'? '密码不正确': ''}
+							${param.msg == 'accountInactive'? '用户已被冻结,无法登陆': ''}
 						</div>
 						
 						<div class="control-group">

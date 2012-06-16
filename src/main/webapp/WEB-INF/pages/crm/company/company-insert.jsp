@@ -20,6 +20,7 @@
 							<tr class="th">
 								<th class="rth">企业名称：</th>
 								<td class="ltd" colspan="3">
+									<input name="parentId" value="${currentAccount.companyId}" type="hidden" style="width: 80%"/>
 									<input class="input-xlarge required" name="companyName" type="text" style="width: 80%"/>
 								</td>
 							</tr>
@@ -151,6 +152,80 @@
 									<textarea name="memo" class="input-xlarge" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 54px; margin-left: 0px; margin-right: 0px; width: 80%; ">
 									</textarea>
 								</td>
+							</tr>
+							
+							<!-- 法人信息 -->
+							<tr>
+								<th  class="th" colspan="4" align="right">
+									<div align="left" style="margin:6px;">
+										<b>法人信息</b>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>姓名</th>
+								<td><input class="input-xlarge required" name="corporation.name" type="text" style="width: 80%"/></td>
+								<th>出生年月</th>
+								<td><input class="input-xlarge" name="corporation.birthday" type="text" style="width: 80%"/></td>
+							</tr>
+							<tr>
+								<th>身份证号</th>
+								<td><input class="input-xlarge" name="corporation.idCard" type="text" style="width: 80%"/></td>
+								<th>性别</th>
+								<td>
+									男<input class="input-xlarge" name="corporation.sex" value="1" style="margin-right: 20px;" type="radio"/>
+									女<input class="input-xlarge" name="corporation.sex" value="2" style="margin-right: 20px;" type="radio"/>
+									未知<input class="input-xlarge" name="corporation.sex" value="3" type="radio"/>
+								</td>
+							</tr>
+							<tr>
+								<th>籍贯</th>
+								<td><input class="input-xlarge" name="corporation.nativePlace" type="text" style="width: 80%"/></td>
+								<th>手机</th>
+								<td><input class="input-xlarge" name="corporation.mobile" type="text" style="width: 80%"/></td>
+							</tr>
+							<tr>
+								<th>办公电话</th>
+								<td><input class="input-xlarge" name="corporation.officePhone" type="text" style="width: 80%"/></td>
+								<th>邮箱</th>
+								<td><input class="input-xlarge email" name="corporation.email" type="text" style="width: 80%"/></td>
+							</tr>
+							
+							<!-- 业务主管信息 -->
+							<tr>
+								<th  class="th" colspan="4" align="right">
+									<div align="left" style="margin:6px;">
+										<b>业务主管信息</b>
+									</div>
+								</th>
+							</tr>
+							<tr>
+								<th>姓名</th>
+								<td><input class="input-xlarge required" name="business.name" type="text" style="width: 80%"/></td>
+								<th>出生年月</th>
+								<td><input class="input-xlarge" name="business.birthday" type="text" style="width: 80%"/></td>
+							</tr>
+							<tr>
+								<th>身份证号</th>
+								<td><input class="input-xlarge" name="business.idCard" type="text" style="width: 80%"/></td>
+								<th>性别</th>
+								<td>
+									男<input class="input-xlarge" name="business.sex" value="1" style="margin-right: 20px;" type="radio"/>
+									女<input class="input-xlarge" name="business.sex" value="2" style="margin-right: 20px;" type="radio"/>
+									未知<input class="input-xlarge" name="business.sex" value="3" type="radio"/>
+								</td>
+							</tr>
+							<tr>
+								<th>籍贯</th>
+								<td><input class="input-xlarge" name="business.nativePlace" type="text" style="width: 80%"/></td>
+								<th>手机</th>
+								<td><input class="input-xlarge" name="business.mobile" type="text" style="width: 80%"/></td>
+							</tr>
+							<tr>
+								<th>办公电话</th>
+								<td><input class="input-xlarge" name="business.officePhone" type="text" style="width: 80%"/></td>
+								<th>邮箱</th>
+								<td><input class="input-xlarge email" name="business.email" type="text" style="width: 80%"/></td>
 							</tr>
 							
 							<tr>

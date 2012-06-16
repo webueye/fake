@@ -40,20 +40,20 @@ public class DeliveryController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Purchase purchase, Page page, @ModelAttribute("currentAccount") Account account) {
-		getPurchaseService().findDatas("supplierCompany.id", account.getCompanyId(), page);
+		purchaseService.findDatas("supplierCompany.id", account.getCompanyId(), page);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page, Model model) {
-		getPurchaseService().findPage(page, PropertyFilter.buildFromHttpRequest(request));
+		purchaseService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
 		extractParams(request);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		model.addAttribute("companies", getCompanyService().findDatas("parentId", getAccount(model).getCompanyId()));
+		model.addAttribute("companies", companyService.findDatas("parentId", getAccount(model).getCompanyId()));
 		return forword(ViewName.insert);
 	}
 
@@ -64,22 +64,22 @@ public class DeliveryController extends CommonController {
 		purchase.setCreater(account.getNickname());
 		purchase.setSupplierCompany(new Company(account.getCompanyId()));
 		String[] boxCodes = request.getParameterValues("boxCodes");
-//		purchase.setDeliveryDateTime(DateUtils.toDateTime(deliveryDate));
-		getPurchaseService().save(purchase, boxCodes);
+		// purchase.setDeliveryDateTime(DateUtils.toDateTime(deliveryDate));
+		purchaseService.save(purchase, boxCodes);
 		return redirect(ResultPath.delivery);
 	}
 
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable long id, Model model) {
 		logger.debug("edit: id[{}]", id);
-		model.addAttribute("companies", getCompanyService().findDatas("parentId", getAccount(model).getCompanyId()));
+		model.addAttribute("companies", companyService.findDatas("parentId", getAccount(model).getCompanyId()));
 		return forword(ViewName.edit);
 	}
 
 	@RequestMapping("/show/{id}")
 	public String show(@PathVariable long id, Model model) {
 		logger.debug("show: id[{}]", id);
-		List<PurchaseBox> purchaseBoxs = getPurchaseBoxService().findDatas("purchase.id", id);
+		List<PurchaseBox> purchaseBoxs = purchaseBoxService.findDatas("purchase.id", id);
 
 		List<BoxCode> boxCodes = Lists.newArrayList();
 		for (PurchaseBox purchaseBox : purchaseBoxs) {
@@ -94,34 +94,20 @@ public class DeliveryController extends CommonController {
 	public @ResponseBody
 	String updateState(Purchase purchase, int state, @ModelAttribute("currentAccount") Account account) {
 		logger.debug("send: purchase[{}]", purchase);
-		Purchase pur = getPurchaseService().get(purchase.getId());
-		if (PurchaseStatus.inTransit.getCode() == state) {
-			pur.setDeliveryMemo(purchase.getDeliveryMemo());
-			pur.setStatus(PurchaseStatus.inTransit);
-			pur.setDeliveryDateTime(new DateTime());
-			pur.setDeliveryId(account.getId());
-			pur.setDeliveryName(account.getNickname());
-		} else if (PurchaseStatus.receive.getCode() == state) {
-			pur.setArrivalMemo(purchase.getArrivalMemo());
-			pur.setStatus(PurchaseStatus.receive);
-			pur.setArrivalDateTime(new DateTime());
-			pur.setArrivalId(account.getId());
-			pur.setArrivalName(account.getNickname());
-		}
-		getPurchaseService().saveOrUpdate(pur);
+		purchaseService.udpateStatus(purchase, state, account);
 		return "";
 	}
 
 	@RequestMapping("/complete/{id}")
 	public String complete(@PathVariable long id, @ModelAttribute("currentAccount") Account account) {
 		logger.debug("complete: id[{}]", id);
-		Purchase purchase = getPurchaseService().get(id);
+		Purchase purchase = purchaseService.get(id);
 		purchase.setStatus(PurchaseStatus.complete);
 		purchase.setCompleteDateTime(new DateTime());
 		purchase.setCompleterId(account.getId());
 		purchase.setCompleter(account.getNickname());
-		getPurchaseService().saveOrUpdate(purchase);
-		return redirect(ResultPath.purchase);
+		purchaseService.saveOrUpdate(purchase);
+		return redirect(ResultPath.delivery);
 	}
 
 	@ModelAttribute("purchase")
@@ -133,9 +119,9 @@ public class DeliveryController extends CommonController {
 		if (id == null) {
 			return new Purchase();
 		}
-		return getPurchaseService().get(id);
+		return purchaseService.get(id);
 	}
-	
+
 	private String forword(ViewName viewName) {
 		return Module.ias + "/purchase/delivery-" + viewName;
 	}

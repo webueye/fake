@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -27,7 +29,7 @@ public class FakeCodeController extends CommonController {
 	@RequestMapping
 	public String list(FakeCode fakeCode, Page page) {
 		logger.debug("list: fakeCode[{}]", fakeCode);
-		getFakeCodeService().findPage(fakeCode, page);
+		fakeCodeService.findPage(fakeCode, page);
 		return forword(ViewName.list);
 	}
 
@@ -40,9 +42,16 @@ public class FakeCodeController extends CommonController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page) {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-		getFakeCodeService().findPage(page, filters);
+		fakeCodeService.findPage(page, filters);
 		extractParams(request);
 		return forword(ViewName.list);
+	}
+
+	@RequestMapping("/show/{id}")
+	public String show(@PathVariable long id, Model model) {
+		logger.debug("edit: id[{}]", id);
+		model.addAttribute("fakeCode", fakeCodeService.get(id));
+		return forword(ViewName.show);
 	}
 
 	private String forword(ViewName viewName) {

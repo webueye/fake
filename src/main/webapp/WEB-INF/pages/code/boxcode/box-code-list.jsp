@@ -36,7 +36,7 @@
 								<th>箱容量</th>
 								<th>箱码状态</th>
 								<th>生成日期</th>
-								<th>操 作</th>
+								<th>防伪码</th>
 							</tr>
 							<c:forEach var="boxCode" items="${page.datas}">
 								<tr>
@@ -49,7 +49,7 @@
 										<ueye:dateFormat value="${boxCode.createDateTime}"/>
 									</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/fake-code/boxcode?filter_LIKES_boxCode.boxCode=${boxCode.boxCode}">详情</a>
+										<a href="${pageContext.request.contextPath}/fake-code/boxcode?filter_LIKES_boxCode.boxCode=${boxCode.boxCode}">防伪码</a>
 									</td>
 								</tr>
 							</c:forEach>

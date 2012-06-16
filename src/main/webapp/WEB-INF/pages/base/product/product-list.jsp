@@ -13,7 +13,7 @@
 		
 		<div class="container">
 			
-			<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/product/search">
+			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/product/search">
 				<div class="search">
 					<div class="row">
 						<div class="span10">

@@ -28,6 +28,14 @@ public class DataDict extends BaseEntity {
 	@JoinColumn(name = "category_id")
 	private DictCategory dictCategory;
 
+	public DataDict() {
+
+	}
+
+	public DataDict(Long id) {
+		setId(id);
+	}
+
 	public String getCode() {
 		return code;
 	}

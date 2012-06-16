@@ -29,13 +29,13 @@ public class PurchaseController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Purchase purchase, Page page, @ModelAttribute("currentAccount") Account account) {
-		getPurchaseService().findDatas("purchaseCompany.id", account.getCompanyId(), page);
+		purchaseService.findDatas("purchaseCompany.id", account.getCompanyId(), page);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page, Model model) {
-		getPurchaseService().findPage(page, PropertyFilter.buildFromHttpRequest(request));
+		purchaseService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
 		extractParams(request);
 		return forword(ViewName.list);
 	}

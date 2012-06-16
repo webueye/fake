@@ -6,12 +6,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.taoists.code.controller.BoxModel;
 import com.taoists.code.entity.BoxCode;
+import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
-import com.taoists.ias.entity.Stock;
+import com.taoists.ias.entity.Stock.ChangeTypeStatus;
 import com.taoists.ias.entity.Warehousing;
 import com.taoists.ias.entity.WarehousingBox;
 import com.taoists.ias.entity.WarehousingItem;
@@ -28,13 +30,22 @@ import com.taoists.ias.service.WarehousingService;
 public class WarehousingServiceImpl extends HibernateDaoSupport<Warehousing> implements WarehousingService {
 
 	@Override
+	@Transactional
 	public void save(Warehousing warehousing, String[] boxCodeValues) {
 		save(warehousing);
 
 		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(Arrays.asList(boxCodeValues));
-		List<BoxModel> models = BoxModel.groupByProduct(boxCodes);
+		List<BoxModel> boxModels = BoxModel.groupByProduct(boxCodes);
 
-		for (BoxModel model : models) {
+		save(warehousing, boxModels);
+		stockService.saveStock(boxModels, warehousing.getCompany(), ChangeTypeStatus.in);
+	}
+
+	@Override
+	@Transactional
+	public void save(Warehousing warehousing, List<BoxModel> boxModels) {
+		save(warehousing);
+		for (BoxModel model : boxModels) {
 			WarehousingItem item = new WarehousingItem();
 			item.setWarehousing(warehousing);
 			item.setMemo(warehousing.getMemo());
@@ -43,25 +54,19 @@ public class WarehousingServiceImpl extends HibernateDaoSupport<Warehousing> imp
 			item.setQty(model.getBoxCount());
 			item.setSubAmount(model.getProduct().getMarketPrice().multiply(new BigDecimal(model.getBoxCount())));
 			warehousingItemService.save(item);
-			
+
 			for (BoxCode boxCode : model.getBoxCodes()) {
+				boxCode.setStatus(BoxCodeStatus.warehousing);
+				boxCodeService.update(boxCode);
+
 				WarehousingBox box = new WarehousingBox();
 				box.setBoxCode(boxCode);
 				box.setWarehousing(warehousing);
 				warehousingBoxService.save(box);
 			}
-			
-			Stock stock = new Stock();
-			stock.setCompany(warehousing.getCompany());
-			stock.setProduct(model.getProduct());
-			stock.setInCount(item.getQty());
-			stock.setInAmount(item.getSubAmount());
-			stock.setChangeType(Stock.ChangeTypeStatus.in);
-			stockService.save(stock);
 		}
-
 	}
-
+	
 	@Autowired
 	private StockService stockService;
 	@Autowired

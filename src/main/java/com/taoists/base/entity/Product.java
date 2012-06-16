@@ -3,6 +3,8 @@ package com.taoists.base.entity;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.taoists.common.Cons;
@@ -30,14 +32,18 @@ public class Product extends BaseEntity {
 	private String productDesc;
 	@Comment("状态")
 	private Boolean status;
+	@Comment("产品分类")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private DataDict productCategory;
 	@Comment("品牌")
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Brand brand;
 	@Comment("市场价")
 	private BigDecimal marketPrice;
 	@Comment("保质期")
 	private Integer retentioPeriod;
 	@Comment("拼音")
-	private String productEnglishName;
+	private String productSpell;
 	@Comment("单位")
 	private String unit;
 	@Comment("规格型号")
@@ -49,12 +55,17 @@ public class Product extends BaseEntity {
 	@Comment("记录状态")
 	private Integer recordStatus;
 
-	public String getProductNo() {
-		return productNo;
+	public Product() {
+
 	}
 
-	public void setProductNo(String productNo) {
+	public Product(Long id) {
+		setId(id);
+	}
+
+	public Product(String productNo, String name) {
 		this.productNo = productNo;
+		this.name = name;
 	}
 
 	public String getName() {
@@ -63,6 +74,14 @@ public class Product extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getProductNo() {
+		return productNo;
+	}
+
+	public void setProductNo(String productNo) {
+		this.productNo = productNo;
 	}
 
 	public String getProductNoExt() {
@@ -97,6 +116,14 @@ public class Product extends BaseEntity {
 		this.status = status;
 	}
 
+	public DataDict getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(DataDict productCategory) {
+		this.productCategory = productCategory;
+	}
+
 	public Brand getBrand() {
 		return brand;
 	}
@@ -121,12 +148,12 @@ public class Product extends BaseEntity {
 		this.retentioPeriod = retentioPeriod;
 	}
 
-	public String getProductEnglishName() {
-		return productEnglishName;
+	public String getProductSpell() {
+		return productSpell;
 	}
 
-	public void setProductEnglishName(String productEnglishName) {
-		this.productEnglishName = productEnglishName;
+	public void setProductSpell(String productSpell) {
+		this.productSpell = productSpell;
 	}
 
 	public String getUnit() {
@@ -167,18 +194,6 @@ public class Product extends BaseEntity {
 
 	public void setRecordStatus(Integer recordStatus) {
 		this.recordStatus = recordStatus;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [productNo=" + productNo + ", name=" + name
-				+ ", productNoExt=" + productNoExt + ", barCode=" + barCode
-				+ ", productDesc=" + productDesc + ", status=" + status
-				+ ", brand=" + brand + ", marketPrice=" + marketPrice
-				+ ", retentioPeriod=" + retentioPeriod
-				+ ", productEnglishName=" + productEnglishName + ", unit="
-				+ unit + ", spec=" + spec + ", origin=" + origin + ", memo="
-				+ memo + ", recordStatus=" + recordStatus + "]";
 	}
 
 }

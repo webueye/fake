@@ -19,7 +19,7 @@ import com.taoists.crm.entity.Company;
 @Comment("出入库流水表")
 @SuppressWarnings("serial")
 @Entity
-@Table(name = Cons.tablePrefix + "purchase_item")
+@Table(name = Cons.tablePrefix + "stock")
 public class Stock extends BaseEntity {
 
 	@ManyToOne

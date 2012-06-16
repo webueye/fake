@@ -12,5 +12,7 @@ import com.taoists.ias.service.PurchaseBoxService;
  */
 @Service
 public class PurchaseBoxServiceImpl extends HibernateDaoSupport<PurchaseBox> implements PurchaseBoxService {
+	
+	
 
 }

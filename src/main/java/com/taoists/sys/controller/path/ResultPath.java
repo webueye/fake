@@ -7,6 +7,7 @@ package com.taoists.sys.controller.path;
 public interface ResultPath {
 
 	String account = "/account";
+	String user = "/user";
 	String menu = "/menu";
 	String login = "/login";
 

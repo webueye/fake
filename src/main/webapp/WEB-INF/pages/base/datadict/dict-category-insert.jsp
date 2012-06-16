@@ -20,7 +20,8 @@
 							<tr class="th">
 								<th class="rth">字典类型代码：</th>
 								<td class="ltd">
-									<input class="input-xlarge required" id="categoryCode" name="categoryCode" type="text"/>
+									<input class="input-xlarge required" name="categoryCode" type="text"/>
+									<input name="companyId" value="${currentAccount.companyId}" type="hidden"/>
 								</td>
 							</tr>
 							<tr class="th">

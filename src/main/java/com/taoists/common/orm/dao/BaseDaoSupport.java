@@ -20,50 +20,77 @@ import com.taoists.common.orm.entity.BaseEntity;
  * @author rubys@vip.qq.com
  * @since 2012-5-28
  */
-@Transactional
+@Transactional(readOnly = true)
 public abstract class BaseDaoSupport<T extends BaseEntity> implements BaseDao<T> {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Override
 	@SuppressWarnings("unchecked")
+	@Transactional(readOnly = true)
 	public T get(Serializable id) {
 		return (T) getSession().get(getEntityClass(), id);
 	}
 
 	@Override
+	@Transactional
 	public void insert(Object entity) {
 		getSession().save(entity);
 	}
 
 	@Override
+	@Transactional
 	public void save(T entity) {
 		getSession().save(entity);
 	}
-	
+
 	@Override
-	public void merge(T entity){
+	@Transactional
+	public void merge(T entity) {
 		getSession().merge(entity);
 	}
 
 	@Override
+	@Transactional
 	public void update(T entity) {
 		getSession().update(entity);
 	}
 
 	@Override
+	@Transactional
 	public void saveOrUpdate(T entity) {
 		getSession().saveOrUpdate(entity);
 	}
 
 	@Override
+	@Transactional
 	public void delete(T entity) {
 		getSession().delete(entity);
 	}
 
 	@Override
+	@Transactional
 	public void delete(Serializable id) {
-		getSession().delete(get(id));
+		T entity = get(id);
+		if (entity == null) {
+			return;
+		}
+		getSession().delete(entity);
+	}
+
+	@Override
+	public void evict(Object... entities) {
+		if (entities == null) {
+			return;
+		}
+		for (Object entity : entities) {
+			getSession().evict(entity);
+		}
+	}
+
+	@Override
+	public void clear() {
+		getSession().clear();
 	}
 
 	@Override
@@ -82,7 +109,7 @@ public abstract class BaseDaoSupport<T extends BaseEntity> implements BaseDao<T>
 	@SuppressWarnings("unchecked")
 	public List<T> findDatas(String propertyName, Object value) {
 		Criteria criteria = createDetachedCriteria().getExecutableCriteria(getSession());
-		if(propertyName.indexOf(".") != -1){
+		if (propertyName.indexOf(".") != -1) {
 			String alias = propertyName.substring(0, propertyName.indexOf("."));
 			criteria.createAlias(alias, alias);
 		}

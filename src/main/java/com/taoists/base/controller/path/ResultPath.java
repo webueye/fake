@@ -6,6 +6,7 @@ package com.taoists.base.controller.path;
  */
 public interface ResultPath {
 	
+	String brand = "/brand";
 	String product = "/product";
 	String boxSpec = "/box-spec";
 	String dict = "/base/dict";

@@ -38,12 +38,11 @@
 							<tr>
 								<th>编号</th>
 								<th>经销商</th>
+								<th>发货人</th>
+								<th>收货人</th>
 								<th>发货日期</th>
 								<th>收货日期</th>
 								<th>状态</th>
-								<th>发货人</th>
-								<th>收货人</th>
-								<th>备注</th>
 								<th>操作</th>
 							</tr>
 							
@@ -51,16 +50,15 @@
 								<tr>
 									<td>${purchase.id}</td>
 									<td>${purchase.purchaseCompany.companyName}</td>
-									<td>
-										<ueye:dateFormat value="${purchase.deliveryDateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-									</td>
-									<td>
-										<ueye:dateFormat value="${purchase.arrivalDateTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
-									</td>
-									<td>${purchase.status.value}</td>
 									<td>${purchase.deliveryName}</td>
 									<td>${purchase.arrivalName}</td>
-									<td>${purchase.memo}</td>
+									<td>
+										<ueye:dateFormat value="${purchase.deliveryDateTime}"/>
+									</td>
+									<td>
+										<ueye:dateFormat value="${purchase.arrivalDateTime}"/>
+									</td>
+									<td>${purchase.status.value}</td>
 									<td>
 										<c:if test="${purchase.status.code == 1}">
 											<a href="#" onclick="return showDeliveryModal('${purchase.id}');">发送</a>

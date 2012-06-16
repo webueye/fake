@@ -31,6 +31,10 @@ public interface BaseDao<T extends BaseEntity> {
 	void delete(T entity);
 
 	void delete(Serializable id);
+	
+	void evict(Object... entities);
+
+	void clear();
 
 	List<T> findAll();
 

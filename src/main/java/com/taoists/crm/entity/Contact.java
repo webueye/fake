@@ -1,6 +1,7 @@
 package com.taoists.crm.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -32,13 +33,14 @@ public class Contact extends BaseEntity {
 	@Comment("手机")
 	private String mobile;
 	@Comment("公司电话")
-	private String companyPhone;
+	private String officePhone;
 	@Comment("email")
 	private String email;
 	@Comment("职务")
 	private String position;
 	@Comment("类型（1：老板；2：高管；3：业务负责人；4：普通）")
-	private Integer contactType;
+	@Enumerated
+	private ContactType contactType;
 	@Comment("状态（0：离职；1：在职）")
 	private Integer status;
 	@Comment("兴趣爱好")
@@ -101,12 +103,12 @@ public class Contact extends BaseEntity {
 		this.mobile = mobile;
 	}
 
-	public String getCompanyPhone() {
-		return companyPhone;
+	public String getOfficePhone() {
+		return officePhone;
 	}
 
-	public void setCompanyPhone(String companyPhone) {
-		this.companyPhone = companyPhone;
+	public void setOfficePhone(String officePhone) {
+		this.officePhone = officePhone;
 	}
 
 	public String getEmail() {
@@ -125,11 +127,11 @@ public class Contact extends BaseEntity {
 		this.position = position;
 	}
 
-	public Integer getContactType() {
+	public ContactType getContactType() {
 		return contactType;
 	}
 
-	public void setContactType(Integer contactType) {
+	public void setContactType(ContactType contactType) {
 		this.contactType = contactType;
 	}
 

@@ -1,5 +1,6 @@
 package com.taoists.code.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -7,11 +8,14 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import com.google.common.collect.Maps;
 import com.taoists.code.entity.BoxCode;
+import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.FakeCode;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.FakeCodeService;
@@ -25,6 +29,20 @@ import com.taoists.common.orm.dao.HibernateDaoSupport;
 @Service("boxCodeService")
 public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements BoxCodeService {
 
+	@Override
+	@Transactional
+	public void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status) {
+		Assert.notNull(boxCodes, "boxCodes is required.");
+		Assert.notNull(status, "status is required.");
+
+		for (BoxCode boxCode : boxCodes) {
+			boxCode.setStatus(status);
+			update(boxCode);
+		}
+	}
+
+	@Override
+	@Transactional
 	public Map<String, String> bind(List<String> codes) {
 		logger.debug("codes[{}], size[{}]", codes, codes.size());
 
@@ -54,12 +72,14 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		return map;
 	}
 
+	@Override
 	public BoxCode getByBoxCode(String boxCode) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		detachedCriteria.add(Restrictions.eq("boxCode", boxCode));
 		return (BoxCode) detachedCriteria.getExecutableCriteria(getSession()).uniqueResult();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<BoxCode> findBoxCodes(List<String> boxCodes) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
@@ -67,10 +87,7 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		return detachedCriteria.getExecutableCriteria(getSession()).list();
 	}
 
+	@Autowired
 	private FakeCodeService fakeCodeService;
-
-	public void setFakeCodeService(FakeCodeService fakeCodeService) {
-		this.fakeCodeService = fakeCodeService;
-	}
 
 }

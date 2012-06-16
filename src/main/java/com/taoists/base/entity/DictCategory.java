@@ -18,6 +18,7 @@ public class DictCategory extends BaseEntity {
 	private String categoryCode;
 	private String categoryName;
 	private String categoryDesc;
+	private Long companyId;
 
 	public DictCategory() {
 
@@ -51,9 +52,12 @@ public class DictCategory extends BaseEntity {
 		this.categoryDesc = categoryDesc;
 	}
 
-	@Override
-	public String toString() {
-		return "DictCategory [categoryCode=" + categoryCode + ", categoryName=" + categoryName + ", categoryDesc=" + categoryDesc + "]";
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 }

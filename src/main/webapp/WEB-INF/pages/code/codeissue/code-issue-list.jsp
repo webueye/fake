@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="u" uri="ueye"%>
 
 <!DOCTYPE html>
 <html>
@@ -46,7 +47,6 @@
 								<th>码长度</th>
 								<th>码类型</th>
 								<th>生成日期</th>
-								<th>操 作</th>
 							</tr>
 							<c:forEach var="codeIssue" items="${page.datas}">
 								<tr>
@@ -56,10 +56,8 @@
 									<td>${codeIssue.issueCount}</td>
 									<td>${codeIssue.codeLength}</td>
 									<td>${codeIssue.codeType? '箱码': '防伪码'}</td>
-									<td>${codeIssue.createDateTime}</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/code-issue/edit/${codeIssue.id}">${codeIssue.codeType? '箱码': '防伪码'}记录</a>
-										<a href="${pageContext.request.contextPath}/code-issue/show/${codeIssue.id}">详情</a>
+										<u:dateFormat value="${codeIssue.createDateTime}"/>
 									</td>
 								</tr>
 							</c:forEach>

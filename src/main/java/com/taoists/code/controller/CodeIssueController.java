@@ -30,28 +30,28 @@ public class CodeIssueController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(CodeIssue codeIssue, Page page) {
-		getCodeIssueService().findPage(codeIssue, page);
+		codeIssueService.findPage(codeIssue, page);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page, Model model) {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-		getCodeIssueService().findPage(page, filters);
+		codeIssueService.findPage(page, filters);
 		extractParams(request);
 		return forword(ViewName.list);
 	}
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		model.addAttribute("boxSpecs", getBoxSpecService().findAll());
+		model.addAttribute("boxSpecs", boxSpecService.findAll());
 		return forword(ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String create(Account account, CodeIssue codeIssue) {
 		logger.debug("create: codeIssue[{}]", codeIssue);
-		getCodeIssueService().genCode(codeIssue);
+		codeIssueService.genCode(codeIssue);
 		return redirect(ResultPath.codeIssue);
 	}
 
@@ -70,7 +70,7 @@ public class CodeIssueController extends CommonController {
 	@RequestMapping("/destroy/{id}")
 	public String destroy(@PathVariable long id) {
 		logger.debug("destroy: id[{}]", id);
-		getCodeIssueService().delete(id);
+		codeIssueService.delete(id);
 		return redirect(ResultPath.codeIssue);
 	}
 
@@ -83,7 +83,7 @@ public class CodeIssueController extends CommonController {
 		if (id == null) {
 			return new CodeIssue();
 		}
-		return getCodeIssueService().get(id);
+		return codeIssueService.get(id);
 	}
 
 	private String forword(ViewName viewName) {

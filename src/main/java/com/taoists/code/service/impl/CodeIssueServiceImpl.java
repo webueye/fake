@@ -1,7 +1,13 @@
 package com.taoists.code.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.taoists.base.entity.BoxSpec;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.CodeIssue;
@@ -9,6 +15,7 @@ import com.taoists.code.entity.FakeCode;
 import com.taoists.code.service.CodeIssueService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.common.util.CodeUtils;
+import com.taoists.common.util.DateUtils;
 
 /**
  * @author rubys@vip.qq.com
@@ -17,9 +24,11 @@ import com.taoists.common.util.CodeUtils;
 @Service("codeRuleDao")
 public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> implements CodeIssueService {
 
+	@Override
+	@Transactional
 	public void genCode(CodeIssue codeIssue) {
 		save(codeIssue);
-		
+
 		if (codeIssue.getCodeType()) {
 			genBoxCode(codeIssue);
 		} else {
@@ -31,7 +40,7 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			BoxCode boxCode = new BoxCode();
 			boxCode.setCodeIssue(codeIssue);
-			boxCode.setBoxCode(CodeUtils.genCode(codeIssue.getCodeLength()));
+			boxCode.setBoxCode(genBoxCodeValue(codeIssue.getBoxSpec()));
 			boxCode.setBoxSpec(codeIssue.getBoxSpec());
 			boxCode.setCreationCompanyId(codeIssue.getCompanyId());
 			boxCode.setStorageCompanyId(codeIssue.getCompanyId());
@@ -51,5 +60,32 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 			insert(fakeCode);
 		}
 	}
+
+	private String genBoxCodeValue(BoxSpec boxSpec) {
+		String dateStr = DateUtils.todayToString();
+		Integer num = cache.getUnchecked(dateStr);
+		cache.put(dateStr, num + 1);
+		StringBuilder sb = new StringBuilder();
+		if (StringUtils.isNotBlank(boxSpec.getSpecNo())) {
+			sb.append(boxSpec.getSpecNo());
+		}
+		sb.append(dateStr);
+
+		String numStr = num.toString();
+		for (int i = numStr.length(); i < 6; i++) {
+			sb.append("0");
+		}
+		sb.append(numStr);
+		return sb.toString();
+	}
+
+	private LoadingCache<String, Integer> cache = CacheBuilder.newBuilder().build(new CacheLoader<String, Integer>() {
+
+		@Override
+		public Integer load(String key) throws Exception {
+			return 1;
+		}
+
+	});
 
 }

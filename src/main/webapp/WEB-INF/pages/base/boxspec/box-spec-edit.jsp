@@ -20,6 +20,7 @@
 							<tr class="th">
 								<th class="rth">种类名称：</th>
 								<td class="ltd">
+									<input  name="id" value="${boxSpec.id}" type="hidden"/>
 									<input class="input-xlarge required" name="specName" value="${boxSpec.specName}" type="text" style="width: 50%;"/>
 								</td>
 							</tr>

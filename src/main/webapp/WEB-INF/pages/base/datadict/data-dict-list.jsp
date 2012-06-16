@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="u" uri="ueye"%>
 
 <!DOCTYPE html>
 <html>
@@ -54,7 +55,9 @@
 									<td>${dataDict.name}</td>
 									<td>${dataDict.status == false? '禁用': '启用'}</td>
 									<td>${dataDict.memo}</td>
-									<td>${dataDict.createDateTime}</td>
+									<td>
+										<u:dateFormat value="${dataDict.createDateTime}"/>
+									</td>
 									<td>
 										<a href="${pageContext.request.contextPath}/data-dict/edit/${dataDict.id}">修改</a>
 										<a href="${pageContext.request.contextPath}/data-dict/destroy/${dictCategory.id}/${dataDict.id}">删除</a>

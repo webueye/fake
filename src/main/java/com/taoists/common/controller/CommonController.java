@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 
 import com.google.common.collect.Sets;
 import com.taoists.base.service.BoxSpecService;
+import com.taoists.base.service.BrandService;
 import com.taoists.base.service.DataDictService;
 import com.taoists.base.service.DictCategoryService;
 import com.taoists.base.service.ProductService;
@@ -24,6 +25,7 @@ import com.taoists.common.ViewName;
 import com.taoists.crm.service.CompanyService;
 import com.taoists.ias.service.PurchaseBoxService;
 import com.taoists.ias.service.PurchaseService;
+import com.taoists.ias.service.WarehousingBoxService;
 import com.taoists.ias.service.WarehousingService;
 import com.taoists.sys.entity.Account;
 import com.taoists.sys.service.AccountService;
@@ -88,130 +90,51 @@ public class CommonController {
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
 			request.setAttribute(key.replaceAll("\\.", "_"), request.getParameter(key));
+			logger.debug("extractParam key[{}], value[{}]", key.replaceAll("\\.", "_"), request.getParameter(key));
 		}
 	}
 
 	protected void addMethod(String method) {
 		this.methods.add(method);
 	}
-	
-	protected Account getAccount(Model model){
+
+	protected Account getAccount(Model model) {
 		Object value = model.asMap().get("currentAccount");
-		if(value != null && value instanceof Account){
+		if (value != null && value instanceof Account) {
 			return (Account) value;
 		}
 		throw new IllegalStateException();
 	}
 
-	private CompanyService companyService;
-	private BoxSpecService boxSpecService;
-	private DataDictService dataDictService;
-	private DictCategoryService dictCategoryService;
-	private AccountService accountService;
-	private MenuService menuService;
-	private ProductService productService;
-	private CodeIssueService codeIssueService;
-	private BoxCodeService boxCodeService;
-	private FakeCodeService fakeCodeService;
-	private PurchaseService purchaseService;
-	private PurchaseBoxService purchaseBoxService;
+	@Autowired
+	protected CompanyService companyService;
+	@Autowired
+	protected BoxSpecService boxSpecService;
+	@Autowired
+	protected DataDictService dataDictService;
+	@Autowired
+	protected DictCategoryService dictCategoryService;
+	@Autowired
+	protected AccountService accountService;
+	@Autowired
+	protected MenuService menuService;
+	@Autowired
+	protected ProductService productService;
+	@Autowired
+	protected CodeIssueService codeIssueService;
+	@Autowired
+	protected BoxCodeService boxCodeService;
+	@Autowired
+	protected FakeCodeService fakeCodeService;
+	@Autowired
+	protected PurchaseService purchaseService;
+	@Autowired
+	protected PurchaseBoxService purchaseBoxService;
 	@Autowired
 	protected WarehousingService warehousingService;
-
-	public void setPurchaseBoxService(PurchaseBoxService purchaseBoxService) {
-		this.purchaseBoxService = purchaseBoxService;
-	}
-
-	public PurchaseBoxService getPurchaseBoxService() {
-		return purchaseBoxService;
-	}
-
-	public void setPurchaseService(PurchaseService purchaseService) {
-		this.purchaseService = purchaseService;
-	}
-
-	public PurchaseService getPurchaseService() {
-		return purchaseService;
-	}
-
-	public void setFakeCodeService(FakeCodeService fakeCodeService) {
-		this.fakeCodeService = fakeCodeService;
-	}
-
-	public FakeCodeService getFakeCodeService() {
-		return fakeCodeService;
-	}
-
-	public void setBoxCodeService(BoxCodeService boxCodeService) {
-		this.boxCodeService = boxCodeService;
-	}
-
-	public BoxCodeService getBoxCodeService() {
-		return boxCodeService;
-	}
-
-	public void setCodeIssueService(CodeIssueService codeIssueService) {
-		this.codeIssueService = codeIssueService;
-	}
-
-	public CodeIssueService getCodeIssueService() {
-		return codeIssueService;
-	}
-
-	public void setProductService(ProductService productService) {
-		this.productService = productService;
-	}
-
-	public ProductService getProductService() {
-		return productService;
-	}
-
-	public AccountService getAccountService() {
-		return accountService;
-	}
-
-	public void setAccountService(AccountService accountService) {
-		this.accountService = accountService;
-	}
-
-	public MenuService getMenuService() {
-		return menuService;
-	}
-
-	public void setMenuService(MenuService menuService) {
-		this.menuService = menuService;
-	}
-
-	public CompanyService getCompanyService() {
-		return companyService;
-	}
-
-	public void setCompanyService(CompanyService companyService) {
-		this.companyService = companyService;
-	}
-
-	public BoxSpecService getBoxSpecService() {
-		return boxSpecService;
-	}
-
-	public void setBoxSpecService(BoxSpecService boxSpecService) {
-		this.boxSpecService = boxSpecService;
-	}
-
-	public DataDictService getDataDictService() {
-		return dataDictService;
-	}
-
-	public void setDataDictService(DataDictService dataDictService) {
-		this.dataDictService = dataDictService;
-	}
-
-	public DictCategoryService getDictCategoryService() {
-		return dictCategoryService;
-	}
-
-	public void setDictCategoryService(DictCategoryService dictCategoryService) {
-		this.dictCategoryService = dictCategoryService;
-	}
+	@Autowired
+	protected WarehousingBoxService warehousingBoxService;
+	@Autowired
+	protected BrandService brandService;
 
 }

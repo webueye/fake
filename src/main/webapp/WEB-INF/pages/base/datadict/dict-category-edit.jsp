@@ -21,6 +21,7 @@
 								<th class="rth">字典类型代码：</th>
 								<td class="ltd">
 									<input name="id" value="${dictCategory.id}" type="hidden"/>
+									<input name="companyId" value="${currentAccount.companyId}" type="hidden"/>
 									<input class="input-xlarge required" id="categoryCode" name="categoryCode" value="${dictCategory.categoryCode}" type="text"/>
 								</td>
 							</tr>

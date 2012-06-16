@@ -7,7 +7,9 @@ import java.net.URLEncoder;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author rubys
@@ -16,6 +18,13 @@ import org.apache.commons.lang.StringEscapeUtils;
 public class EncodeUtils {
 
 	private static final String DEFAULT_URL_ENCODING = "UTF-8";
+	
+	public static String md5(String value){
+		if(StringUtils.isBlank(value)){
+			return null;
+		}
+		return DigestUtils.md5Hex(value);
+	}
 
 	/**
 	 * Hex编码.

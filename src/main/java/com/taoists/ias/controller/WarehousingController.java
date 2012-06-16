@@ -21,12 +21,6 @@ import com.taoists.ias.entity.Warehousing;
 @RequestMapping(ResultPath.warehousing)
 public class WarehousingController extends CommonController {
 
-	@RequestMapping
-	public String list() {
-
-		return forword(ViewName.list);
-	}
-
 	@RequestMapping("/edit-new")
 	public String editNew() {
 		return forword(ViewName.insert);

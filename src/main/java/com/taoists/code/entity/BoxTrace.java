@@ -1,6 +1,7 @@
 package com.taoists.code.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -17,6 +18,7 @@ import com.taoists.crm.entity.Company;
  * @author rubys@vip.qq.com
  * @since 2012-5-29
  */
+@Comment("包装箱物流轨迹表")
 @SuppressWarnings("serial")
 @Entity
 @Table(name = Cons.tablePrefix + "box_trace")
@@ -32,7 +34,7 @@ public class BoxTrace extends BaseEntity {
 	@Comment("事件类型")
 	private Integer eventType;
 	@Comment("关联公司")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
 
 	public BoxCode getBoxCode() {
