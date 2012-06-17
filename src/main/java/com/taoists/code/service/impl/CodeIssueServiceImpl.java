@@ -1,6 +1,7 @@
 package com.taoists.code.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,6 +9,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.taoists.base.entity.BoxSpec;
+import com.taoists.base.service.BoxSpecService;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.CodeIssue;
@@ -37,11 +39,12 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 	}
 
 	private void genBoxCode(CodeIssue codeIssue) {
+		BoxSpec boxSpec = boxSpecService.get(codeIssue.getBoxSpec().getId());
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			BoxCode boxCode = new BoxCode();
 			boxCode.setCodeIssue(codeIssue);
-			boxCode.setBoxCode(genBoxCodeValue(codeIssue.getBoxSpec()));
-			boxCode.setBoxSpec(codeIssue.getBoxSpec());
+			boxCode.setBoxCode(genBoxCodeValue(boxSpec));
+			boxCode.setBoxSpec(boxSpec);
 			boxCode.setCreationCompanyId(codeIssue.getCompanyId());
 			boxCode.setStorageCompanyId(codeIssue.getCompanyId());
 			boxCode.setStatus(BoxCodeStatus.generate);
@@ -87,5 +90,8 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 		}
 
 	});
+	
+	@Autowired
+	private BoxSpecService boxSpecService;
 
 }
