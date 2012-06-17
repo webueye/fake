@@ -4,15 +4,34 @@ body {
 }
 
 .search {
-    background-color: #F5F5F5;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
-    margin-bottom: 10px;
-    padding-top: 10px;
+	background-color: #F5F5F5;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	margin-bottom: 10px;
+	padding-top: 10px;
 }
 
-.table th{
+.grayDiv {
+	background-color: #F5F5F5;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+	margin-bottom: 10px;
+	padding-top: 10px;
+}
+
+.divFont {
+	margin-left: 10px;
+	margin-bottom: 10px;
+	font-weight: blod;
+}
+
+.gray {
+	background-color: #F5F5F5;
+}
+
+.table thead tr th {
 	text-align: left;
 	cursor: pointer;
 }

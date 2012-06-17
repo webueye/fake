@@ -13,7 +13,11 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="search">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bold;">
+					     <b>经销商供货信息</b>
+					</div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/delivery">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -50,11 +54,11 @@
 							<tr>
 								<td>输入箱码:</td>
 								<td colspan="3">
-									<textarea id="boxCodeValues" name="boxCodeValues" rows="3" style="width: 90%;"></textarea>
+									<textarea class="required" id="boxCodeValues" name="boxCodeValues" rows="3" style="width: 90%;"></textarea>
 									<label id="boxCodeValuesVerify" for="boxCodeValues" class="error" style="display: none;">请输入输入箱码</label>
 								</td>
 								<td>
-									<button type="button" class="btn btn-primary" onclick="boxCode.group();">添加</button>
+									<button type="button" class="btn btn-primary" onclick="boxCode.group();">显示发货明细</button>
 								</td>
 							</tr>
 							
@@ -77,7 +81,7 @@
 						<div class="row">
 							<div class="span12">
 								<div class="control-group">
-						           	<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
+						           	<button type="submit" class="btn btn-primary">提交发货信息</button>
 									<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 						        </div>
 							</div>

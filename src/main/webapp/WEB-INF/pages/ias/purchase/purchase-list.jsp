@@ -30,9 +30,9 @@
 						  </div>
 					</div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr class="th">
-								<th class="rth" colspan="8">采购列表</th>
+								<th class="gray" colspan="8">采购列表</th>
 							</tr>
 							
 							<tr>
@@ -45,7 +45,8 @@
 								<th>状态</th>
 								<th>操作</th>
 							</tr>
-							
+						</thead>
+						<tbody>
 							<c:forEach var="purchase" items="${page.datas}">
 								<tr>
 									<td>${purchase.id}</td>
@@ -68,6 +69,10 @@
 								</tr>
 							</c:forEach>
 							
+							<jsp:include page="/common/no-data.jsp">
+								<jsp:param value="8" name="colspan"/>
+							</jsp:include>
+														
 						</tbody>
 							
 					</table>

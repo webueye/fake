@@ -42,7 +42,7 @@ public class MainClass {
 //		pl(JSONArray.fromObject(boxModels, conf).toString());
 		
 		
-		pl(EncodeUtils.md5("admin"));
+		pl(Integer.MAX_VALUE);
 	}
 
 	static void pl(Object value) {

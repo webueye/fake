@@ -13,7 +13,9 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="grayDiv">
+					<div class="divFont"><b>经销商档案修改</b></div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/company/update/${company.id}">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -156,7 +158,7 @@
 							<tr>
 								<td colspan="4" align="center">
 									<div align="center">
-										<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
+										<button type="submit" class="btn btn-primary">修&nbsp;&nbsp;&nbsp;改</button>
 										<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 									</div>
 								</td>

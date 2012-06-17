@@ -1,5 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="u" uri="ueye"%>
 
 <!DOCTYPE html>
 <html>
@@ -29,14 +30,19 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
 								<th  class="th" colspan="9" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/company/edit-new">
-											档案添加
+											经销商添加
 										</a>
 									</div>
+								</th>
+							</tr>
+							<tr>
+								<th  class="gray" colspan="9" align="right">
+									经销商管理
 								</th>
 							</tr>
 							<tr>
@@ -50,14 +56,26 @@
 								<th>帐号管理</th>
 								<th>操 作</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="company" items="${page.datas}">
 								<tr>
 									<td>${company.id}</td>
-									<td>${company.companyName}</td>
-									<td>${company.saleRegionId}</td>
-									<td>${company.saleFormId}</td>
-									<td>${company.employeeCount}</td>
-									<td>${company.businessCount}</td>
+									<td>
+										<u:valueFormat value="${company.companyName}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${company.saleRegionId}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${company.saleFormId}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${company.employeeCount}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${company.businessCount}"/>
+									</td>
 									<td>
 										<a href="${pageContext.request.contextPath}/company/state/${company.id}">${company.status == false? '禁用': '启用'}</a>
 									</td>

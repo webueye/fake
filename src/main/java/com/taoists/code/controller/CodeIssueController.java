@@ -55,27 +55,35 @@ public class CodeIssueController extends CommonController {
 		return redirect(ResultPath.codeIssue);
 	}
 
-	@RequestMapping("/edit/{id}")
-	public String edit(@PathVariable long id) {
-		logger.debug("edit: id[{}]", id);
-		return forword(ViewName.edit);
+	@RequestMapping("/code/{codeIssue.id}")
+	public String codeList(@ModelAttribute("codeIssue") CodeIssue codeIssue, Page page) {
+		if (codeIssue.getCodeType()) {
+			boxCodeService.findDatas("codeIssue.id", codeIssue.getId(), page);
+			return "/code/codeissue/box-code-list";
+		} else {
+			fakeCodeService.findDatas("codeIssue.id", codeIssue.getId(), page);
+			return "/code/codeissue/fake-code-list";
+		}
 	}
 
-	@RequestMapping(value = "/show/{id}", method = RequestMethod.POST)
-	public String show(@PathVariable Long id) {
-		logger.debug("show: show[{}]", id);
-		return forword(ViewName.show);
-	}
-
-	@RequestMapping("/destroy/{id}")
-	public String destroy(@PathVariable long id) {
-		logger.debug("destroy: id[{}]", id);
-		codeIssueService.delete(id);
-		return redirect(ResultPath.codeIssue);
+	@RequestMapping(value = "/code-search/{id}", method = RequestMethod.POST)
+	public String codeSearch(HttpServletRequest request, @PathVariable long id, CodeIssue codeIssue, Page page) {
+		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
+		
+		codeIssue = codeIssueService.get(id);
+		request.setAttribute("codeIssue", codeIssue);
+		if (codeIssue.getCodeType()) {
+			boxCodeService.findPage(page, filters);
+			return "/code/codeissue/box-code-list";
+		} else {
+			fakeCodeService.findPage(page, filters);
+			return "/code/codeissue/fake-code-list";
+		}
 	}
 
 	@ModelAttribute("codeIssue")
 	public CodeIssue getCodeIssue(HttpServletRequest request) {
+		addMethod("code");
 		String requestURI = request.getRequestURI();
 		Long id = extractId(requestURI);
 		logger.debug("getCodeIssue: request.getRequestURI[{}], id[{}]", requestURI, id);

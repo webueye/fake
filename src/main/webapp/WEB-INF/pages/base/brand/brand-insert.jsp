@@ -13,7 +13,11 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="grayDiv">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bolder;">
+					     <b>品牌添加</b>
+					</div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/brand">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -44,8 +48,8 @@
 							<tr class="th">
 								<th class="rth">品牌状态：</th>
 								<td class="ltd"> 
-									启用<input class="input-xlarge required" name="status" style="margin-right: 20px;" value="true" type="radio" checked="checked"/>
-									禁用<input class="input-xlarge required" name="status" value="false" type="radio"/>
+									<input class="input-xlarge required" name="status" value="true" type="radio" checked="checked"/>启用
+									<input class="input-xlarge required" name="status" value="false" type="radio" style="margin-left: 20px;"/>禁用
 								</td>
 							</tr>
 							<tr class="th">

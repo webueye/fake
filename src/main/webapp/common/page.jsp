@@ -73,6 +73,12 @@
 					<span>末页</span>]
 				</c:if>	
 			</c:if>
+			<c:if test="${page.totalPages == 1}">
+				[<span>首页</span> |
+				<span>上一页</span> |
+				<span>下一页</span> |
+				<span>末页</span>]
+			</c:if>
 		</span>
 			
 	</div>

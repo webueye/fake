@@ -14,7 +14,7 @@
 		<div class="container">
 			<div class="row">
 			
-				<div class="search">
+				<div class="grayDiv">
 					<div style="margin-left: 10px;margin-bottom: 10px;font: bold;">
 					     <b>箱码贴箱入库</b>
 					</div>
@@ -32,11 +32,11 @@
 								<td colspan="3">
 									<input name="company.id" value="${currentAccount.companyId}" type="hidden"/>
 								
-									<textarea id="boxCodeValues" name="boxCodeValues" rows="5" cols="80"></textarea>
+									<textarea class="required" id="boxCodeValues" name="boxCodeValues" rows="5" cols="80"></textarea>
 									<label id="boxCodeValuesVerify" for="boxCodeValues" class="error" style="display: none;">请输入输入箱码</label>
 								</td>
 								<td>
-									<button type="button" class="btn btn-primary" onclick="boxCode.group();">添加</button>
+									<button type="button" class="btn btn-primary" onclick="boxCode.group();">显示此箱码信息</button>
 								</td>
 							</tr>
 							
@@ -60,7 +60,7 @@
 						<div class="row">
 							<div class="span12">
 								<div class="control-group">
-						           	<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
+						           	<button type="submit" class="btn btn-primary">箱码入库</button>
 									<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 						        </div>
 							</div>

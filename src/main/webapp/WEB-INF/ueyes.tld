@@ -36,5 +36,18 @@
 			<rtexprvalue>false</rtexprvalue>
 		</attribute>
 	</tag>
+	<tag>
+		<name>valueFormat</name>
+		<tag-class>com.taoists.common.tag.ValueFormat</tag-class>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>defaultValue</name>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
 
 </taglib>

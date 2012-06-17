@@ -13,14 +13,16 @@
 		
 		<div class="container">
 			
-			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/box-code/search">
+			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/code-issue/code-search/${codeIssue.id}">
 				<div class="search">
 					<div class="row">
 						<div class="span10">
 							<div class="control-group">
 					           	<span style="margin-left: 10px;">箱码号 </span>
-					            <input id="categoryCode" class="input-large" name="filter_LIKES_boxCode" value="${filter_LIKES_boxCode}" style="width: 120px;" placeholder="类型名称"/>
+					            <input class="input-large" name="filter_LIKES_boxCode" value="${filter_LIKES_boxCode}" style="width: 120px;" placeholder="类型名称"/>
 							  	<button type="submit" class="btn btn-primary">查询</button>
+					           
+					            <input name="filter_EQL_codeIssue.id" value="${codeIssue.id}" type="hidden"/>
 					        </div>
 						</div>
 					  </div>

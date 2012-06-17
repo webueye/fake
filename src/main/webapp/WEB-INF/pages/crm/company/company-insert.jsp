@@ -13,7 +13,9 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="grayDiv">
+					<div class="divFont"><b>经销商档案添加</b></div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/company">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -173,9 +175,9 @@
 								<td><input class="input-xlarge" name="corporation.idCard" type="text" style="width: 80%"/></td>
 								<th>性别</th>
 								<td>
-									男<input class="input-xlarge" name="corporation.sex" value="1" style="margin-right: 20px;" type="radio"/>
-									女<input class="input-xlarge" name="corporation.sex" value="2" style="margin-right: 20px;" type="radio"/>
-									未知<input class="input-xlarge" name="corporation.sex" value="3" type="radio"/>
+									<input class="input-xlarge" name="corporation.sex" value="1" type="radio"/>男
+									<input class="input-xlarge" name="corporation.sex" value="2" style="margin-lefet: 20px;" type="radio"/>女
+									<input class="input-xlarge" name="corporation.sex" value="3" style="margin-left: 20px;" type="radio"/>未知
 								</td>
 							</tr>
 							<tr>
@@ -210,9 +212,9 @@
 								<td><input class="input-xlarge" name="business.idCard" type="text" style="width: 80%"/></td>
 								<th>性别</th>
 								<td>
-									男<input class="input-xlarge" name="business.sex" value="1" style="margin-right: 20px;" type="radio"/>
-									女<input class="input-xlarge" name="business.sex" value="2" style="margin-right: 20px;" type="radio"/>
-									未知<input class="input-xlarge" name="business.sex" value="3" type="radio"/>
+									<input class="input-xlarge" name="business.sex" value="1" type="radio"/>男
+									<input class="input-xlarge" name="business.sex" value="2" style="margin-left: 20px;" type="radio"/>女
+									<input class="input-xlarge" name="business.sex" value="3" style="margin-left: 20px;" type="radio"/>未知
 								</td>
 							</tr>
 							<tr>
@@ -231,7 +233,7 @@
 							<tr>
 								<td colspan="4" align="center">
 									<div align="center">
-										<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
+										<button type="submit" class="btn btn-primary">添&nbsp;&nbsp;&nbsp;加</button>
 										<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 									</div>
 								</td>

@@ -13,7 +13,11 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="search">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bold;">
+					     <b>包装箱种类修改</b>
+					</div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/box-spec/update/${boxSpec.id}">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -50,8 +54,8 @@
 							<tr class="th">
 								<th class="rth">种类状态：</th>
 								<td class="ltd"> 
-									启用<input class="input-xlarge required" name="status" value="true" style="margin-right: 20px;" type="radio" ${boxSpec.status != false? 'checked': ''}/>
-									禁用<input class="input-xlarge required" name="status" value="false" type="radio" ${boxSpec.status == false? 'checked': ''}/>
+									<input class="input-xlarge required" name="status" value="true" type="radio" ${boxSpec.status != false? 'checked': ''}/>启用
+									<input class="input-xlarge required" name="status" value="false" type="radio" ${boxSpec.status == false? 'checked': ''} style="margin-left: 20px;"/>禁用
 								</td>
 							</tr>
 							<tr class="th">

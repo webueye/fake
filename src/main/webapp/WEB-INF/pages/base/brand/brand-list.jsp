@@ -31,15 +31,18 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
-								<th  class="th" colspan="7" align="right">
+								<th class="th" colspan="7" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/brand/edit-new">
 											品牌添加
 										</a>
 									</div>
 								</th>
+							</tr>
+							<tr>
+								<th class="gray" colspan="7">品牌列表</th>
 							</tr>
 							<tr>
 								<th>编号</th>
@@ -50,11 +53,17 @@
 								<th>品牌状态</th>
 								<th>操 作</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="brand" items="${page.datas}">
 								<tr>
 									<td>${brand.id}</td>
-									<td>${brand.brandSpell}</td>
-									<td>${brand.brandName}</td>
+									<td>
+										<u:valueFormat value="${brand.brandSpell}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${brand.brandName}"/>
+									</td>
 									<td>
 										<a href="${brand.link}">${brand.link}</a>
 									</td>

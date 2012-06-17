@@ -13,7 +13,11 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="search">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bold;">
+					     <b>生成箱码/防伪码</b>
+					</div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/code-issue">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -26,8 +30,9 @@
 							<tr class="th">
 								<th class="rth">码类型：</th>
 								<td class="ltd">
-									箱码<input class="input-xlarge required" name="codeType" style="margin-right: 20px;" value="true" type="radio"/>
-									防伪码<input class="input-xlarge required" name="codeType" value="false" type="radio"/>
+									<input class="input-xlarge required" name="codeType" value="true" type="radio"/>箱码
+									<input class="input-xlarge required" name="codeType" style="margin-left: 20px;" value="false" type="radio"/>防伪码
+									<label for="codeType" class="error" style="display: none;">请选择码类型</label>
 								</td>
 							</tr>
 							<tr class="th">
@@ -64,7 +69,7 @@
 							<tr>
 								<td colspan="2" align="center">
 									<div align="center">
-										<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
+										<button type="submit" class="btn btn-primary">生&nbsp;&nbsp;&nbsp;成</button>
 										<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 									</div>
 								</td>

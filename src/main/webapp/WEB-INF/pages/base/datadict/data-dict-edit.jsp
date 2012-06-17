@@ -13,7 +13,11 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="grayDiv">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bold;">
+					     <b>${dataDict.dictCategory.categoryName}数据修改</b>
+					</div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/data-dict/update/${dataDict.id}">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -34,8 +38,8 @@
 							<tr class="th">
 								<th class="rth">数据状态：</th>
 								<td class="ltd"> 
-									启用<input class="input-xlarge required" name="status" value="true" style="margin-right: 20px;" type="radio" ${dataDict.status != false? 'checked': ''}/>
-									禁用<input class="input-xlarge required" name="status" value="false" type="radio" ${dataDict.status == false? 'checked': ''}/>
+									<input class="input-xlarge required" name="status" value="true" type="radio" ${dataDict.status != false? 'checked': ''}/>启用
+									<input class="input-xlarge required" name="status" value="false" type="radio" ${dataDict.status == false? 'checked': ''} style="margin-left: 20px;"/>禁用
 								</td>
 							</tr>
 							<tr class="th">

@@ -29,10 +29,10 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
 								<th  class="th" colspan="8" align="right">
-									<div align="left" style="margin-left:10px;">
+									<div align="left" style="margin-left:7px;">
 											在库箱码列表
 									</div>
 								</th>
@@ -46,13 +46,23 @@
 								<th>入库日期</th>
 								<th>防伪码信息</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="warehousingBox" items="${page.datas}">
 								<tr>
 									<td>${warehousingBox.boxCode.id}</td>
-									<td>${warehousingBox.boxCode.boxCode}</td>
-									<td>${warehousingBox.boxCode.boxSpec.specName}</td>
-									<td>${warehousingBox.boxCode.boxSpec.capacity}</td>
-									<td>${warehousingBox.boxCode.status.value}</td>
+									<td>
+										<u:valueFormat value="${warehousingBox.boxCode.boxCode}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${warehousingBox.boxCode.boxSpec.specName}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${warehousingBox.boxCode.boxSpec.capacity}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${warehousingBox.boxCode.status.value}"/>
+									</td>
 									<td>
 										<u:dateFormat value="${warehousingBox.createDateTime}"/>
 									</td>

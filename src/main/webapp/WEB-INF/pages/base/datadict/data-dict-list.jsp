@@ -29,7 +29,7 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
 								<th  class="th" colspan="7" align="right">
 									<div align=right style="margin-right:10px;">
@@ -40,6 +40,9 @@
 								</th>
 							</tr>
 							<tr>
+								<th  class="gray" colspan="7">${dictCategory.categoryName}列表</th>
+							</tr>
+							<tr>
 								<th>编号</th>
 								<th>编码</th>
 								<th>名称</th>
@@ -48,13 +51,15 @@
 								<th>添加日期</th>
 								<th>操 作</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="dataDict" items="${page.datas}">
 								<tr>
 									<td>${dataDict.id}</td>
-									<td>${dataDict.code}</td>
-									<td>${dataDict.name}</td>
+									<td><u:valueFormat value="${dataDict.code}"/></td>
+									<td><u:valueFormat value="${dataDict.name}"/></td>
 									<td>${dataDict.status == false? '禁用': '启用'}</td>
-									<td>${dataDict.memo}</td>
+									<td><u:valueFormat value="${dataDict.memo}"/></td>
 									<td>
 										<u:dateFormat value="${dataDict.createDateTime}"/>
 									</td>

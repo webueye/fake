@@ -29,15 +29,18 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
-								<th  class="th" colspan="8" align="right">
+								<th class="th" colspan="8" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/code-issue/edit-new">
 											箱码/防伪码生成
 										</a>
 									</div>
 								</th>
+							</tr>
+							<tr>
+								<th class="gray" colspan="8">码生成记录</th>
 							</tr>
 							<tr>
 								<th>编号</th>
@@ -47,17 +50,32 @@
 								<th>码长度</th>
 								<th>码类型</th>
 								<th>生成日期</th>
+								<th>操作</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="codeIssue" items="${page.datas}">
 								<tr>
 									<td>${codeIssue.id}</td>
-									<td>${codeIssue.issueName}</td>
-									<td>${codeIssue.boxSpec.specName}</td>
-									<td>${codeIssue.issueCount}</td>
-									<td>${codeIssue.codeLength}</td>
+									<td>
+										<u:valueFormat value="${codeIssue.issueName}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${codeIssue.boxSpec.specName}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${codeIssue.issueCount}"/>
+									</td>
+									<td>
+										<u:valueFormat value="${codeIssue.codeLength}"/>
+									</td>
 									<td>${codeIssue.codeType? '箱码': '防伪码'}</td>
 									<td>
 										<u:dateFormat value="${codeIssue.createDateTime}"/>
+									</td>
+									<td>
+										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">导出</a>&nbsp;
+										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">${codeIssue.codeType? '箱码': '防伪码'}列表</a>
 									</td>
 								</tr>
 							</c:forEach>

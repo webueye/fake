@@ -13,7 +13,11 @@
 	
 		<div class="container">
 			<div class="row">
-					
+				<div class="grayDiv">
+					<div style="margin-left: 10px;margin-bottom: 10px;font: bolder;">
+					     <b>产品添加</b>
+					</div>
+				</div>
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/product">	
 					<table class="table table-bordered table-striped">
 						<tbody>
@@ -34,8 +38,8 @@
 								</td>
 								<th class="rth">立即上架：</th>
 								<td class="ltd"> 
-									是<input class="input-xlarge required" name="status" style="margin-right: 20px;" value="true" type="radio" checked="checked"/>
-									否<input class="input-xlarge required" name="status" value="false" type="radio"/>
+									<input class="input-xlarge required" name="status" value="true" type="radio" checked="checked"/>是
+									<input class="input-xlarge required" name="status" value="false" type="radio" style="margin-left: 20px;"/>否
 								</td>
 							</tr>
 							<tr class="th">
@@ -87,7 +91,7 @@
 							<tr>
 								<td colspan="4" align="center">
 									<div align="center">
-										<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
+										<button type="submit" class="btn btn-primary">添&nbsp;&nbsp;&nbsp;加</button>
 										<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 									</div>
 								</td>

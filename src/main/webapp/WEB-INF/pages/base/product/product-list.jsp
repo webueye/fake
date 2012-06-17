@@ -28,7 +28,7 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
 								<th  class="th" colspan="8" align="right">
 									<div align=right style="margin-right:10px;">
@@ -39,6 +39,9 @@
 								</th>
 							</tr>
 							<tr>
+								<th  class="gray" colspan="8">产品列表</th>
+							</tr>
+							<tr>
 								<th>编号</th>
 								<th>产品名称</th>
 								<th>货号</th>
@@ -47,6 +50,8 @@
 								<th>规格</th>
 								<th>操 作</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="product" items="${page.datas}">
 								<tr>
 									<td>${product.id}</td>

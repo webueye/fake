@@ -29,15 +29,18 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
-								<th  class="th" colspan="8" align="right">
+								<th colspan="8" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/box-spec/edit-new">
 											包装箱种类添加
 										</a>
 									</div>
 								</th>
+							</tr>
+							<tr>
+								<th class="gray" colspan="8">包装箱种类列表</th>
 							</tr>
 							<tr>
 								<th>编号</th>
@@ -49,17 +52,19 @@
 								<th>备注</th>
 								<th>操 作</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="boxSpec" items="${page.datas}">
 								<tr>
 									<td>${boxSpec.id}</td>
-									<td>${boxSpec.specName}</td>
-									<td>${boxSpec.product.name}</td>
-									<td>${boxSpec.capacity}</td>
+									<td><u:valueFormat value="${boxSpec.specName}"/></td>
+									<td><u:valueFormat value="${boxSpec.product.name}"/></td>
+									<td><u:valueFormat value="${boxSpec.capacity}"/></td>
 									<td>${boxSpec.status == false? '禁用': '启用'}</td>
 									<td>
 										<u:dateFormat value="${boxSpec.createDateTime}"/>
 									</td>
-									<td>${boxSpec.memo}</td>
+									<td><u:valueFormat value="${boxSpec.memo}"/></td>
 									<td>
 										<a href="${pageContext.request.contextPath}/box-spec/edit/${boxSpec.id}">修改</a>
 										<a href="${pageContext.request.contextPath}/box-spec/destroy/${boxSpec.id}" class="deletePromptClass">删除</a>
