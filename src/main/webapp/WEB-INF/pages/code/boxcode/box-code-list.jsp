@@ -28,16 +28,18 @@
 				
 				<div>
 					<table class="table table-bordered table-striped">
-						<tbody>
+						<thead>
 							<tr>
-								<th>编号</th>
-								<th>箱码号</th>
+								<th onclick="javascript: common.sort('id', 'asc');" title="点击按编号排序">编号</th>
+								<th onclick="javascript: common.sort('boxCode', 'asc');" title="点击按箱码号排序">箱码号</th>
 								<th>包装箱规格</th>
 								<th>箱容量</th>
 								<th>箱码状态</th>
 								<th>生成日期</th>
 								<th>防伪码</th>
 							</tr>
+						</thead>
+						<tbody>
 							<c:forEach var="boxCode" items="${page.datas}">
 								<tr>
 									<td>${boxCode.id}</td>

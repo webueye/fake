@@ -16,6 +16,27 @@ common = {
 			dataType : 'json',
 			success : callback
 		});
+	},
+	sort: function(orderBy, defaultOrder){
+		if ($("#orderBy").val() == orderBy) {
+			if ($("#order").val() == "") {
+				$("#order").val(defaultOrder);
+				$("#className").val("sorting_asc");
+			}
+			else if ($("#order").val() == "desc") {
+				$("#order").val("asc");
+				$("#className").val("sorting_asc");
+			}
+			else if ($("#order").val() == "asc") {
+				$("#order").val("desc");
+				$("#className").val("sorting_desc");
+			}
+		}
+		else {
+			$("#orderBy").val(orderBy);
+			$("#order").val(defaultOrder);
+		}
+		$("#validateForm").submit();
 	}
 };
 

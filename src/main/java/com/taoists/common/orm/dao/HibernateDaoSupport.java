@@ -70,7 +70,7 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 
 		criteria.setFirstResult(page.getBeginIndex());
 		criteria.setMaxResults(page.getPageSize());
-		if (page.isOrder()) {
+		if (page.isOrderBySetted()) {
 			if (Page.ASC.equals(page.getOrder())) {
 				criteria.addOrder(Order.asc(page.getOrderBy()));
 			} else {

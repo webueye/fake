@@ -11,3 +11,8 @@ body {
     margin-bottom: 10px;
     padding-top: 10px;
 }
+
+.table th{
+	text-align: left;
+	cursor: pointer;
+}

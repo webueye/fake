@@ -82,3 +82,7 @@
 	
 </c:if>
 
+
+<input id="order" name="order" value="${page.order}" type="hidden" />
+<input id="orderBy" name="orderBy" value="${page.orderBy}" type="hidden" />
+<input id="className" name="className" value="${page.className}" type="hidden" />

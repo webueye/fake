@@ -22,8 +22,10 @@ public class Page {
 	private List<?> datas = Lists.newArrayList();
 	private boolean autoCount = true;
 
-	protected String orderBy = null;
-	protected String order = null;
+	protected String orderBy;
+	protected String order;
+
+	private String className;
 
 	public Page() {
 
@@ -42,7 +44,7 @@ public class Page {
 		this.pageSize = pageSize;
 	}
 
-	public boolean isOrder() {
+	public boolean isOrderBySetted() {
 		return (StringUtils.isNotBlank(orderBy) && StringUtils.isNotBlank(order));
 	}
 
@@ -142,6 +144,14 @@ public class Page {
 
 	public String getOrderBy() {
 		return orderBy;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 
 	@Override
