@@ -31,6 +31,25 @@
 		}
 		return true;
 	}
+	
+	function jumpPage(){
+		var jumpPageValue = document.getElementById("jumpPageValue").value;
+		if(isNaN(parseInt(jumpPageValue))){
+			alert('请输入一个整数值');
+			return;
+		}
+
+		var totals = "${page.totalPages}";
+		if(parseInt(jumpPageValue) > parseInt(totals)){
+			alert('你所要跳转的页数不存在');
+			return;
+		}
+		document.getElementById("pageNum").value = jumpPageValue;
+		if(document.getElementById("validateForm")){
+			document.getElementById("validateForm").submit();
+			return false;
+		}
+	}
 </script>
 
 <c:if test="${page.totalPages > 0}">
@@ -79,8 +98,14 @@
 				<span>下一页</span> |
 				<span>末页</span>]
 			</c:if>
-		</span>
+		
+			<span>
+				<input id="jumpPageValue" type="text" style="width:20px;margin-left: 5px;"/>
+				<span style="cursor: pointer;" onclick="jumpPage()">Go</span>
+			</span>
 			
+		</span>
+		
 	</div>
 	
 	<input id="pageSize" name="pageSize" value="${page.pageSize}" type="hidden" />

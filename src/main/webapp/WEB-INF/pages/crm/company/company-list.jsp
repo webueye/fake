@@ -77,7 +77,7 @@
 										<u:valueFormat value="${company.businessCount}"/>
 									</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/company/state/${company.id}">${company.status == false? '禁用': '启用'}</a>
+										<a onclick="return handleState('${pageContext.request.contextPath}/company/state/${company.id}');" href="#">${company.status == false? '禁用': '启用'}</a>
 									</td>
 									<td>
 										<a href="${pageContext.request.contextPath}/account?companyId=${company.id}">帐号管理</a>
@@ -102,6 +102,24 @@
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			var stateUrl;
+			function handleState(url){
+				$("#messageAlert").html("是否更改状态?");
+				$("#modalDiv").show();
+				$("#modalDiv").modal({
+					backdrop:true
+				});
+				stateUrl = url;
+				return false;
+			}
+			
+			function confirmMessage(){
+				window.location.href = stateUrl;
+			}
+			
+		</script>
 		
 	</body>
 

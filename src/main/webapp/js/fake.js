@@ -21,15 +21,15 @@ common = {
 		if ($("#orderBy").val() == orderBy) {
 			if ($("#order").val() == "") {
 				$("#order").val(defaultOrder);
-				$("#className").val("sorting_asc");
+				$("#className").val("sorting-asc");
 			}
 			else if ($("#order").val() == "desc") {
 				$("#order").val("asc");
-				$("#className").val("sorting_asc");
+				$("#className").val("sorting-asc");
 			}
 			else if ($("#order").val() == "asc") {
 				$("#order").val("desc");
-				$("#className").val("sorting_desc");
+				$("#className").val("sorting-desc");
 			}
 		}
 		else {

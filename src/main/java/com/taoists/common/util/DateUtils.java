@@ -14,16 +14,20 @@ public class DateUtils {
 	public static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 	public static DateTime toDateTime(String dateTime) {
-		if(StringUtils.isBlank(dateTime)){
+		if (StringUtils.isBlank(dateTime)) {
 			return null;
 		}
 		return DateTimeFormat.forPattern(PATTERN).parseDateTime(dateTime);
 	}
-	
+
+	public static String toString(DateTime dateTime) {
+		return dateTime.toString(PATTERN);
+	}
+
 	public static String toString(String dateTime, String pattern) {
 		return new DateTime(dateTime).toString(pattern);
 	}
-	
+
 	public static String todayToString() {
 		return new LocalDate().toString("yyMMdd");
 	}

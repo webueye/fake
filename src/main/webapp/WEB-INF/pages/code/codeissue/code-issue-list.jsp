@@ -74,7 +74,7 @@
 										<u:dateFormat value="${codeIssue.createDateTime}"/>
 									</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">导出</a>&nbsp;
+										<a href="${pageContext.request.contextPath}/code-issue/export/${codeIssue.id}">导出</a>&nbsp;
 										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">${codeIssue.codeType? '箱码': '防伪码'}列表</a>
 									</td>
 								</tr>

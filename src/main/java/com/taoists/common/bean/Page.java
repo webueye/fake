@@ -22,10 +22,10 @@ public class Page {
 	private List<?> datas = Lists.newArrayList();
 	private boolean autoCount = true;
 
-	protected String orderBy;
-	protected String order;
+	protected String orderBy = "id";
+	protected String order = ASC;
 
-	private String className;
+	private String className = "sorting-asc";
 
 	public Page() {
 

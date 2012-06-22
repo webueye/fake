@@ -1,5 +1,6 @@
 package com.taoists.common.controller;
 
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Set;
 
@@ -20,6 +21,7 @@ import com.taoists.base.service.DictCategoryService;
 import com.taoists.base.service.ProductService;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.CodeIssueService;
+import com.taoists.code.service.ExcelService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.ViewName;
 import com.taoists.crm.service.CompanyService;
@@ -94,8 +96,8 @@ public class CommonController {
 		}
 	}
 
-	protected void addMethod(String method) {
-		this.methods.add(method);
+	protected void addMethod(Collection<String> methods) {
+		this.methods.addAll(methods);
 	}
 
 	protected Account getAccount(Model model) {
@@ -136,5 +138,7 @@ public class CommonController {
 	protected WarehousingBoxService warehousingBoxService;
 	@Autowired
 	protected BrandService brandService;
+	@Autowired
+	protected ExcelService excelService;
 
 }

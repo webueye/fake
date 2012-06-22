@@ -33,8 +33,8 @@
 								<th class="gray" colspan="7">箱码列表</th>
 							</tr>							
 							<tr>
-								<th onclick="javascript: common.sort('id', 'asc');" title="点击按编号排序">编号</th>
-								<th onclick="javascript: common.sort('boxCode', 'asc');" title="点击按箱码号排序">箱码号</th>
+								<th class="${page.orderBy == 'id'? page.className: ''}" onclick="javascript: common.sort('id', 'desc');" title="点击按编号排序">编号</th>
+								<th class="${page.orderBy == 'boxCode'? page.className: ''}" onclick="javascript: common.sort('boxCode', 'asc');" title="点击按箱码号排序">箱码号</th>
 								<th>包装箱规格</th>
 								<th>箱容量</th>
 								<th>箱码状态</th>
