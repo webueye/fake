@@ -1,5 +1,6 @@
 package com.taoists.code.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,8 +28,10 @@ public class FakeCode extends BaseEntity {
 	@JoinColumn(name = "code_issue_id")
 	private CodeIssue codeIssue;
 	@Comment("明码")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String plainCode;
 	@Comment("防伪码")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String fakeCode;
 	@Comment("包装箱种类")
 	@ManyToOne

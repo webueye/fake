@@ -1,5 +1,6 @@
 package com.taoists.code.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,8 +22,10 @@ import com.taoists.sys.entity.Account;
 public class CodeIssue extends BaseEntity {
 
 	@Comment("生成码名称")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String issueName;
 	@Comment("货品条码")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String barCode;
 	@Comment("包装箱种类")
 	@ManyToOne
@@ -33,6 +36,7 @@ public class CodeIssue extends BaseEntity {
 	@Comment("码长度")
 	private Integer codeLength;
 	@Comment("备注")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
 	@Comment("状态")
 	private Boolean status;

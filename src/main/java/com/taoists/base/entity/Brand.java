@@ -1,5 +1,6 @@
 package com.taoists.base.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -17,14 +18,19 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class Brand extends BaseEntity {
 
 	@Comment("品牌名称:拼音")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String brandSpell;
 	@Comment("品牌名称")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String brandName;
 	@Comment("品牌官方网站URL")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String link;
 	@Comment("品牌Logo图片Url")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String logoLink;
 	@Comment("品牌介绍")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String brandDesc;
 	@Comment("状态[false:禁止, true:激活]")
 	private Boolean status;

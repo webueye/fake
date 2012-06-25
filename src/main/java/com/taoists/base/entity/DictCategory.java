@@ -1,5 +1,6 @@
 package com.taoists.base.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -15,8 +16,11 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "dict_category")
 public class DictCategory extends BaseEntity {
 
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String categoryCode;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String categoryName;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String categoryDesc;
 	private Long companyId;
 

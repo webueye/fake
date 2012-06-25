@@ -2,6 +2,7 @@ package com.taoists.ias.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -35,6 +36,7 @@ public class PurchaseItem extends BaseEntity {
 	@Comment("小计")
 	private BigDecimal subAmount;
 	@Comment("备注")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
 
 	public Purchase getPurchase() {

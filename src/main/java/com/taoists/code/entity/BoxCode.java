@@ -22,6 +22,7 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class BoxCode extends BaseEntity {
 
 	@Comment("码号")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String boxCode;
 	@Comment("包装箱种类")
 	@ManyToOne

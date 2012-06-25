@@ -1,5 +1,6 @@
 package com.taoists.base.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,8 +18,11 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "data_dict")
 public class DataDict extends BaseEntity {
 
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String code;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String name;
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
 	private Boolean status;
 	@ManyToOne

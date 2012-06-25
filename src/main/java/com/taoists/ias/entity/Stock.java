@@ -2,6 +2,7 @@ package com.taoists.ias.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -37,6 +38,7 @@ public class Stock extends BaseEntity {
 	@Comment("操作类型")
 	private Integer operateType;
 	@Comment("单据编号")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String billNo;
 	@Comment("出入库类型")
 	private ChangeTypeStatus changeType;

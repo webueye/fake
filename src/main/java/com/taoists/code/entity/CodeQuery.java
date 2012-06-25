@@ -1,5 +1,6 @@
 package com.taoists.code.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -26,6 +27,7 @@ public class CodeQuery extends BaseEntity {
 	@Comment("查询方式")
 	private Integer queryWay;
 	@Comment("查询时间")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime queryDateTime;
 	@Comment("查询结果")

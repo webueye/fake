@@ -1,5 +1,6 @@
 package com.taoists.sys.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -15,19 +16,24 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "account")
 public class Account extends BaseEntity {
 
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String userNo;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String nickname;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String email;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String username;
+	@Column(columnDefinition = "varchar(64) DEFAULT ''")
 	private String password;
 	private Boolean status;
 	private Boolean admin;
 	private Boolean sex;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String phone;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String mobile;
 	private Long companyId;
-
-	// private Dept dept;
 
 	public String getUserNo() {
 		return userNo;

@@ -2,6 +2,7 @@ package com.taoists.base.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -21,14 +22,19 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class Product extends BaseEntity {
 
 	@Comment("名称")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String name;
 	@Comment("货号")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String productNo;
 	@Comment("货号，备用")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String productNoExt;
 	@Comment("条形码")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String barCode;
 	@Comment("产吕描述")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String productDesc;
 	@Comment("状态")
 	private Boolean status;
@@ -43,14 +49,19 @@ public class Product extends BaseEntity {
 	@Comment("保质期")
 	private Integer retentioPeriod;
 	@Comment("拼音")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String productSpell;
 	@Comment("单位")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String unit;
 	@Comment("规格型号")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String spec;
 	@Comment("原产地")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String origin;
 	@Comment("备注")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
 	@Comment("记录状态")
 	private Integer recordStatus;

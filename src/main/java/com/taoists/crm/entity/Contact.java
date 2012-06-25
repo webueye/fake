@@ -1,5 +1,6 @@
 package com.taoists.crm.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
@@ -21,22 +22,29 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class Contact extends BaseEntity {
 
 	@Comment("联系人姓名")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String name;
 	@Comment("身份证")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String idCard;
 	@Comment("")
 	private LocalDate birthday;
 	@Comment("籍贯")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String nativePlace;
 	@Comment("性别")
 	private Integer sex;
 	@Comment("手机")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String mobile;
 	@Comment("公司电话")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String officePhone;
 	@Comment("email")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String email;
 	@Comment("职务")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String position;
 	@Comment("类型（1：老板；2：高管；3：业务负责人；4：普通）")
 	@Enumerated
@@ -44,11 +52,13 @@ public class Contact extends BaseEntity {
 	@Comment("状态（0：离职；1：在职）")
 	private Integer status;
 	@Comment("兴趣爱好")
+	@Column(columnDefinition = "varchar(128) DEFAULT ''")
 	private String interest;
 	@Comment("所属公司ID")
 	@ManyToOne
 	private Company company;
 	@Comment("所在部门")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String deptName;
 	@Comment("负责部门ID")
 	private Long ownerDeptId;

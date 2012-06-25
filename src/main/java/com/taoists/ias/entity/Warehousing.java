@@ -1,5 +1,6 @@
 package com.taoists.ias.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,12 +24,12 @@ import com.taoists.sys.entity.Account;
 @Table(name = Cons.tablePrefix + "warehousing")
 public class Warehousing extends BaseEntity {
 
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String warehousingNo;
 	@ManyToOne
 	private Company company;
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
-	// private Long operatorId;
-	// private String operator;
 	@ManyToOne
 	private Account operator;
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")

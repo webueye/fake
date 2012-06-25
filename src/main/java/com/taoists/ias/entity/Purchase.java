@@ -2,6 +2,7 @@ package com.taoists.ias.entity;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -27,6 +28,7 @@ import com.taoists.crm.entity.Company;
 public class Purchase extends BaseEntity {
 
 	@Comment("单据编号")
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String purchaseNo;
 	@Comment("负责供货的供应商")
 	@ManyToOne
@@ -48,15 +50,18 @@ public class Purchase extends BaseEntity {
 	@Comment("是否开发票（0：否；1：是）")
 	private Integer hasInvoice;
 	@Comment("备注")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
 	@Comment("发货人ID")
 	private Long deliveryId;
 	@Comment("发货人姓名")
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String deliveryName;
 	@Comment("发货时间")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime deliveryDateTime;
 	@Comment("发货备注")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String deliveryMemo;
 
 	@Comment("收货人ID")

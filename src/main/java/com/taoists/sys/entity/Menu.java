@@ -1,5 +1,6 @@
 package com.taoists.sys.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -18,9 +19,13 @@ import com.taoists.common.Cons;
 @Table(name = Cons.tablePrefix + "menu")
 public class Menu extends NodeModel {
 
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String name;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String icon;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String label;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String action;
 	private Integer orderValue;
 	@ManyToOne(fetch = FetchType.EAGER)

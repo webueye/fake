@@ -68,6 +68,11 @@
 									</td>
 								</tr>
 							</c:forEach>
+							
+							<jsp:include page="/common/no-data.jsp">
+								<jsp:param value="7" name="colspan"/>
+							</jsp:include>
+							
 						</tbody>
 					</table>
 					

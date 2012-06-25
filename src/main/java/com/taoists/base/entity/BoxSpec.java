@@ -1,5 +1,6 @@
 package com.taoists.base.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -20,8 +21,10 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class BoxSpec extends BaseEntity {
 
 	@Comment("名称")
+	@Column(columnDefinition = "varchar(64) DEFAULT ''")
 	private String specName;
 	@Comment("编号")
+	@Column(columnDefinition = "varchar(64) DEFAULT ''")
 	private String specNo;
 	@Comment("产品")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +36,7 @@ public class BoxSpec extends BaseEntity {
 	@Comment("状态")
 	private Boolean status;
 	@Comment("备注")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
 
 	public String getSpecName() {
