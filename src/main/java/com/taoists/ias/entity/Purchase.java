@@ -43,6 +43,7 @@ public class Purchase extends BaseEntity {
 	@Comment("业务状态（1：新建；2：在途；3：收货）")
 	@Enumerated(EnumType.ORDINAL)
 	private PurchaseStatus status;
+	private Integer statusCode;
 	@Comment("优惠金额")
 	private BigDecimal discountAmount;
 	@Comment("优惠后采购订单总额")
@@ -255,6 +256,17 @@ public class Purchase extends BaseEntity {
 
 	public void setCompleteDateTime(DateTime completeDateTime) {
 		this.completeDateTime = completeDateTime;
+	}
+
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public Integer getStatusCode() {
+		if (status != null) {
+			return status.getCode();
+		}
+		return statusCode;
 	}
 
 }

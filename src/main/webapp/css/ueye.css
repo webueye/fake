@@ -33,7 +33,6 @@ body {
 
 .table thead tr th {
 	text-align: left;
-	cursor: pointer;
 }
 
 .table thead th {
@@ -49,6 +48,10 @@ body {
 	background-position: 5px center;
 	background-repeat: no-repeat;
 	padding-left: 23px;
+	cursor: pointer;
+}
+
+.cursor{
 	cursor: pointer;
 }
 

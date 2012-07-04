@@ -47,6 +47,7 @@ public class FakeCode extends BaseEntity {
 	private DateTime firstQueryDateTime;
 	@Comment("查询方式：1电话，2短信，3网站")
 	private QueryWayStatus queryWayStatus;
+	private Integer queryWayStatusCode;
 	@Comment("是否已查询")
 	private Boolean status;
 
@@ -104,6 +105,14 @@ public class FakeCode extends BaseEntity {
 
 	public void setQueryWayStatus(QueryWayStatus queryWayStatus) {
 		this.queryWayStatus = queryWayStatus;
+	}
+
+	public void setQueryWayStatusCode(Integer queryWayStatusCode) {
+		this.queryWayStatusCode = queryWayStatusCode;
+	}
+
+	public Integer getQueryWayStatusCode() {
+		return queryWayStatusCode;
 	}
 
 	public Boolean getStatus() {

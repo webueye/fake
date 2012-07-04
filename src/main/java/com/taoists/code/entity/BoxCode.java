@@ -2,6 +2,7 @@ package com.taoists.code.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,6 +11,7 @@ import com.taoists.base.entity.BoxSpec;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
@@ -33,15 +35,16 @@ public class BoxCode extends BaseEntity {
 	@JoinColumn(name = "code_issue_id")
 	private CodeIssue codeIssue;
 	@Comment("创建公司ID")
-	@Column(name = "creation_company_id")
-	private Long creationCompanyId;
+	@JoinColumn(name = "creation_company_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company creationCompany;
 	@Comment("当前所在公司")
-	@Column(name = "storage_company_id")
-	private Long storageCompanyId;
-	// @Comment("箱容量")
-	// private Integer qty;
+	@JoinColumn(name = "storage_company_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company storageCompany;
 	@Comment("状态[-2：废除；-1：售完；0：冻结；1：生成；2：入库；3：在途]")
 	private BoxCodeStatus status;
+	private Integer statusCode;
 
 	public String getBoxCode() {
 		return boxCode;
@@ -67,20 +70,20 @@ public class BoxCode extends BaseEntity {
 		this.codeIssue = codeIssue;
 	}
 
-	public Long getCreationCompanyId() {
-		return creationCompanyId;
+	public void setCreationCompany(Company creationCompany) {
+		this.creationCompany = creationCompany;
 	}
 
-	public void setCreationCompanyId(Long creationCompanyId) {
-		this.creationCompanyId = creationCompanyId;
+	public Company getCreationCompany() {
+		return creationCompany;
 	}
 
-	public Long getStorageCompanyId() {
-		return storageCompanyId;
+	public void setStorageCompany(Company storageCompany) {
+		this.storageCompany = storageCompany;
 	}
 
-	public void setStorageCompanyId(Long storageCompanyId) {
-		this.storageCompanyId = storageCompanyId;
+	public Company getStorageCompany() {
+		return storageCompany;
 	}
 
 	public BoxCodeStatus getStatus() {
@@ -89,6 +92,14 @@ public class BoxCode extends BaseEntity {
 
 	public void setStatus(BoxCodeStatus status) {
 		this.status = status;
+	}
+
+	public void setStatusCode(Integer statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	public Integer getStatusCode() {
+		return statusCode;
 	}
 
 }

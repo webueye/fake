@@ -24,10 +24,10 @@ public class Brand extends BaseEntity {
 	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String brandName;
 	@Comment("品牌官方网站URL")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String link;
 	@Comment("品牌Logo图片Url")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String logoLink;
 	@Comment("品牌介绍")
 	@Column(columnDefinition = "varchar(255) DEFAULT ''")

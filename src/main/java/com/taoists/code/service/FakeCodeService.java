@@ -8,7 +8,7 @@ import com.taoists.common.orm.dao.BaseDao;
  * @since 2012-6-3
  */
 public interface FakeCodeService extends BaseDao<FakeCode> {
-
+	
 	FakeCode getByPlainCode(String plainCode);
 
 }

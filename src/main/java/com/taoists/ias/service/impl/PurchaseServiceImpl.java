@@ -14,6 +14,7 @@ import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
+import com.taoists.crm.entity.Company;
 import com.taoists.ias.entity.Purchase;
 import com.taoists.ias.entity.PurchaseBox;
 import com.taoists.ias.entity.PurchaseItem;
@@ -35,6 +36,7 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 	@Transactional
 	public void save(Purchase purchase, String[] boxCodeValues) {
 		purchase.setStatus(PurchaseStatus.create);
+		purchase.setStatusCode(PurchaseStatus.create.getCode());
 		this.save(purchase);
 
 		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(Arrays.asList(boxCodeValues));
@@ -62,12 +64,14 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 		if (PurchaseStatus.inTransit.getCode() == state) {
 			pur.setDeliveryMemo(purchase.getDeliveryMemo());
 			pur.setStatus(PurchaseStatus.inTransit);
+			pur.setStatusCode(PurchaseStatus.inTransit.getCode());
 			pur.setDeliveryDateTime(new DateTime());
 			pur.setDeliveryId(account.getId());
 			pur.setDeliveryName(account.getNickname());
 		} else if (PurchaseStatus.receive.getCode() == state) {
 			pur.setArrivalMemo(purchase.getArrivalMemo());
 			pur.setStatus(PurchaseStatus.receive);
+			pur.setStatusCode(PurchaseStatus.receive.getCode());
 			pur.setArrivalDateTime(new DateTime());
 			pur.setArrivalId(account.getId());
 			pur.setArrivalName(account.getNickname());
@@ -77,11 +81,11 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 		if (PurchaseStatus.inTransit.getCode() == pur.getStatus().getCode()) {
 			stockService.outStock(BoxModel.groupByProduct(getBoxCodes(pur)), account);
 			
-			boxCodeService.batchUpdate(getBoxCodes(pur), BoxCodeStatus.inTransit);
+			boxCodeService.batchUpdate(getBoxCodes(pur), BoxCodeStatus.inTransit, new Company(account.getCompanyId()));
 		} else if (PurchaseStatus.receive.getCode() == pur.getStatus().getCode()) {
 			stockService.inStock(BoxModel.groupByProduct(getBoxCodes(pur)), account);
 			
-			boxCodeService.batchUpdate(getBoxCodes(pur), BoxCodeStatus.warehousing);
+			boxCodeService.batchUpdate(getBoxCodes(pur), BoxCodeStatus.warehousing, new Company(account.getCompanyId()));
 		}
 	}
 

@@ -20,6 +20,7 @@ import com.taoists.code.entity.FakeCode;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
@@ -28,15 +29,16 @@ import com.taoists.common.orm.dao.HibernateDaoSupport;
 @Transactional
 @Service("boxCodeService")
 public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements BoxCodeService {
-
+	
 	@Override
 	@Transactional
-	public void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status) {
+	public void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status, Company storageCompany) {
 		Assert.notNull(boxCodes, "boxCodes is required.");
 		Assert.notNull(status, "status is required.");
 
 		for (BoxCode boxCode : boxCodes) {
 			boxCode.setStatus(status);
+			boxCode.setStatusCode(status.getCode());
 			update(boxCode);
 		}
 	}

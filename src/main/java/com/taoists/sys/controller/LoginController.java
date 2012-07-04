@@ -2,7 +2,10 @@ package com.taoists.sys.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import nl.captcha.Captcha;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.BooleanUtils;
@@ -30,8 +33,27 @@ public class LoginController extends CommonController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String login(HttpSession session, Account account, RedirectAttributes redirectAttributes) {
+	public String login(HttpServletRequest request, Account account, RedirectAttributes redirectAttributes) {
 		logger.debug("login: account[{}]", account);
+		HttpSession session = request.getSession();
+
+		Object obj = session.getAttribute("simpleCaptcha");
+		boolean captchaEquals = false;
+		if (obj instanceof Captcha) {
+			Captcha captcha = (Captcha) obj;
+			String paramCaptcha = request.getParameter("captcha");
+			logger.debug("param.captcha[{}], captcha[{}]", paramCaptcha, captcha);
+			if (captcha.getAnswer().equals(paramCaptcha)) {
+				captchaEquals = true;
+			}
+		}
+		
+		logger.debug("Captcha equals[{}]", captchaEquals);
+		
+		if (!captchaEquals) {
+			redirectAttributes.addFlashAttribute("msg", "captchaNotCorrect");
+			return redirect("/login");
+		}
 
 		List<Account> accounts = accountService.findDatas("username", account.getUsername());
 		if (CollectionUtils.isEmpty(accounts)) {

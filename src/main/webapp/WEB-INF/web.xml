@@ -26,7 +26,7 @@
 		<filter-class>com.taoists.common.filter.SecurityFilter</filter-class>
 		<init-param>
 			<param-name>resource</param-name>
-			<param-value>/images/,/css/,/js/,/login,/login.jsp</param-value>
+			<param-value>/images/, /css/, /js/, /login, /login.jsp, /servlet/captcha.jpg, /services/</param-value>
 		</init-param>
 	</filter>
 
@@ -56,10 +56,41 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<servlet>
+		<servlet-name>dataServlet</servlet-name>
+		<servlet-class>com.taoists.sys.controller.DataServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>cxf</servlet-name>
+		<servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>captcha</servlet-name>
+		<servlet-class>nl.captcha.servlet.SimpleCaptchaServlet</servlet-class>
+	</servlet>
+
 	<servlet-mapping>
 		<servlet-name>dispatcher</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>cxf</servlet-name>
+        <url-pattern>/services/*</url-pattern>
+    </servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>captcha</servlet-name>
+		<url-pattern>/servlet/captcha.jpg</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>-1</session-timeout>
+	</session-config>
 
 	<jsp-config>
 		<taglib>
@@ -67,7 +98,7 @@
 			<taglib-location>/WEB-INF/ueyes.tld</taglib-location>
 		</taglib>
 	</jsp-config>
-	
+
 	<welcome-file-list>
 		<welcome-file>/login.jsp</welcome-file>
 	</welcome-file-list>

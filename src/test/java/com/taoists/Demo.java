@@ -1,6 +1,12 @@
 package com.taoists;
 
-import org.springframework.beans.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.taoists.code.service.BoxCodeService;
+import com.taoists.code.service.FakeCodeService;
 
 
 /**
@@ -9,17 +15,16 @@ import org.springframework.beans.BeanUtils;
  */
 public class Demo {
 
-	public static void main(String[] args) {
-		UeyeBean ueyeBean = new UeyeBean();
-		ueyeBean.setName("ueeyBean");
-
-		UeyeBean u = new UeyeBean();
-		u.setPassword("pass");
-		
-		
-		System.out.println(u.getName());
+	public static void main(String[] args) throws Exception {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("app.xml");
+		BoxCodeService boxCodeService = (BoxCodeService) ctx.getBean("boxCodeService");
+		FakeCodeService fakeCodeService = (FakeCodeService) ctx.getBean("fakeCodeService");
 		
 
+	}
+
+	static void pl(Object value) {
+		System.err.println(value);
 	}
 
 }

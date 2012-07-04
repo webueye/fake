@@ -21,9 +21,14 @@
 						<tbody>
 							<tr class="th">
 								<th class="rth">企业名称：</th>
-								<td class="ltd" colspan="3">
+								<td class="ltd">
 									<input name="parentId" value="${currentAccount.companyId}" type="hidden" style="width: 80%"/>
 									<input class="input-xlarge required" name="companyName" type="text" style="width: 80%"/>
+								</td>
+								<th class="rth">状态：</th>
+								<td class="ltd">
+									<input class="input-xlarge required" name="status" value="true" type="radio" checked="checked"/>启用
+									<input class="input-xlarge required" name="status" value="false" type="radio" style="margin-left: 20px;"/>禁用
 								</td>
 							</tr>
 							<tr class="th">
@@ -33,7 +38,7 @@
 								</td>
 								<th class="rth">企业类型：</th>
 								<td class="ltd">
-									<select name="companyTypeId" style="width:80%;">
+									<select name="companyType.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="companyType" items="${companyTypes}">
 											<option value="${companyType.id}">${companyType.name}</option>
@@ -44,7 +49,7 @@
 							<tr class="th">
 								<th class="rth">销售区域：</th>
 								<td class="ltd">
-									<select name="saleRegionId" style="width:80%;">
+									<select name="saleRegion.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="saleRegion" items="${saleRegions}">
 											<option value="${saleRegion.id}">${saleRegion.name}</option>
@@ -61,7 +66,7 @@
 							<tr class="th">
 								<th class="rth">企业性质：</th>
 								<td class="ltd">
-									<select name="companyNatureId" style="width:80%;">
+									<select name="companyNature.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="companyNature" items="${companyNatures}">
 											<option value="${companyNature.id}">${companyNature.name}</option>
@@ -70,7 +75,7 @@
 								</td>
 								<th class="rth">销售形式：</th>
 								<td class="ltd">
-									<select name="saleFormId" style="width:80%;">
+									<select name="saleForm.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="saleForm" items="${saleForms}">
 											<option value="${saleForm.id}">${saleForm.name}</option>
@@ -168,7 +173,7 @@
 								<th>姓名</th>
 								<td><input class="input-xlarge required" name="corporation.name" type="text" style="width: 80%"/></td>
 								<th>出生年月</th>
-								<td><input class="input-xlarge" name="corporation.birthday" type="text" style="width: 80%"/></td>
+								<td><input class="input-xlarge" name="corporation.birthday" onFocus="WdatePicker({isShowClear:false, dateFmt:'yyyy-MM-dd'})" type="text" style="width: 80%"/></td>
 							</tr>
 							<tr>
 								<th>身份证号</th>
@@ -176,8 +181,8 @@
 								<th>性别</th>
 								<td>
 									<input class="input-xlarge" name="corporation.sex" value="1" type="radio"/>男
-									<input class="input-xlarge" name="corporation.sex" value="2" style="margin-lefet: 20px;" type="radio"/>女
-									<input class="input-xlarge" name="corporation.sex" value="3" style="margin-left: 20px;" type="radio"/>未知
+									<input class="input-xlarge" name="corporation.sex" value="2" style="margin-lefet: 10px;" type="radio"/>女
+									<input class="input-xlarge" name="corporation.sex" value="3" style="margin-left: 10px;" type="radio"/>未知
 								</td>
 							</tr>
 							<tr>
@@ -205,7 +210,7 @@
 								<th>姓名</th>
 								<td><input class="input-xlarge required" name="business.name" type="text" style="width: 80%"/></td>
 								<th>出生年月</th>
-								<td><input class="input-xlarge" name="business.birthday" type="text" style="width: 80%"/></td>
+								<td><input class="input-xlarge" name="business.birthday" onFocus="WdatePicker({isShowClear:false, dateFmt:'yyyy-MM-dd'})" type="text" style="width: 80%"/></td>
 							</tr>
 							<tr>
 								<th>身份证号</th>
@@ -213,8 +218,8 @@
 								<th>性别</th>
 								<td>
 									<input class="input-xlarge" name="business.sex" value="1" type="radio"/>男
-									<input class="input-xlarge" name="business.sex" value="2" style="margin-left: 20px;" type="radio"/>女
-									<input class="input-xlarge" name="business.sex" value="3" style="margin-left: 20px;" type="radio"/>未知
+									<input class="input-xlarge" name="business.sex" value="2" style="margin-left: 10px;" type="radio"/>女
+									<input class="input-xlarge" name="business.sex" value="3" style="margin-left: 10px;" type="radio"/>未知
 								</td>
 							</tr>
 							<tr>

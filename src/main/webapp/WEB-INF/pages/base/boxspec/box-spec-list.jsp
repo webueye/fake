@@ -21,6 +21,16 @@
 							<div class="control-group">
 					           	<span style="margin-left: 10px;">种类名称 </span>
 					            <input class="input-large" name="filter_LIKES_specName" value="${filter_LIKES_specName}" style="width: 100px;" placeholder="种类名称"/>
+					           	
+					           	<span style="margin-left: 10px;">产品名称 </span>
+					            <input class="input-large" name="filter_LIKES_product.name" value="${filter_LIKES_product_name}" style="width: 100px;" placeholder="产品名称"/>
+							  	
+							  	<span style="margin-left: 10px;">状态 </span>
+					            <select name="filter_EQB_status" style="width: 100px;">
+					           		<option value="">状态</option>
+					           		<option value="1" ${filter_EQB_status == '1'? 'selected': ''}>启用</option>
+					           		<option value="0"  ${filter_EQB_status == '0'? 'selected': ''}>停用</option>
+					           	</select>
 							  	<button type="submit" class="btn btn-primary">查询</button>
 					        </div>
 						</div>

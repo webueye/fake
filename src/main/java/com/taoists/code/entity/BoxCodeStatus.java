@@ -16,6 +16,14 @@ public enum BoxCodeStatus {
 		this.value = value;
 	}
 
+	public void setCode(Integer code) {
+		this.code = code;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	public Integer getCode() {
 		return code;
 	}

@@ -2,8 +2,11 @@ package com.taoists.crm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.taoists.base.entity.DataDict;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
@@ -24,20 +27,24 @@ public class Company extends BaseEntity {
 	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String companyName;
 	@Comment("类型（1：生产商；2：经销商；3：终端客户；4：潜在客户）")
-	private Long companyTypeId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private DataDict companyType;
 	@Comment("状态（0：禁用；1：启用）")
 	private Boolean status;
 	@Comment("上级公司")
 	private Long parentId;
 	@Comment("所性销售区域")
-	private Long saleRegionId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private DataDict saleRegion;
 	@Comment("区域码")
 	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String zoneNo;// TODO
 	@Comment("企业性质")
-	private Long companyNatureId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private DataDict companyNature;
 	@Comment("销售形式")
-	private Long saleFormId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private DataDict saleForm;
 	@Comment("企业规模")
 	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String scale;
@@ -77,12 +84,12 @@ public class Company extends BaseEntity {
 	@Comment("备注")
 	@Column(columnDefinition = "varchar(255) DEFAULT ''")
 	private String memo;
-	
-	public Company(){
-		
+
+	public Company() {
+
 	}
-	
-	public Company(Long id){
+
+	public Company(Long id) {
 		setId(id);
 	}
 
@@ -102,12 +109,12 @@ public class Company extends BaseEntity {
 		this.companyName = companyName;
 	}
 
-	public Long getCompanyTypeId() {
-		return companyTypeId;
+	public void setCompanyType(DataDict companyType) {
+		this.companyType = companyType;
 	}
 
-	public void setCompanyTypeId(Long companyTypeId) {
-		this.companyTypeId = companyTypeId;
+	public DataDict getCompanyType() {
+		return companyType;
 	}
 
 	public Boolean getStatus() {
@@ -126,12 +133,12 @@ public class Company extends BaseEntity {
 		this.parentId = parentId;
 	}
 
-	public Long getSaleRegionId() {
-		return saleRegionId;
+	public DataDict getSaleRegion() {
+		return saleRegion;
 	}
 
-	public void setSaleRegionId(Long saleRegionId) {
-		this.saleRegionId = saleRegionId;
+	public void setSaleRegion(DataDict saleRegion) {
+		this.saleRegion = saleRegion;
 	}
 
 	public String getZoneNo() {
@@ -142,20 +149,20 @@ public class Company extends BaseEntity {
 		this.zoneNo = zoneNo;
 	}
 
-	public Long getCompanyNatureId() {
-		return companyNatureId;
+	public DataDict getCompanyNature() {
+		return companyNature;
 	}
 
-	public void setCompanyNatureId(Long companyNatureId) {
-		this.companyNatureId = companyNatureId;
+	public void setCompanyNature(DataDict companyNature) {
+		this.companyNature = companyNature;
 	}
 
-	public Long getSaleFormId() {
-		return saleFormId;
+	public DataDict getSaleForm() {
+		return saleForm;
 	}
 
-	public void setSaleFormId(Long saleFormId) {
-		this.saleFormId = saleFormId;
+	public void setSaleForm(DataDict saleForm) {
+		this.saleForm = saleForm;
 	}
 
 	public String getScale() {

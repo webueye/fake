@@ -21,9 +21,14 @@
 						<tbody>
 							<tr class="th">
 								<th class="rth">企业名称：</th>
-								<td class="ltd" colspan="3">
+								<td class="ltd">
 									<input name="id" value="${company.id}" type="hidden" style="width: 80%"/>
 									<input class="input-xlarge required" name="companyName" value="${company.companyName}" type="text" style="width: 80%"/>
+								</td>
+								<th class="rth">状态：</th>
+								<td class="ltd">
+									<input class="input-xlarge required" name="status" value="true" type="radio" ${company.status != false? 'checked': ''}/>启用
+									<input class="input-xlarge required" name="status" value="false" type="radio" ${company.status == false? 'checked': ''} style="margin-left: 20px;"/>禁用
 								</td>
 							</tr>
 							<tr class="th">
@@ -33,10 +38,10 @@
 								</td>
 								<th class="rth">企业类型：</th>
 								<td class="ltd">
-									<select name="companyTypeId" style="width:80%;">
+									<select name="companyType.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="companyType" items="${companyTypes}">
-											<option value="${companyType.id}" ${company.companyTypeId == companyType.id? 'selected': ''}>${companyType.name}</option>
+											<option value="${companyType.id}" ${company.companyType.id == companyType.id? 'selected': ''}>${companyType.name}</option>
 										</c:forEach>
 									</select>
 								</td>
@@ -44,10 +49,10 @@
 							<tr class="th">
 								<th class="rth">销售区域：</th>
 								<td class="ltd">
-									<select name="saleRegionId" style="width:80%;">
+									<select name="saleRegion.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="saleRegion" items="${saleRegions}">
-											<option value="${saleRegion.id}" ${company.saleRegionId == saleRegion.id? 'selected': ''}>${saleRegion.name}</option>
+											<option value="${saleRegion.id}" ${company.saleRegion.id == saleRegion.id? 'selected': ''}>${saleRegion.name}</option>
 										</c:forEach>
 									</select>
 								</td>
@@ -61,19 +66,19 @@
 							<tr class="th">
 								<th class="rth">企业性质：</th>
 								<td class="ltd">
-									<select name="companyNatureId" style="width:80%;">
+									<select name="companyNature.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="companyNature" items="${companyNatures}">
-											<option value="${companyNature.id}" ${company.companyNatureId == companyNature.id? 'selected': ''}>${companyNature.name}</option>
+											<option value="${companyNature.id}" ${company.companyNature.id == companyNature.id? 'selected': ''}>${companyNature.name}</option>
 										</c:forEach>
 									</select>
 								</td>
 								<th class="rth">销售形式：</th>
 								<td class="ltd">
-									<select name="saleFormId" style="width:80%;">
+									<select name="saleForm.id" style="width:80%;">
 										<option value="">--请选择--</option>
 										<c:forEach var="saleForm" items="${saleForms}">
-											<option value="${saleForm.id}" ${company.saleFormId == saleForm.id? 'selected': ''}>${saleForm.name}</option>
+											<option value="${saleForm.id}" ${company.saleForm.id == saleForm.id? 'selected': ''}>${saleForm.name}</option>
 										</c:forEach>
 									</select>
 								</td>

@@ -2,6 +2,8 @@ package com.taoists.code.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -20,9 +22,10 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "code_query")
 public class CodeQuery extends BaseEntity {
 
-	@Comment("码ID")
-	private Long codeId;// TODO
 	@Comment("码号")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private FakeCode fakeCode;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String codeNo;
 	@Comment("查询方式")
 	private Integer queryWay;
@@ -32,21 +35,17 @@ public class CodeQuery extends BaseEntity {
 	private DateTime queryDateTime;
 	@Comment("查询结果")
 	private Integer queryResult;
+	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	private String userNo;
+	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	private String userPhone;
 
-	public Long getCodeId() {
-		return codeId;
+	public FakeCode getFakeCode() {
+		return fakeCode;
 	}
 
-	public void setCodeId(Long codeId) {
-		this.codeId = codeId;
-	}
-
-	public String getCodeNo() {
-		return codeNo;
-	}
-
-	public void setCodeNo(String codeNo) {
-		this.codeNo = codeNo;
+	public void setFakeCode(FakeCode fakeCode) {
+		this.fakeCode = fakeCode;
 	}
 
 	public Integer getQueryWay() {
@@ -73,4 +72,27 @@ public class CodeQuery extends BaseEntity {
 		this.queryResult = queryResult;
 	}
 
+	public String getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(String userNo) {
+		this.userNo = userNo;
+	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+	public void setCodeNo(String codeNo) {
+		this.codeNo = codeNo;
+	}
+
+	public String getCodeNo() {
+		return codeNo;
+	}
 }

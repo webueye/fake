@@ -45,9 +45,10 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 			boxCode.setCodeIssue(codeIssue);
 			boxCode.setBoxCode(genBoxCodeValue(boxSpec));
 			boxCode.setBoxSpec(boxSpec);
-			boxCode.setCreationCompanyId(codeIssue.getCompanyId());
-			boxCode.setStorageCompanyId(codeIssue.getCompanyId());
+			boxCode.setCreationCompany(codeIssue.getCreationCompany());
+			boxCode.setStorageCompany(codeIssue.getCreationCompany());
 			boxCode.setStatus(BoxCodeStatus.generate);
+			boxCode.setStatusCode(BoxCodeStatus.generate.getCode());
 			insert(boxCode);
 		}
 	}

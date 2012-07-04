@@ -76,8 +76,8 @@
 								</td>
 								<td>用户状态：</td>
 								<td>
-									启用<input class="input-xlarge required" name="status" style="margin-right: 20px;" value="true" type="radio" ${account.status? 'checked': ''}/>
-									禁用<input class="input-xlarge required" name="status" value="false" type="radio" ${account.status? '': 'checked'}/>
+									启用<input class="input-xlarge required" name="status" style="margin-right: 20px;" value="true" type="radio" ${account.status or account.status == null? 'checked': ''}/>
+									禁用<input class="input-xlarge required" name="status" value="false" type="radio" ${account.status or account.status == null? '': 'checked'}/>
 								</td>
 							</tr>
 							<tr>

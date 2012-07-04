@@ -100,7 +100,7 @@
 			</c:if>
 		
 			<span>
-				<input id="jumpPageValue" type="text" style="width:20px;margin-left: 5px;"/>
+				<input id="jumpPageValue" value="${page.pageNum}" type="text" style="width:20px;margin-left: 5px;"/>
 				<span style="cursor: pointer;" onclick="jumpPage()">Go</span>
 			</span>
 			

@@ -31,6 +31,7 @@ public class ProductController extends CommonController {
 
 	@RequestMapping
 	public String list(HttpServletRequest request, Page page) {
+		getBrands(request);
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		productService.findPage(page, filters);
 		extractParams(request);
@@ -39,6 +40,7 @@ public class ProductController extends CommonController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page) {
+		getBrands(request);
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		productService.findPage(page, filters);
 		extractParams(request);
@@ -96,6 +98,10 @@ public class ProductController extends CommonController {
 			return new Product();
 		}
 		return productService.get(id);
+	}
+	
+	private void getBrands(HttpServletRequest request){
+		request.setAttribute("brands", brandService.findAll());
 	}
 
 	private String forward(ViewName viewName) {

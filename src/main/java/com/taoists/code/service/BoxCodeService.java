@@ -7,6 +7,7 @@ import java.util.Map;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.common.orm.dao.BaseDao;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
@@ -14,7 +15,7 @@ import com.taoists.common.orm.dao.BaseDao;
  */
 public interface BoxCodeService extends BaseDao<BoxCode> {
 	
-	void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status);
+	void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status, Company storageCompany);
 
 	Map<String, String> bind(List<String> codes);
 

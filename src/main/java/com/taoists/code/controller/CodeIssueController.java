@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.common.collect.Lists;
 import com.taoists.code.controller.path.ResultPath;
@@ -21,13 +22,14 @@ import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
 import com.taoists.common.controller.Module;
 import com.taoists.common.orm.PropertyFilter;
-import com.taoists.sys.entity.Account;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
  * @since 2012-6-3
  */
 @Controller
+@SessionAttributes("currentAccount")
 @RequestMapping(ResultPath.codeIssue)
 public class CodeIssueController extends CommonController {
 
@@ -42,7 +44,12 @@ public class CodeIssueController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		codeIssueService.findPage(page, filters);
 		extractParams(request);
-		return forword(ViewName.list);
+
+		if ("true".equals(request.getParameter("filter_EQB_codeType"))) {
+			return Module.code.getName() + "/codeissue/box-code-gen-list";
+		} else {
+			return Module.code.getName() + "/codeissue/fake-code-gen-list";
+		}
 	}
 
 	@RequestMapping("/edit-new")
@@ -51,11 +58,40 @@ public class CodeIssueController extends CommonController {
 		return forword(ViewName.insert);
 	}
 
+	@RequestMapping("/box-code-gen")
+	public String boxCodeGen(Model model) {
+		model.addAttribute("boxSpecs", boxSpecService.findAll());
+		return Module.code.getName() + "/codeissue/box-code-gen";
+	}
+
+	@RequestMapping("/box-code-gen-list")
+	public String boxCodeGenList(Page page) {
+		codeIssueService.findDatas("codeType", true, page);
+		return Module.code.getName() + "/codeissue/box-code-gen-list";
+	}
+
+	@RequestMapping("/fake-code-gen")
+	public String fakeCodeGen(Model model) {
+		model.addAttribute("boxSpecs", boxSpecService.findAll());
+		return Module.code.getName() + "/codeissue/fake-code-gen";
+	}
+
+	@RequestMapping("/fake-code-gen-list")
+	public String fakeCodeGenList(Page page) {
+		codeIssueService.findDatas("codeType", false, page);
+		return Module.code.getName() + "/codeissue/fake-code-gen-list";
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String create(Account account, CodeIssue codeIssue) {
+	public String create(Model model, CodeIssue codeIssue) {
 		logger.debug("create: codeIssue[{}]", codeIssue);
+		codeIssue.setCreationCompany(new Company(getAccount(model).getCompanyId()));
 		codeIssueService.genCode(codeIssue);
-		return redirect(ResultPath.codeIssue);
+		if (codeIssue.getCodeType()) {
+			return redirect(ResultPath.codeIssue + "/box-code-gen-list");
+		} else {
+			return redirect(ResultPath.codeIssue + "/fake-code-gen-list");
+		}
 	}
 
 	@RequestMapping("/code/{codeIssue.id}")
@@ -72,7 +108,7 @@ public class CodeIssueController extends CommonController {
 	@RequestMapping(value = "/code-search/{id}", method = RequestMethod.POST)
 	public String codeSearch(HttpServletRequest request, @PathVariable long id, CodeIssue codeIssue, Page page) {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
-
+		extractParams(request);
 		codeIssue = codeIssueService.get(id);
 		request.setAttribute("codeIssue", codeIssue);
 		if (codeIssue.getCodeType()) {
@@ -112,8 +148,8 @@ public class CodeIssueController extends CommonController {
 		}
 		return codeIssueService.get(id);
 	}
-	
-	private String getExportFileName(String name) throws Exception{
+
+	private String getExportFileName(String name) throws Exception {
 		return new String(name.getBytes("UTF-8"), "ISO8859-1");
 	}
 

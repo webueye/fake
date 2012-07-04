@@ -31,7 +31,7 @@ import com.taoists.common.util.ReflectionUtils;
  * @since 2012-5-31
  */
 public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T> {
-	
+
 	@Override
 	public List<T> findPage(Page page) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
@@ -127,9 +127,9 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 	public List<T> findPage(final Page page, final List<PropertyFilter> filters) {
 		Assert.notNull(page, "page is required.");
 		Criteria criteria = createCriteria(buildCriterionByPropertyFilter(filters));
-		
+
 		createAlias(criteria, filters);
-		
+
 		if (page.isAutoCount()) {
 			long totalCount = countCriteriaResult(criteria);
 			page.setTotalCount(totalCount);
@@ -139,13 +139,22 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		page.setDatas(criteria.list());
 		return (List<T>) page.getDatas();
 	}
-	
-	private void createAlias(Criteria criteria, final List<PropertyFilter> filters){
-		for(PropertyFilter filter: filters){
-			for(String propertyName: filter.getPropertyNames()){
-				if(propertyName.indexOf(".") != -1){
-					String alias = propertyName.substring(0, propertyName.indexOf("."));
-					criteria.createAlias(alias, alias);
+
+	private void createAlias(Criteria criteria, final List<PropertyFilter> filters) {
+		for (PropertyFilter filter : filters) {
+			for (String propertyName : filter.getPropertyNames()) {
+				if (propertyName.indexOf(".") != -1) {
+					String aliasPrefix = propertyName.substring(0, propertyName.lastIndexOf("."));
+					String[] aliases = aliasPrefix.split("\\.");
+					
+					StringBuilder sb = new StringBuilder();
+					for(String alias: aliases){
+						if(sb.length() > 0){
+							sb.append(".");
+						}
+						sb.append(alias);
+						criteria.createAlias(sb.toString(), sb.toString().replaceAll("\\.", "_"));
+					}
 				}
 			}
 		}
@@ -169,8 +178,16 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		return criterions.toArray(new Criterion[criterions.size()]);
 	}
 
-	protected Criterion buildCriterion(final String propertyName, final Object propertyValue, final MatchType matchType) {
+	protected Criterion buildCriterion(String propertyName, final Object propertyValue, final MatchType matchType) {
 		Assert.hasText(propertyName, "propertyName is required.");
+		
+		String[] dots = propertyName.split("\\.");
+		if(dots.length > 2){
+			String alias = propertyName.substring(0, propertyName.lastIndexOf("."));
+			String last = propertyName.substring(propertyName.lastIndexOf("."), propertyName.length());
+			propertyName = alias.replaceAll("\\.", "_")+last;
+		}
+		
 		Criterion criterion = null;
 		switch (matchType) {
 		case EQ:
@@ -190,6 +207,14 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 			break;
 		case GT:
 			criterion = Restrictions.gt(propertyName, propertyValue);
+			break;
+		case BA:
+			if (propertyValue instanceof List) {
+				List<?> values = (List<?>) propertyValue;
+				if (values.size() == 2) {
+					criterion = Restrictions.between(propertyName, values.get(0), values.get(1));
+				}
+			}
 		}
 		return criterion;
 	}

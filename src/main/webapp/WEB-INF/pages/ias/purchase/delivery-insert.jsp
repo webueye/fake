@@ -33,7 +33,7 @@
 								</td>
 								<th class="rth">发货日期：</th>
 								<td class="ltd">
-									<input class="input-xlarge" name="deliveryDate"  onFocus="WdatePicker({isShowClear:false, dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" style="width: 120px;"/>
+									<input class="input-xlarge" name="deliveryDate" onFocus="WdatePicker({isShowClear:false, dateFmt:'yyyy-MM-dd HH:mm:ss'})" type="text" style="width: 120px;"/>
 								</td>
 							</tr>
 							<tr class="th">

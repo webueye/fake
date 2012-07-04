@@ -1,5 +1,6 @@
 package com.taoists.common.controller;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Set;
@@ -91,8 +92,17 @@ public class CommonController {
 		Enumeration<String> keys = request.getParameterNames();
 		while (keys.hasMoreElements()) {
 			String key = keys.nextElement();
-			request.setAttribute(key.replaceAll("\\.", "_"), request.getParameter(key));
-			logger.debug("extractParam key[{}], value[{}]", key.replaceAll("\\.", "_"), request.getParameter(key));
+			String[] values = request.getParameterValues(key);
+			String paramName = key.replaceAll("\\.", "_");
+			if (values.length > 1) {
+				Arrays.sort(values);
+				request.setAttribute(paramName, values[0]);
+				request.setAttribute(paramName + "_", values[1]);
+				logger.debug("extractParam key[{}], value[{}]", paramName, values);
+			} else {
+				request.setAttribute(paramName, request.getParameter(key));
+				logger.debug("extractParam key[{}], value[{}]", paramName, request.getParameter(key));
+			}
 		}
 	}
 

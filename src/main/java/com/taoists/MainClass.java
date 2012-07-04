@@ -1,15 +1,11 @@
 package com.taoists;
 
-import java.io.File;
 import java.util.List;
 
-import jxl.Workbook;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +13,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.service.BoxCodeService;
-import com.taoists.common.bean.Page;
+import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.util.DateUtils;
 
 /**
@@ -30,46 +26,18 @@ public class MainClass {
 
 	public static void main(String[] args) throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("app.xml");
-		BoxCodeService boxCodeService = (BoxCodeService) ctx.getBean("boxCodeService");
-
-		Page page = new Page();
-		page.setPageSize(1000);
-
-		File file = new File("test.xls");
-		WritableWorkbook writableWorkbook = Workbook.createWorkbook(file);
-		WritableSheet sheet = writableWorkbook.createSheet("箱码", 0);
-
-		writeHeader(sheet);
+//		BoxCodeService boxCodeService = (BoxCodeService) ctx.getBean("boxCodeService");
+		FakeCodeService fakeCodeService = (FakeCodeService) ctx.getBean("fakeCodeService");
 		
-		
-
-		int row = 1;
-		int sheetIndex = 1;
-		while (true) {
-			
-			List<BoxCode> boxCodes = boxCodeService.findPage(page);
-			if (CollectionUtils.isEmpty(boxCodes)) {
-				break;
-			}
-			row = writeContent(boxCodes, sheet, row);
-			
-			if(page.getPageNum() == page.getTotalPages()){
-				break;
-			}
-			
-			pl(page.getPageNum()+"<------>"+row);
-			
-			page.setPageNum(page.getPageNum() + 1);
-			if (row+page.getPageSize() > 65001) {
-				sheetIndex++;
-				sheet = writableWorkbook.createSheet("箱码_"+sheetIndex, sheetIndex);
-				writeHeader(sheet);
-				row = 1;
-			}
-		}
-
-		writableWorkbook.write();
-		writableWorkbook.close();
+//		
+//		boxCodeService.test();
+//		String str = "a.b.c";
+//		String[] s = str.split("\\.");
+//		
+//		pl(str.substring(str.lastIndexOf(".")+1, str.length()));
+//		pl(str.substring(0, str.lastIndexOf(".")));
+//		
+//		pl(str.substring(0, str.lastIndexOf(".")).replaceAll("\\.", "_"));
 
 	}
 

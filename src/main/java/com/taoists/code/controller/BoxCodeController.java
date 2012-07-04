@@ -80,6 +80,9 @@ public class BoxCodeController extends CommonController {
 		for (BoxModel boxModel : boxModels) {
 			for (BoxCode boxCode : boxModel.getBoxCodes()) {
 				boxCode.getBoxSpec().setProduct(null);
+				boxCode.setCreationCompany(null);
+				boxCode.setStorageCompany(null);
+				boxCode.getCodeIssue().setCreationCompany(null);
 			}
 			boxModel.setProduct(new Product(boxModel.getProduct().getProductNo(), boxModel.getProduct().getName()));
 		}

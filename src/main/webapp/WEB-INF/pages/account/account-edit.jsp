@@ -37,7 +37,7 @@
 							<tr>
 								<td>登陆名称：</td>
 								<td colspan="3">
-									<input class="input-xlarge required" name="username" value="${account.username}" type="text" style="width: 80%"/>
+									<input class="input-xlarge required" name="username" value="${account.username}" type="text" style="width: 250px;"/>
 								</td>
 								
 							</tr>

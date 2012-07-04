@@ -15,5 +15,34 @@ public enum QueryWayStatus {
 		this.code = code;
 		this.value = value;
 	}
+	
+	public static QueryWayStatus getQueryWayStatus(int code){
+		if(phone.getCode() == code){
+			return phone;
+		}
+		if(sms.getCode() == code){
+			return sms;
+		}
+		if(site.getCode() == code){
+			return site;
+		}
+		throw new IllegalArgumentException("Query way code must in [1, 2, 3]");
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public String getValue() {
+		return value;
+	}
 
 }

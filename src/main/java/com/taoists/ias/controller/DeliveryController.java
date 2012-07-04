@@ -103,6 +103,7 @@ public class DeliveryController extends CommonController {
 		logger.debug("complete: id[{}]", id);
 		Purchase purchase = purchaseService.get(id);
 		purchase.setStatus(PurchaseStatus.complete);
+		purchase.setStatusCode(PurchaseStatus.complete.getCode());
 		purchase.setCompleteDateTime(new DateTime());
 		purchase.setCompleterId(account.getId());
 		purchase.setCompleter(account.getNickname());

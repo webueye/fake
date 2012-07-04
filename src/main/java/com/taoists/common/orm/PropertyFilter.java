@@ -24,7 +24,7 @@ public class PropertyFilter {
 
 	/** Property compare type. */
 	public enum MatchType {
-		EQ, LIKE, LT, GT, LE, GE;
+		EQ, LIKE, LT, GT, LE, GE, BA;
 	}
 
 	/** Property data type */
@@ -57,7 +57,7 @@ public class PropertyFilter {
 	 * @param value
 	 *            待比较的值.
 	 */
-	public PropertyFilter(final String filterName, final String value) {
+	public PropertyFilter(final String filterName, final Object value) {
 
 		String firstPart = StringUtils.substringBefore(filterName, "_");
 		String matchTypeCode = StringUtils.substring(firstPart, 0, firstPart.length() - 1);
@@ -79,7 +79,26 @@ public class PropertyFilter {
 		Assert.isTrue(StringUtils.isNotBlank(propertyNameStr), "filter名称" + filterName + "没有按规则编写,无法得到属性名称.");
 		propertyNames = StringUtils.splitByWholeSeparator(propertyNameStr, PropertyFilter.OR_SEPARATOR);
 
-		this.matchValue = ConvertUtils.convertStringToObject(value, propertyClass);
+		if (matchType.equals(MatchType.BA)) {
+			String[] values = (String[]) value;
+			if (values.length == 2) {
+				if (propertyClass == DateTime.class) {
+					List<DateTime> matchValues = Lists.newArrayList();
+					DateTime date1 = new DateTime(values[0]);
+					DateTime date2 = new DateTime(values[1]);
+					if(date1.isBefore(date2)){
+						matchValues.add(date1);
+						matchValues.add(date2.plusDays(1));
+					}else{
+						matchValues.add(date2);
+						matchValues.add(date1.plusDays(1));
+					}
+					this.matchValue = matchValues;
+				}
+			}
+		} else {
+			this.matchValue = ConvertUtils.convertStringToObject((String) value, propertyClass);
+		}
 	}
 
 	/**
@@ -104,14 +123,27 @@ public class PropertyFilter {
 		Map<String, Object> filterParamMap = ServletUtils.getParametersStartingWith(request, filterPrefix + "_");
 
 		// 分析参数Map,构造PropertyFilter列表
-		for (Map.Entry<String, Object> entry : filterParamMap.entrySet()) {
+		outer: for (Map.Entry<String, Object> entry : filterParamMap.entrySet()) {
 			String filterName = entry.getKey();
-			String value = (String) entry.getValue();
-			// 如果value值为空,则忽略此filter.
-			if (StringUtils.isNotBlank(value)) {
-				PropertyFilter filter = new PropertyFilter(filterName, value);
+
+			if (entry.getValue() instanceof String) {
+				String value = (String) entry.getValue();
+				// 如果value值为空,则忽略此filter.
+				if (StringUtils.isNotBlank(value)) {
+					PropertyFilter filter = new PropertyFilter(filterName, value);
+					filterList.add(filter);
+				}
+			} else if (entry.getValue() instanceof String[]) {
+				String[] values = (String[]) entry.getValue();
+				for (String value : values) {
+					if (StringUtils.isBlank(value)) {
+						continue outer;
+					}
+				}
+				PropertyFilter filter = new PropertyFilter(filterName, values);
 				filterList.add(filter);
 			}
+
 		}
 
 		return filterList;

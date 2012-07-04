@@ -37,22 +37,32 @@
 							${param.msg == 'accountNotExist'? '用户不存在': ''}
 							${param.msg == 'passwordNotCorrect'? '密码不正确': ''}
 							${param.msg == 'accountInactive'? '用户已被冻结,无法登陆': ''}
+							${param.msg == 'captchaNotCorrect'? '验证码不正确': ''}
 						</div>
 						
 						<div class="control-group">
 							<div>
 								<span>用户名:</span> 
-								<input class="input-xlarge focused" name="username" type="text" placeholder="username"/>
+								<input class="input-xlarge focused" name="username" type="text" placeholder="username" style="width: 300px; height: 25px;"/>
 							</div>
 						</div>
 	
 						<div class="control-group">
 							<div>
 								<span>密&nbsp;&nbsp;&nbsp;码:</span> 
-								<input class="input-xlarge focused" name="password" type="password" placeholder="password"/>
+								<input class="input-xlarge focused" name="password" type="password" placeholder="password" style="width: 300px; height: 25px;"/>
 							</div>
 						</div>
 	
+						<div class="control-group">
+							<div>
+								<span>验证码:</span> 
+								<input class="input-xlarge focused" name="captcha" type="text" placeholder="captcha" style="width: 130px; height: 25px;"/>
+								<img style="width: 100px; height: 35px; cursor: pointer;" id="captchaImg" onclick="changeCaptcha();" src="${pageContext.request.contextPath}/servlet/captcha.jpg"/>
+								<span style="cursor: pointer;" onclick="changeCaptcha();">换一张</span>
+							</div>
+						</div>
+						
 						<div class="">
 							<button type="submit" class="btn btn-primary btn-large">登&nbsp;&nbsp;&nbsp;陆</button>
 						</div>
@@ -70,6 +80,11 @@
 				window.open(".", "_top");
 			}
 			document.forms["loginForm"].elements["username"].focus();
+			
+			function changeCaptcha(){
+				document.getElementById("captchaImg").src = "${pageContext.request.contextPath}/servlet/captcha.jpg?" + (new Date()).valueOf(); ;
+			}
+			
 		// -->
 		</script>
 

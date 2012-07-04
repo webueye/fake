@@ -33,7 +33,7 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th class="th" colspan="7" align="right">
+								<th class="th" colspan="6" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/brand/edit-new">
 											品牌添加
@@ -48,8 +48,7 @@
 								<th>编号</th>
 								<th>品牌编码</th>
 								<th>品牌名称</th>
-								<th>品牌链接</th>
-								<th>Logo链接</th>
+								<th>Logo</th>
 								<th>品牌状态</th>
 								<th>操 作</th>
 							</tr>
@@ -62,13 +61,10 @@
 										<u:valueFormat value="${brand.brandSpell}"/>
 									</td>
 									<td>
-										<u:valueFormat value="${brand.brandName}"/>
+										<a href="${brand.link}" target="blank"><u:valueFormat value="${brand.brandName}"/></a>
 									</td>
 									<td>
-										<a href="${brand.link}">${brand.link}</a>
-									</td>
-									<td>
-										<a href="${brand.logoLink}">${brand.logoLink}</a>
+										<img alt="Logo" src="${brand.logoLink}" width="32" height="32" onmouseover="showLogoImg(this);" data-original-title="${brand.brandName} Logo" data-content="<img src='${brand.logoLink}'/>"/>
 									</td>
 									<td>${brand.status? '启用': '禁用'}</td>
 									<td>
@@ -96,6 +92,12 @@
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			function showLogoImg(elem){
+				$(elem).popover();
+			}
+		</script>
 		
 	</body>
 

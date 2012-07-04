@@ -19,10 +19,27 @@
 				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/delivery/search">	
 					<div class="search">
 						<div class="row">
-							<div class="span10">
+							<div class="span12">
 								<div class="control-group">
 						           	<span style="margin-left: 10px;">经销商： </span>
-						            <input class="input-large" name="filter_LIKES_purchaseCompany.companyName" value="${filter_LIKES_purchaseCompany_companyName}" style="width: 100px;" placeholder="经销商名称"/>
+						            <input class="input-small" name="filter_LIKES_purchaseCompany.companyName" value="${filter_LIKES_purchaseCompany_companyName}" placeholder="经销商名称"/>
+						           	
+						           	<span style="margin-left: 10px;">发货单号： </span>
+						            <input class="input-small" name="filter_LIKES_purchaseNo" value="${filter_LIKES_purchaseNo}" placeholder="发货单号"/>
+						           	
+						           	<span style="margin-left: 10px;">状态 </span>
+						            <select name="filter_EQI_statusCode" class="input-small">
+						           		<option value="">请选择</option>
+						           		<option value="1" ${filter_EQI_statusCode == '1'? 'selected': ''}>新建</option>
+						           		<option value="2" ${filter_EQI_statusCode == '2'? 'selected': ''}>在途</option>
+						           		<option value="4" ${filter_EQI_statusCode == '4'? 'selected': ''}>收货</option>
+						           		<option value="5" ${filter_EQI_statusCode == '5'? 'selected': ''}>完成</option>
+						           	</select>
+						           	
+						           	<span style="margin-left: 10px;">发货日期： </span>
+						            <input class="input-small" name="filter_BAD_deliveryDateTime" value="${filter_BAD_deliveryDateTime}" onFocus="WdatePicker()" placeholder="开始日期"/>
+						            <input class="input-small" name="filter_BAD_deliveryDateTime" value="${filter_BAD_deliveryDateTime_}" onFocus="WdatePicker()" placeholder="结束日期"/>
+								  	
 								  	<button type="submit" class="btn btn-primary">查询</button>
 						            <input name="filter_EQL_supplierCompany.id" value="${currentAccount.companyId}" type="hidden"/>
 						        </div>
@@ -32,11 +49,12 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr class="th">
-								<th class="gray" colspan="8">供货列表</th>
+								<th class="gray" colspan="9">供货列表</th>
 							</tr>
 							
 							<tr>
 								<th>编号</th>
+								<th>发货单号</th>
 								<th>经销商</th>
 								<th>发货人</th>
 								<th>收货人</th>
@@ -50,6 +68,7 @@
 							<c:forEach var="purchase" items="${page.datas}">
 								<tr>
 									<td>${purchase.id}</td>
+									<td>${purchase.purchaseNo}</td>
 									<td>${purchase.purchaseCompany.companyName}</td>
 									<td>${purchase.deliveryName}</td>
 									<td>${purchase.arrivalName}</td>
@@ -73,7 +92,7 @@
 							</c:forEach>
 							
 							<jsp:include page="/common/no-data.jsp">
-								<jsp:param value="8" name="colspan"/>
+								<jsp:param value="9" name="colspan"/>
 							</jsp:include>
 							
 						</tbody>

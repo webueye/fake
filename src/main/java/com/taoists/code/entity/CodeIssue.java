@@ -2,6 +2,7 @@ package com.taoists.code.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -10,6 +11,7 @@ import com.taoists.base.entity.BoxSpec;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
+import com.taoists.crm.entity.Company;
 import com.taoists.sys.entity.Account;
 
 /**
@@ -41,7 +43,9 @@ public class CodeIssue extends BaseEntity {
 	@Comment("状态")
 	private Boolean status;
 	@Comment("创建公司ID")
-	private Long companyId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company creationCompany;
+	// private Long companyId;
 	@Comment("生成码类型: 防伪码/箱码")
 	private Boolean codeType;
 
@@ -106,13 +110,21 @@ public class CodeIssue extends BaseEntity {
 		this.status = status;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public void setCreationCompany(Company creationCompany) {
+		this.creationCompany = creationCompany;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public Company getCreationCompany() {
+		return creationCompany;
 	}
+
+	// public Long getCompanyId() {
+	// return companyId;
+	// }
+	//
+	// public void setCompanyId(Long companyId) {
+	// this.companyId = companyId;
+	// }
 
 	public Boolean getCodeType() {
 		return codeType;

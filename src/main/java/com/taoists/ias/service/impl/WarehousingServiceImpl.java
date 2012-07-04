@@ -56,7 +56,9 @@ public class WarehousingServiceImpl extends HibernateDaoSupport<Warehousing> imp
 			warehousingItemService.save(item);
 
 			for (BoxCode boxCode : model.getBoxCodes()) {
+				boxCode.setStorageCompany(warehousing.getCompany());
 				boxCode.setStatus(BoxCodeStatus.warehousing);
+				boxCode.setStatusCode(BoxCodeStatus.warehousing.getCode());
 				boxCodeService.update(boxCode);
 
 				WarehousingBox box = new WarehousingBox();
