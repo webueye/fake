@@ -6,6 +6,7 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WriteException;
 
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -38,7 +39,12 @@ public class MainClass {
 //		pl(str.substring(0, str.lastIndexOf(".")));
 //		
 //		pl(str.substring(0, str.lastIndexOf(".")).replaceAll("\\.", "_"));
-
+		
+		
+		LocalDate localDate = LocalDate.now();
+		
+		pl(localDate.toString("yyyy"));
+		
 	}
 
 	static void writeHeader(WritableSheet writableSheet) throws Exception, WriteException {

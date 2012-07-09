@@ -1,5 +1,7 @@
 package com.taoists.code.service.impl;
 
+import java.util.concurrent.TimeUnit;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,18 +25,18 @@ import com.taoists.common.util.DateUtils;
  * @author rubys@vip.qq.com
  * @since 2012-6-3
  */
-@Service("codeRuleDao")
+@Service("codeIssueService")
 public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> implements CodeIssueService {
 
 	@Override
 	@Transactional
 	public void genCode(CodeIssue codeIssue) {
 		save(codeIssue);
-
+		Long batchNum = super.count("codeType", Boolean.FALSE);
 		if (codeIssue.getCodeType()) {
 			genBoxCode(codeIssue);
 		} else {
-			genFakeCode(codeIssue);
+			genFakeCode(codeIssue, batchNum);
 		}
 	}
 
@@ -53,13 +55,16 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 		}
 	}
 
-	private void genFakeCode(CodeIssue codeIssue) {
+	private void genFakeCode(CodeIssue codeIssue, Long batchNum) {
+		String codePrefix = CodeUtils.getCodePrefix(batchNum);
+		int plainCode = 100000;
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			FakeCode fakeCode = new FakeCode();
 			fakeCode.setCodeIssue(codeIssue);
 			fakeCode.setBoxSpec(codeIssue.getBoxSpec());
-			fakeCode.setFakeCode(CodeUtils.genCode(codeIssue.getCodeLength()));
-			fakeCode.setPlainCode(CodeUtils.genCode(codeIssue.getCodeLength()));
+			String randomCode = CodeUtils.genCode(7);
+			fakeCode.setFakeCode("0" + randomCode.substring(0, 3) + codePrefix + randomCode.substring(3, 7));
+			fakeCode.setPlainCode(codePrefix + (++plainCode));
 			fakeCode.setStatus(codeIssue.getStatus());
 			insert(fakeCode);
 		}
@@ -83,15 +88,15 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 		return sb.toString();
 	}
 
-	private LoadingCache<String, Integer> cache = CacheBuilder.newBuilder().build(new CacheLoader<String, Integer>() {
+	private LoadingCache<String, Integer> cache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.DAYS)
+			.build(new CacheLoader<String, Integer>() {
+				@Override
+				public Integer load(String key) throws Exception {
+					return 1;
+				}
 
-		@Override
-		public Integer load(String key) throws Exception {
-			return 1;
-		}
+			});
 
-	});
-	
 	@Autowired
 	private BoxSpecService boxSpecService;
 

@@ -1,4 +1,4 @@
-package com.taoists.webservice;
+package com.taoists.code.webservice;
 
 import javax.jws.WebService;
 

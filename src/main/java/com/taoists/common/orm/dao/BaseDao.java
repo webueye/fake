@@ -49,6 +49,8 @@ public interface BaseDao<T extends BaseEntity> {
 	List<T> findPage(DetachedCriteria detachedCriteria, Page page);
 
 	List<T> findPage(final Page page, final List<PropertyFilter> filters);
+	
+	Long count(String propertyName, Object value);
 
 	long countCriteriaResult(final Criteria criteria);
 

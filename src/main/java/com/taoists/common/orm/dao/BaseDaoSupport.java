@@ -27,7 +27,6 @@ public abstract class BaseDaoSupport<T extends BaseEntity> implements BaseDao<T>
 
 	@Override
 	@SuppressWarnings("unchecked")
-	@Transactional(readOnly = true)
 	public T get(Serializable id) {
 		return (T) getSession().get(getEntityClass(), id);
 	}

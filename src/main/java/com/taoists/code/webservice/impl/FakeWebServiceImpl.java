@@ -1,4 +1,4 @@
-package com.taoists.webservice.impl;
+package com.taoists.code.webservice.impl;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ import com.taoists.code.entity.FakeCode;
 import com.taoists.code.entity.QueryWayStatus;
 import com.taoists.code.service.CodeQueryService;
 import com.taoists.code.service.FakeCodeService;
-import com.taoists.webservice.FakeWebService;
+import com.taoists.code.webservice.FakeWebService;
 
 /**
  * @author rubys@vip.qq.com
  * @since 2012-7-3
  */
 @Service("fakeWebServiceImpl")
-@WebService(endpointInterface = "com.taoists.webservice.FakeWebService")
+@WebService(endpointInterface = "com.taoists.code.webservice.FakeWebService")
 public class FakeWebServiceImpl implements FakeWebService {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());

@@ -80,6 +80,13 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		return criteria;
 	}
 
+	@Override
+	public Long count(String propertyName, Object value) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		detachedCriteria.add(Restrictions.eq(propertyName, value));
+		return countCriteriaResult(detachedCriteria.getExecutableCriteria(getSession()));
+	}
+
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public long countCriteriaResult(final Criteria criteria) {
 		CriteriaImpl impl = (CriteriaImpl) criteria;
@@ -146,10 +153,10 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 				if (propertyName.indexOf(".") != -1) {
 					String aliasPrefix = propertyName.substring(0, propertyName.lastIndexOf("."));
 					String[] aliases = aliasPrefix.split("\\.");
-					
+
 					StringBuilder sb = new StringBuilder();
-					for(String alias: aliases){
-						if(sb.length() > 0){
+					for (String alias : aliases) {
+						if (sb.length() > 0) {
 							sb.append(".");
 						}
 						sb.append(alias);
@@ -180,14 +187,14 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 
 	protected Criterion buildCriterion(String propertyName, final Object propertyValue, final MatchType matchType) {
 		Assert.hasText(propertyName, "propertyName is required.");
-		
+
 		String[] dots = propertyName.split("\\.");
-		if(dots.length > 2){
+		if (dots.length > 2) {
 			String alias = propertyName.substring(0, propertyName.lastIndexOf("."));
 			String last = propertyName.substring(propertyName.lastIndexOf("."), propertyName.length());
-			propertyName = alias.replaceAll("\\.", "_")+last;
+			propertyName = alias.replaceAll("\\.", "_") + last;
 		}
-		
+
 		Criterion criterion = null;
 		switch (matchType) {
 		case EQ:
