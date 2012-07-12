@@ -1,19 +1,25 @@
 package com.taoists;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WriteException;
 
-import org.joda.time.LocalDate;
+import org.krysalis.barcode4j.impl.code39.Code39Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import org.krysalis.barcode4j.tools.UnitConv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.taoists.code.entity.BoxCode;
-import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.util.DateUtils;
 
@@ -27,24 +33,50 @@ public class MainClass {
 
 	public static void main(String[] args) throws Exception {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("app.xml");
-//		BoxCodeService boxCodeService = (BoxCodeService) ctx.getBean("boxCodeService");
+		// BoxCodeService boxCodeService = (BoxCodeService)
+		// ctx.getBean("boxCodeService");
 		FakeCodeService fakeCodeService = (FakeCodeService) ctx.getBean("fakeCodeService");
-		
-//		
-//		boxCodeService.test();
-//		String str = "a.b.c";
-//		String[] s = str.split("\\.");
-//		
-//		pl(str.substring(str.lastIndexOf(".")+1, str.length()));
-//		pl(str.substring(0, str.lastIndexOf(".")));
-//		
-//		pl(str.substring(0, str.lastIndexOf(".")).replaceAll("\\.", "_"));
-		
-		
-		LocalDate localDate = LocalDate.now();
-		
-		pl(localDate.toString("yyyy"));
-		
+
+		// List<FakeCode> fakeCodes = fakeCodeService.findAll();
+		// long start = System.currentTimeMillis();
+		// for (FakeCode fakeCode : fakeCodes) {
+		// genBarCode(fakeCode.getPlainCode());
+		// }
+		// logger.error("----------[{}]", System.currentTimeMillis() - start);
+
+		fakeCodeService.getPlainCodeRange(1L);
+		fakeCodeService.getPlainCodeRange(3L);
+
+	}
+
+	static void genBarCode(String barCode) {
+		Code39Bean bean = new Code39Bean();
+		int dpi = 150;
+		bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+		bean.setWideFactor(3);
+		bean.doQuietZone(false);
+		File outputFile = new File("F:/code/" + barCode + ".jpg");
+		OutputStream out = null;
+		BitmapCanvasProvider canvas = null;
+		try {
+			out = new FileOutputStream(outputFile);
+			canvas = new BitmapCanvasProvider(out, "image/jpeg", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+			bean.generateBarcode(canvas, barCode);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (canvas != null) {
+					canvas.finish();
+				}
+				if (out != null) {
+					out.close();
+				}
+			} catch (Exception e) {
+
+			}
+		}
 	}
 
 	static void writeHeader(WritableSheet writableSheet) throws Exception, WriteException {

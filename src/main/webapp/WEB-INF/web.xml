@@ -26,7 +26,7 @@
 		<filter-class>com.taoists.common.filter.SecurityFilter</filter-class>
 		<init-param>
 			<param-name>resource</param-name>
-			<param-value>/images/, /css/, /js/, /login, /login.jsp, /servlet/captcha.jpg, /services/</param-value>
+			<param-value>/images/, /css/, /js/, /login, /login.jsp, /servlet/captcha.jpg, /services/, /barcode/</param-value>
 		</init-param>
 	</filter>
 

@@ -13,6 +13,7 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/twitter/bootstrap-tooltip.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/validate/jquery.validate.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/validate/jquery.metadata.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/plugins/validate/messages_cn.js"></script>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/date/WdatePicker.js"></script>
@@ -44,6 +45,6 @@
   	</div>
   	<div class="modal-footer">
     	<a href="#" class="btn" data-dismiss="modal">取消</a>
-    	<button type="button" class="btn btn-primary" onclick="confirmMessage();" data-dismiss="modal">确定</button>
+    	<button type="button" class="btn btn-primary" onclick="confirmMessage(this);" data-dismiss="modal">确定</button>
   	</div>
 </div>

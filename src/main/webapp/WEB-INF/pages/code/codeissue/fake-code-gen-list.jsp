@@ -78,6 +78,7 @@
 										<u:dateFormat value="${codeIssue.createDateTime}"/>
 									</td>
 									<td>
+										<a href="#" onclick="printHandle('${codeIssue.id}');">打印</a>
 										<a href="${pageContext.request.contextPath}/code-issue/export/${codeIssue.id}">导出</a>&nbsp;
 										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">${codeIssue.codeType? '箱码': '防伪码'}列表</a>
 									</td>
@@ -101,7 +102,58 @@
 				
 		</div>
 		
+		<div id="printDiv" style="display: none;">
+	            <input class="input-small" id="minCode"/>
+	            <input class="input-small" id="maxCode"/>
+		</div>
+		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			var codeIssueId;
+			function printHandle(id){
+				codeIssueId = id;
+				common.post({codeIssueId: codeIssueId}, "/fake-code/range", function(data){
+					if(data && data[0]){
+						$("#minCode").val(data[0][0]);
+						$("#maxCode").val(data[0][1]);
+						
+						var content = new Array();
+						content.push('<div class="control-group">');
+						content.push('	<span>打印码范围：</span>');
+						content.push('	<input class="input-small" id="beginCode" value="'+data[0][0]+'"/>');
+						content.push('	<input class="input-small" id="endCode" value="'+data[0][1]+'"/>');
+						content.push('</div>');
+						
+						$("#messageAlert").html(content.join(''));
+						$("#modalDiv").show();
+						$("#modalDiv").modal({
+							backdrop:true
+						});
+					}
+				});
+				return false;
+			}
+			
+			function confirmMessage(elem){
+				var beginCode = $("#beginCode").val();
+				var endCode = $("#endCode").val();
+
+				var minCode = $("#minCode").val();
+				var maxCode = $("#maxCode").val();
+				
+				$(elem).attr("data-dismiss", "");
+				if(isNaN(beginCode) || isNaN(endCode) || parseInt(beginCode) < parseInt(minCode) || parseInt(endCode) < parseInt(maxCode)){
+					alert("请输入在["+ minCode +"]和["+ maxCode +"]之间的值");
+				}else{
+					if(parseInt(beginCode) > parseInt(endCode)){
+						alert("起始码不能大于结束码");
+					}else{
+						$(elem).attr("data-dismiss", "modal");
+					}
+				}
+			}
+		</script>
 		
 	</body>
 
