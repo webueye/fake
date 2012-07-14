@@ -71,11 +71,15 @@ public class FakeCodeController extends CommonController {
 		String realPath = request.getSession().getServletContext().getRealPath(BAR_CODE_PATH);
 
 		List<FakeCode> fakeCodes = fakeCodeService.findFakeCodes(codeIssueId, startCode, endCode);
-		List<String> urls = Lists.newArrayList();
+		List<BarCodeBean> beans = Lists.newArrayList();
 		for (FakeCode fakeCode : fakeCodes) {
-			urls.add(BAR_CODE_PATH + BarCodeUtils.genBarCode(realPath, fakeCode.getPlainCode()));
+			StringBuilder sb = new StringBuilder(request.getContextPath()+BAR_CODE_PATH);
+			sb.append(BarCodeUtils.genBarCode(realPath, fakeCode.getPlainCode()));
+			beans.add(new BarCodeBean(sb.toString()));
 		}
-		return JSONArray.fromObject(urls).toString();
+		String json = JSONArray.fromObject(beans).toString();
+		logger.debug("Bar code json[{}]", json);
+		return json;
 	}
 
 	public static final String BAR_CODE_PATH = "/barcode";

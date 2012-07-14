@@ -121,7 +121,7 @@
 						var content = new Array();
 						content.push('<div class="control-group">');
 						content.push('	<span>打印码范围：</span>');
-						content.push('	<input class="input-small" id="beginCode" value="'+data[0][0]+'"/>');
+						content.push('	<input class="input-small" id="startCode" value="'+data[0][0]+'"/>');
 						content.push('	<input class="input-small" id="endCode" value="'+data[0][1]+'"/>');
 						content.push('</div>');
 						
@@ -136,20 +136,21 @@
 			}
 			
 			function confirmMessage(elem){
-				var beginCode = $("#beginCode").val();
+				var startCode = $("#startCode").val();
 				var endCode = $("#endCode").val();
 
 				var minCode = $("#minCode").val();
 				var maxCode = $("#maxCode").val();
 				
 				$(elem).attr("data-dismiss", "");
-				if(isNaN(beginCode) || isNaN(endCode) || parseInt(beginCode) < parseInt(minCode) || parseInt(endCode) < parseInt(maxCode)){
+				if(isNaN(startCode) || isNaN(endCode) || parseInt(startCode) < parseInt(minCode) || parseInt(endCode) < parseInt(maxCode)){
 					alert("请输入在["+ minCode +"]和["+ maxCode +"]之间的值");
 				}else{
-					if(parseInt(beginCode) > parseInt(endCode)){
+					if(parseInt(startCode) > parseInt(endCode)){
 						alert("起始码不能大于结束码");
 					}else{
 						$(elem).attr("data-dismiss", "modal");
+						window.open("${pageContext.request.contextPath}/print.jsp?codeIssueId="+codeIssueId+"&startCode="+startCode+"&endCode="+endCode);
 					}
 				}
 			}
