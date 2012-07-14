@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.collect.Lists;
 import com.taoists.base.entity.Product;
 import com.taoists.code.controller.path.ResultPath;
 import com.taoists.code.entity.BoxCode;
+import com.taoists.code.util.BarCodeUtils;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
@@ -88,9 +90,35 @@ public class BoxCodeController extends CommonController {
 		}
 		return JSONArray.fromObject(boxModels, conf).toString();
 	}
+	
+	@RequestMapping(value = "range", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	public @ResponseBody
+	String range(long codeIssueId) {
+		return JSONArray.fromObject(boxCodeService.getCodeRange(codeIssueId).get(0)).toString();
+	}
+
+	@RequestMapping(value = "gen-bar-code", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public @ResponseBody
+	String genBarCode(HttpServletRequest request, long codeIssueId, String startCode, String endCode) {
+		String realPath = request.getSession().getServletContext().getRealPath(BAR_CODE_PATH);
+
+		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(codeIssueId, startCode, endCode);
+		List<BarCodeBean> beans = Lists.newArrayList();
+		for (BoxCode boxCode : boxCodes) {
+			StringBuilder sb = new StringBuilder(request.getContextPath()+BAR_CODE_PATH);
+			sb.append(BarCodeUtils.genBarCode(realPath, boxCode.getBoxCode()));
+			beans.add(new BarCodeBean(sb.toString()));
+		}
+		String json = JSONArray.fromObject(beans).toString();
+		logger.debug("Bar code json[{}]", json);
+		return json;
+	}
+	
 
 	private String forword(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxCode, viewName);
 	}
+
+	public static final String BAR_CODE_PATH = "/barcode";
 
 }

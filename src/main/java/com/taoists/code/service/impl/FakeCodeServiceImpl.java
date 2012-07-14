@@ -1,10 +1,6 @@
 package com.taoists.code.service.impl;
 
-import java.io.Serializable;
-import java.util.List;
-
 import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
@@ -24,25 +20,6 @@ public class FakeCodeServiceImpl extends HibernateDaoSupport<FakeCode> implement
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		detachedCriteria.add(Restrictions.eq("plainCode", plainCode));
 		return (FakeCode) detachedCriteria.getExecutableCriteria(getSession()).uniqueResult();
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<String> getPlainCodeRange(Serializable codeIssueId) {
-		DetachedCriteria criteria = createDetachedCriteria();
-		criteria.add(Restrictions.eq("codeIssue.id", codeIssueId));
-		criteria.setProjection(Projections.projectionList().add(Projections.min("plainCode")).add(Projections.max("plainCode")));
-		return criteria.getExecutableCriteria(getSession()).list();
-
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<FakeCode> findFakeCodes(long codeIssueId, String startCode, String endCode) {
-		DetachedCriteria criteria = createDetachedCriteria();
-		criteria.add(Restrictions.eq("codeIssue.id", codeIssueId));
-		criteria.add(Restrictions.between("plainCode", startCode, endCode));
-		return criteria.getExecutableCriteria(getSession()).list();
 	}
 
 }

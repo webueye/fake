@@ -20,7 +20,7 @@
 				<param name="play" value="true" />
 				<param name="loop" value="true" />
 				<param name="wmode" value="direct" />
-				<param name="FlashVars" value="urlGetData=${pageContext.request.contextPath}/fake-code/gen-bar-code" />
+				<param name="FlashVars" value="urlGetData=${pageContext.request.contextPath}/box-code/gen-bar-code" />
 				<param name="scale" value="showall" />
 				<param name="menu" value="true" />
 				<param name="devicefont" value="true" />
@@ -33,7 +33,7 @@
 					<param name="bgcolor" value="#ffffcc" />
 					<param name="play" value="true" />
 					<param name="loop" value="true" />
-					<param name="FlashVars" value="urlGetData=${pageContext.request.contextPath}/fake-code/gen-bar-code" />
+					<param name="FlashVars" value="urlGetData=${pageContext.request.contextPath}/box-code/gen-bar-code" />
 					<param name="wmode" value="direct" />
 					<param name="scale" value="showall" />
 					<param name="menu" value="true" />

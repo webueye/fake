@@ -1,15 +1,9 @@
 package com.taoists.code.service.impl;
 
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.taoists.base.entity.BoxSpec;
 import com.taoists.base.service.BoxSpecService;
 import com.taoists.code.entity.BoxCode;
@@ -19,7 +13,6 @@ import com.taoists.code.entity.FakeCode;
 import com.taoists.code.service.CodeIssueService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.common.util.CodeUtils;
-import com.taoists.common.util.DateUtils;
 
 /**
  * @author rubys@vip.qq.com
@@ -32,20 +25,24 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 	@Transactional
 	public void genCode(CodeIssue codeIssue) {
 		save(codeIssue);
-		Long batchNum = super.count("codeType", Boolean.FALSE);
+		Long boxCodeBatchNum = super.count("codeType", Boolean.TRUE);
+		Long fakeCodeBatchNum = super.count("codeType", Boolean.FALSE);
 		if (codeIssue.getCodeType()) {
-			genBoxCode(codeIssue);
+			genBoxCode(codeIssue, boxCodeBatchNum);
 		} else {
-			genFakeCode(codeIssue, batchNum);
+			genFakeCode(codeIssue, fakeCodeBatchNum);
 		}
 	}
 
-	private void genBoxCode(CodeIssue codeIssue) {
+	private void genBoxCode(CodeIssue codeIssue, Long batchNum) {
 		BoxSpec boxSpec = boxSpecService.get(codeIssue.getBoxSpec().getId());
+
+		String codePrefix = CodeUtils.getCodePrefix(batchNum);
+		int code = 10000;
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			BoxCode boxCode = new BoxCode();
 			boxCode.setCodeIssue(codeIssue);
-			boxCode.setBoxCode(genBoxCodeValue(boxSpec));
+			boxCode.setBoxCode(codePrefix + boxSpec.getSpecNo() + (++code));
 			boxCode.setBoxSpec(boxSpec);
 			boxCode.setCreationCompany(codeIssue.getCreationCompany());
 			boxCode.setStorageCompany(codeIssue.getCreationCompany());
@@ -69,33 +66,6 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 			insert(fakeCode);
 		}
 	}
-
-	private String genBoxCodeValue(BoxSpec boxSpec) {
-		String dateStr = DateUtils.todayToString();
-		Integer num = cache.getUnchecked(dateStr);
-		cache.put(dateStr, num + 1);
-		StringBuilder sb = new StringBuilder();
-		if (StringUtils.isNotBlank(boxSpec.getSpecNo())) {
-			sb.append(boxSpec.getSpecNo());
-		}
-		sb.append(dateStr);
-
-		String numStr = num.toString();
-		for (int i = numStr.length(); i < 6; i++) {
-			sb.append("0");
-		}
-		sb.append(numStr);
-		return sb.toString();
-	}
-
-	private LoadingCache<String, Integer> cache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.DAYS)
-			.build(new CacheLoader<String, Integer>() {
-				@Override
-				public Integer load(String key) throws Exception {
-					return 1;
-				}
-
-			});
 
 	@Autowired
 	private BoxSpecService boxSpecService;

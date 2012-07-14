@@ -1,5 +1,6 @@
 package com.taoists.code.service.impl;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ import com.taoists.crm.entity.Company;
 @Transactional
 @Service("boxCodeService")
 public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements BoxCodeService {
-	
+
 	@Override
 	@Transactional
 	public void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status, Company storageCompany) {
@@ -87,6 +89,24 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		detachedCriteria.add(Restrictions.in("boxCode", boxCodes));
 		return detachedCriteria.getExecutableCriteria(getSession()).list();
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<String> getCodeRange(Serializable codeIssueId) {
+		DetachedCriteria criteria = createDetachedCriteria();
+		criteria.add(Restrictions.eq("codeIssue.id", codeIssueId));
+		criteria.setProjection(Projections.projectionList().add(Projections.min("boxCode")).add(Projections.max("boxCode")));
+		return criteria.getExecutableCriteria(getSession()).list();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<BoxCode> findBoxCodes(long codeIssueId, String startCode, String endCode){
+		DetachedCriteria criteria = createDetachedCriteria();
+		criteria.add(Restrictions.eq("codeIssue.id", codeIssueId));
+		criteria.add(Restrictions.between("boxCode", startCode, endCode));
+		return criteria.getExecutableCriteria(getSession()).list();
 	}
 
 	@Autowired

@@ -8,7 +8,6 @@ import java.io.OutputStream;
 
 import org.krysalis.barcode4j.impl.code39.Code39Bean;
 import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
-import org.krysalis.barcode4j.tools.UnitConv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +21,7 @@ public class BarCodeUtils {
 
 	public static final Logger logger = LoggerFactory.getLogger(BarCodeUtils.class);
 
-	public static final int dpi = 150;
+	public static final int dpi = 130;
 	public static final String IMAGE_EXT_NAME = ".jpg";
 	public static final String IMAGE_TYPE = "image/jpeg";
 
@@ -33,7 +32,9 @@ public class BarCodeUtils {
 		sb.append(plainCode).append(IMAGE_EXT_NAME);
 
 		Code39Bean bean = new Code39Bean();
-		bean.setModuleWidth(UnitConv.in2mm(1.0f / dpi));
+		bean.setBarHeight(25.0);
+		
+		bean.setModuleWidth(0.25);
 		bean.setWideFactor(3);
 		bean.doQuietZone(false);
 		OutputStream out = null;
