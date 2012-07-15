@@ -1,5 +1,6 @@
 package com.taoists.code.controller;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -8,11 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONArray;
 import net.sf.json.JsonConfig;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.collect.Lists;
 import com.taoists.base.entity.Product;
@@ -54,6 +58,36 @@ public class BoxCodeController extends CommonController {
 		return Module.code + "/boxcode/box-fake-bind";
 	}
 
+	@RequestMapping("/from-file")
+	public String fromFile() {
+		return Module.code + "/boxcode/box-fake-from-file";
+	}
+
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/upload-to-bind", method = RequestMethod.POST)
+	public String uploadToBind(@RequestParam MultipartFile codeFile, Model model) {
+		InputStream inputStream = null;
+		try {
+			inputStream = codeFile.getInputStream();
+			List<String> lines = IOUtils.readLines(inputStream);
+			boxCodeService.fromFileToBind(lines);
+			model.addAttribute("msg", "success");
+		} catch (Exception e) {
+			logger.debug("Upload file to binding error[{}]", e.getMessage());
+			model.addAttribute("msg", "error");
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (Exception e) {
+					logger.debug("Closing input stream error[{}]", e.getMessage());
+					model.addAttribute("msg", "error");
+				}
+			}
+		}
+		return Module.code + "/boxcode/box-fake-from-file"; 
+	}
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(BoxCode boxCode, Page page) {
 		logger.debug("list: boxCode[{}]", boxCode);
@@ -90,7 +124,7 @@ public class BoxCodeController extends CommonController {
 		}
 		return JSONArray.fromObject(boxModels, conf).toString();
 	}
-	
+
 	@RequestMapping(value = "range", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
 	public @ResponseBody
 	String range(long codeIssueId) {
@@ -105,7 +139,7 @@ public class BoxCodeController extends CommonController {
 		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(codeIssueId, startCode, endCode);
 		List<BarCodeBean> beans = Lists.newArrayList();
 		for (BoxCode boxCode : boxCodes) {
-			StringBuilder sb = new StringBuilder(request.getContextPath()+BAR_CODE_PATH);
+			StringBuilder sb = new StringBuilder(request.getContextPath() + BAR_CODE_PATH);
 			sb.append(BarCodeUtils.genBarCode(realPath, boxCode.getBoxCode()));
 			beans.add(new BarCodeBean(sb.toString()));
 		}
@@ -113,7 +147,6 @@ public class BoxCodeController extends CommonController {
 		logger.debug("Bar code json[{}]", json);
 		return json;
 	}
-	
 
 	private String forword(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxCode, viewName);

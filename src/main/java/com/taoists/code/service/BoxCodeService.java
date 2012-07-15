@@ -19,6 +19,8 @@ public interface BoxCodeService extends BaseDao<BoxCode> {
 	void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status, Company storageCompany);
 
 	Map<String, String> bind(List<String> codes);
+	
+	void fromFileToBind(List<String> lines);
 
 	BoxCode getByBoxCode(String boxCode);
 

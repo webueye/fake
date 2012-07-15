@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.FakeCode;
@@ -77,6 +80,27 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 	}
 
 	@Override
+	public void fromFileToBind(List<String> lines) {
+		Map<String, Set<String>> group = group(lines);
+		for (Entry<String, Set<String>> entry : group.entrySet()) {
+			BoxCode boxCode = getByBoxCode(entry.getKey());
+			if (boxCode == null) {
+				continue;
+			}
+			for (String plainCode : entry.getValue()) {
+				FakeCode fakeCode = fakeCodeService.getByPlainCode(plainCode);
+				if (fakeCode == null) {
+					continue;
+				}
+				if (fakeCode.getBoxCode() == null) {
+					fakeCode.setBoxCode(boxCode);
+					fakeCodeService.update(fakeCode);
+				}
+			}
+		}
+	}
+
+	@Override
 	public BoxCode getByBoxCode(String boxCode) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		detachedCriteria.add(Restrictions.eq("boxCode", boxCode));
@@ -99,14 +123,48 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		criteria.setProjection(Projections.projectionList().add(Projections.min("boxCode")).add(Projections.max("boxCode")));
 		return criteria.getExecutableCriteria(getSession()).list();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<BoxCode> findBoxCodes(long codeIssueId, String startCode, String endCode){
+	public List<BoxCode> findBoxCodes(long codeIssueId, String startCode, String endCode) {
 		DetachedCriteria criteria = createDetachedCriteria();
 		criteria.add(Restrictions.eq("codeIssue.id", codeIssueId));
 		criteria.add(Restrictions.between("boxCode", startCode, endCode));
 		return criteria.getExecutableCriteria(getSession()).list();
+	}
+
+	private static final int BOX_CODE_LENGTH = 12;
+	
+	private Map<String, Set<String>> group(List<String> lines) {
+		Set<String> fakes = Sets.newHashSet();
+		Map<String, Set<String>> prepareGroup = Maps.newLinkedHashMap();
+		for (String line : lines) {
+			if (StringUtils.isBlank(line)) {
+				continue;
+			}
+			if (line.trim().length() == BOX_CODE_LENGTH) {
+				prepareGroup.put(line.trim(), fakes);
+				fakes = Sets.newHashSet();
+			} else {
+				fakes.add(line.trim());
+			}
+		}
+
+		Entry<String, Set<String>> previousEntry = null;
+		Map<String, Set<String>> grouped = Maps.newLinkedHashMap();
+		for (Entry<String, Set<String>> entry : prepareGroup.entrySet()) {
+			if (CollectionUtils.isEmpty(entry.getValue())) {
+				if (previousEntry != null && CollectionUtils.isNotEmpty(previousEntry.getValue())) {
+					grouped.remove(previousEntry.getKey());
+					grouped.put(entry.getKey(), previousEntry.getValue());
+					entry.setValue(previousEntry.getValue());
+				}
+			} else {
+				grouped.put(entry.getKey(), entry.getValue());
+			}
+			previousEntry = entry;
+		}
+		return grouped;
 	}
 
 	@Autowired

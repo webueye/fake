@@ -30,7 +30,7 @@
 							<tr class="th">
 								<th class="rth">编号：</th>
 								<td class="ltd">
-									<input class="input-xlarge required" name="specNo" type="text" style="width: 50%;"/>
+									<input class="input-xlarge required number {minlength:3, maxlength: 3}" id="specNo" name="specNo" type="text" style="width: 50%;" data-original-title="提示" data-content="编号格式：必须是3位的数字类型，可以以0开头，如：001，002，100， 222"/>
 								</td>
 							</tr>
 							<tr class="th">
@@ -79,6 +79,10 @@
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			$('#specNo').popover();
+		</script>
 		
 	</body>
 
