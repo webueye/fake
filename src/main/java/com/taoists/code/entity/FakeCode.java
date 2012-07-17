@@ -9,7 +9,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import com.taoists.base.entity.BoxSpec;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
@@ -33,10 +32,10 @@ public class FakeCode extends BaseEntity {
 	@Comment("防伪码")
 	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String fakeCode;
-	@Comment("包装箱种类")
-	@ManyToOne
-	@JoinColumn(name = "box_spec_id")
-	private BoxSpec boxSpec;
+//	@Comment("包装箱种类")
+//	@ManyToOne
+//	@JoinColumn(name = "box_spec_id")
+//	private BoxSpec boxSpec;
 	@Comment("箱码")
 	@ManyToOne
 	@JoinColumn(name = "box_code_id")
@@ -123,12 +122,12 @@ public class FakeCode extends BaseEntity {
 		this.status = status;
 	}
 
-	public BoxSpec getBoxSpec() {
-		return boxSpec;
-	}
-
-	public void setBoxSpec(BoxSpec boxSpec) {
-		this.boxSpec = boxSpec;
-	}
+//	public BoxSpec getBoxSpec() {
+//		return boxSpec;
+//	}
+//
+//	public void setBoxSpec(BoxSpec boxSpec) {
+//		this.boxSpec = boxSpec;
+//	}
 
 }

@@ -38,7 +38,7 @@ public class ExcelServiceImpl implements ExcelService {
 
 	private int pageSize = 1000;
 	public static String[] boxCodeHeader = { "箱码", "包装箱规格", "箱容量", "生成日期" };
-	public static String[] fakeCodeHeader = { "明码", "防伪码", "包装箱规格", "生成日期" };
+	public static String[] fakeCodeHeader = { "明码", "防伪码", "生成日期" };
 	public static String boxCodeSheetName = "箱码";
 	public static String fakeCodeSheetName = "防伪码";
 	public static int singleSheetMaxRows = 65001;
@@ -147,7 +147,7 @@ public class ExcelServiceImpl implements ExcelService {
 		for (FakeCode fakeCode : fakeCodes) {
 			writableSheet.addCell(new Label(0, row, fakeCode.getPlainCode()));
 			writableSheet.addCell(new Label(1, row, fakeCode.getFakeCode()));
-			writableSheet.addCell(new Label(2, row, fakeCode.getBoxSpec().getSpecName()));
+//			writableSheet.addCell(new Label(2, row, fakeCode.getBoxSpec().getSpecName()));
 			writableSheet.addCell(new Label(3, row, DateUtils.toString(fakeCode.getCreateDateTime())));
 			row += 1;
 		}

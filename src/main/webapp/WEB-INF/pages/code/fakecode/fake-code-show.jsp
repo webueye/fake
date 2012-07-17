@@ -32,7 +32,7 @@
 							</tr>
 							<tr class="th">
 								<th class="rth">包装箱规格</th>
-								<td class="ltd">${fakeCode.boxSpec.specName}</td>
+								<td class="ltd">${fakeCode.boxCode.boxSpec.specName}</td>
 								<th class="rth">查询次数</th>
 								<td class="ltd">${fakeCode.queryCount}</td>
 							</tr>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.taoists.base.entity.DataDict;
 import com.taoists.base.entity.DictCode;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
@@ -78,6 +79,11 @@ public class CompanyController extends CommonController {
 	@RequestMapping(value = "/update/{dictCategory.id}", method = RequestMethod.POST)
 	public String update(Company company) {
 		logger.debug("update: company[{}]", company);
+		companyService.clear();
+		company.setSaleForm(new DataDict(company.getSaleForm().getId()));
+		company.setCompanyType(new DataDict(company.getCompanyType().getId()));
+		company.setSaleRegion(new DataDict(company.getSaleRegion().getId()));
+		company.setCompanyNature(new DataDict(company.getCompanyNature().getId()));
 		companyService.saveOrUpdate(company);
 		return redirect(ResultPath.company);
 	}
