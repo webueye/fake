@@ -16,23 +16,26 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "account")
 public class Account extends BaseEntity {
 
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String userNo;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String nickname;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String email;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String username;
-	@Column(columnDefinition = "varchar(64) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String password;
 	private Boolean status;
 	private Boolean admin;
 	private Boolean sex;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String phone;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String mobile;
+	@Column(columnDefinition = "DEFAULT ''")
+	private String memo;	
+
 	private Long companyId;
 
 	public String getUserNo() {
@@ -114,7 +117,14 @@ public class Account extends BaseEntity {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
+	
+	public String getMemo() {
+		return memo;
+	}
 
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
 	public Long getCompanyId() {
 		return companyId;
 	}

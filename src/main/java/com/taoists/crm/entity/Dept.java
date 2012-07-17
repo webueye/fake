@@ -2,6 +2,7 @@ package com.taoists.crm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,20 +18,21 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "dept")
 public class Dept extends BaseEntity {
 
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String name;
 	private Dept parent;
 	// private Integer level;
 	// private Integer subCount;
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String deptNo;
 	private Integer ordres;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String telNo;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String faxNo;
 	private Integer recordStatus;
 	@ManyToOne
+	@JoinColumn(name = "companyId")		
 	private Company company;
 
 	public String getName() {
