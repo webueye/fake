@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.taoists.code.controller.BoxModel;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
+import com.taoists.code.model.BoxModel;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.ias.entity.Stock.ChangeTypeStatus;

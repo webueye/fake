@@ -22,6 +22,8 @@ import com.google.common.collect.Lists;
 import com.taoists.base.entity.Product;
 import com.taoists.code.controller.path.ResultPath;
 import com.taoists.code.entity.BoxCode;
+import com.taoists.code.model.BarCodeBean;
+import com.taoists.code.model.BoxModel;
 import com.taoists.code.util.BarCodeUtils;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
@@ -101,7 +103,6 @@ public class BoxCodeController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		boxCodeService.findPage(page, filters);
 		extractParams(request);
-		System.err.println(request);
 		return forword(ViewName.list);
 	}
 

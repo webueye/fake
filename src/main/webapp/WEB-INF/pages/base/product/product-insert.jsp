@@ -69,7 +69,7 @@
 								</td>
 								<th class="rth">保质期：</th>
 								<td class="ltd">
-									<input class="input-xlarge required number" name="retentioPeriod" type="text"/>
+									<input class="input-xlarge required number" name="retentionPeriod" type="text"/>
 								</td>
 							</tr>
 							<tr class="th">

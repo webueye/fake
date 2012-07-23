@@ -28,7 +28,7 @@
 							<tr class="th">
 								<th >菜单名称:</th>
 								<td class="ltd">
-									<input type="hidden" name="id" value="${menu.id }"/>
+									<input type="hidden" name="id" value="${menu.id}"/>
 									<input class="input-xlarge focused required" name="label" type="text" value="${menu.label}"/>
 								</td>
 							</tr>

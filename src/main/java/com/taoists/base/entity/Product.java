@@ -47,7 +47,7 @@ public class Product extends BaseEntity {
 	@Comment("市场价")
 	private BigDecimal marketPrice;
 	@Comment("保质期")
-	private Integer retentioPeriod;
+	private Integer retentionPeriod;
 	@Comment("拼音")
 	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String productSpell;
@@ -151,12 +151,12 @@ public class Product extends BaseEntity {
 		this.marketPrice = marketPrice;
 	}
 
-	public Integer getRetentioPeriod() {
-		return retentioPeriod;
+	public void setRetentionPeriod(Integer retentionPeriod) {
+		this.retentionPeriod = retentionPeriod;
 	}
 
-	public void setRetentioPeriod(Integer retentioPeriod) {
-		this.retentioPeriod = retentioPeriod;
+	public Integer getRetentionPeriod() {
+		return retentionPeriod;
 	}
 
 	public String getProductSpell() {

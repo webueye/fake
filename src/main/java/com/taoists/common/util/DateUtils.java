@@ -11,6 +11,8 @@ import org.joda.time.format.DateTimeFormat;
  */
 public class DateUtils {
 
+	public static final String YYMMDD = "yyMMdd";
+	public static final String YYYYMMDD = "yyyyMMdd";
 	public static final String PATTERN = "yyyy-MM-dd HH:mm:ss";
 
 	public static DateTime toDateTime(String dateTime) {
@@ -28,8 +30,15 @@ public class DateUtils {
 		return new DateTime(dateTime).toString(pattern);
 	}
 
+	public static String toString(LocalDate localDate, String pattern) {
+		if (localDate == null) {
+			return null;
+		}
+		return localDate.toString(pattern);
+	}
+
 	public static String todayToString() {
-		return new LocalDate().toString("yyMMdd");
+		return new LocalDate().toString(YYMMDD);
 	}
 
 }

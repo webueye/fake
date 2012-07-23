@@ -36,7 +36,7 @@ public class DataDictController extends CommonController {
 		dataDict.setDictCategory(dictCategory);
 		dataDictService.findDatas("dictCategory.id", categoryId, page);
 		model.addAttribute("dictCategory", dictCategory);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 	
 	@RequestMapping("/category/{categoryCode}")
@@ -49,21 +49,21 @@ public class DataDictController extends CommonController {
 		dataDict.setDictCategory(dictCategory);
 		dataDictService.findDataDictByCategoryCode(categoryCode, page);
 		model.addAttribute("dictCategory", dictCategory);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	public String list(HttpServletRequest request, DataDict dataDict, Page page) {
 		logger.debug("list: dataDict[{}], page[{}]", dataDict, page);
 		dataDictService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping("/edit-new/{categoryId}")
 	public String editNew(@PathVariable Long categoryId, Model model) {
 		logger.debug("editNew: categoryId[{}]", categoryId);
 		model.addAttribute("dictCategory", dictCategoryService.get(categoryId));
-		return forword(ViewName.insert);
+		return forward(ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -84,7 +84,7 @@ public class DataDictController extends CommonController {
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable Long id) {
 		logger.debug("edit: dataDict.id[{}]", id);
-		return forword(ViewName.edit);
+		return forward(ViewName.edit);
 	}
 
 	@RequestMapping("/destroy/{categoryId}/{id}")
@@ -105,7 +105,7 @@ public class DataDictController extends CommonController {
 		return dataDictService.get(id);
 	}
 	
-	private String forword(ViewName viewName){
+	private String forward(ViewName viewName){
 		return forward(Module.base, ResultPath.dataDict, viewName);
 	}
 

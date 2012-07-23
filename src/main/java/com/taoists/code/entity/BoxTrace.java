@@ -13,6 +13,7 @@ import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
 import com.taoists.crm.entity.Company;
+import com.taoists.ias.entity.Stock.ChangeTypeStatus;
 
 /**
  * @author rubys@vip.qq.com
@@ -25,14 +26,14 @@ import com.taoists.crm.entity.Company;
 public class BoxTrace extends BaseEntity {
 
 	@Comment("包箱")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "box_code_id")
 	private BoxCode boxCode;
 	@Comment("记录时间")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime traceDateTime;
 	@Comment("事件类型")
-	private Integer eventType;
+	private ChangeTypeStatus eventType;
 	@Comment("关联公司")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
@@ -53,14 +54,6 @@ public class BoxTrace extends BaseEntity {
 		this.traceDateTime = traceDateTime;
 	}
 
-	public Integer getEventType() {
-		return eventType;
-	}
-
-	public void setEventType(Integer eventType) {
-		this.eventType = eventType;
-	}
-
 	public Company getCompany() {
 		return company;
 	}
@@ -69,9 +62,11 @@ public class BoxTrace extends BaseEntity {
 		this.company = company;
 	}
 
-	@Override
-	public String toString() {
-		return "BoxTrace [boxCode=" + boxCode + ", traceDateTime=" + traceDateTime + ", eventType=" + eventType + ", company=" + company + "]";
+	public void setEventType(ChangeTypeStatus eventType) {
+		this.eventType = eventType;
 	}
 
+	public ChangeTypeStatus getEventType() {
+		return eventType;
+	}
 }

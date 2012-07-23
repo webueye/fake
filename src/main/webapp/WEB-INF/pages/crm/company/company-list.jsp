@@ -14,7 +14,7 @@
 		
 		<div class="container">
 			
-			<form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/company/search">
+			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/company/search">
 				<div class="search">
 					<div class="row">
 						<div class="span10">

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Lists;
@@ -29,7 +30,7 @@ public class PropertyFilter {
 
 	/** Property data type */
 	public enum PropertyType {
-		S(String.class), I(Integer.class), L(Long.class), N(Double.class), D(DateTime.class), B(Boolean.class);
+		S(String.class), I(Integer.class), L(Long.class), N(Double.class), D(DateTime.class), T(LocalDate.class), B(Boolean.class);
 
 		private Class<?> clazz;
 
@@ -86,6 +87,18 @@ public class PropertyFilter {
 					List<DateTime> matchValues = Lists.newArrayList();
 					DateTime date1 = new DateTime(values[0]);
 					DateTime date2 = new DateTime(values[1]);
+					if(date1.isBefore(date2)){
+						matchValues.add(date1);
+						matchValues.add(date2.plusDays(1));
+					}else{
+						matchValues.add(date2);
+						matchValues.add(date1.plusDays(1));
+					}
+					this.matchValue = matchValues;
+				}else if(propertyClass == LocalDate.class){
+					List<LocalDate> matchValues = Lists.newArrayList();
+					LocalDate date1 = new LocalDate(values[0]);
+					LocalDate date2 = new LocalDate(values[1]);
 					if(date1.isBefore(date2)){
 						matchValues.add(date1);
 						matchValues.add(date2.plusDays(1));

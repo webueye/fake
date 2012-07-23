@@ -95,3 +95,40 @@ boxCode = {
 		}
 	}
 };
+
+menu = {
+	cascadeCheck : function(up, selfObj, down) {
+		var menuId = $(selfObj).attr("id").split("_");
+		if (menuId.length == 2) {
+			if (selfObj.checked == true){
+				menu.upCheck(menuId[0]);
+			}
+			if (down){
+				menu.downCheck(menuId[1], selfObj);
+			}
+		}
+
+	},
+	upCheck : function(parentId) {
+		var menuId = $("input[id$=_" + parentId + "]");
+		if (menuId.length > 0) {
+			menuId[0].checked = true;
+			menu.cascadeCheck(true, menuId[0], false);
+		}
+
+	},
+	downCheck : function(selfId, selfObj) {
+		var menuId = $("input[id^=" + selfId + "_]");
+		for ( var i = 0; i < menuId.length; i++) {
+			if (selfObj.checked == true) {
+				menuId[i].checked = true;
+			} else {
+				menuId[i].checked = false;
+			}
+			menu.cascadeCheck(false, menuId[i], true);
+		}
+	}
+};
+
+
+

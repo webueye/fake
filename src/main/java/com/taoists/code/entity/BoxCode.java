@@ -7,6 +7,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+
 import com.taoists.base.entity.BoxSpec;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
@@ -45,6 +48,9 @@ public class BoxCode extends BaseEntity {
 	@Comment("状态[-2：废除；-1：售完；0：冻结；1：生成；2：入库；3：在途]")
 	private BoxCodeStatus status;
 	private Integer statusCode;
+	@Comment("生产日期：绑定时、历史数据导入时设定")
+	@Type(type = "com.taoists.common.orm.entity.type.PersistentLocalDate")
+	private LocalDate produceDate;
 
 	public String getBoxCode() {
 		return boxCode;
@@ -100,6 +106,14 @@ public class BoxCode extends BaseEntity {
 
 	public Integer getStatusCode() {
 		return statusCode;
+	}
+
+	public void setProduceDate(LocalDate produceDate) {
+		this.produceDate = produceDate;
+	}
+
+	public LocalDate getProduceDate() {
+		return produceDate;
 	}
 
 }

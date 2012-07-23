@@ -31,7 +31,7 @@ public class BoxSpecController extends CommonController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(BoxSpec boxSpec, Page page) {
 		boxSpecService.findPage(boxSpec, page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -39,13 +39,13 @@ public class BoxSpecController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		boxSpecService.findPage(page, filters);
 		extractParams(request);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
 		model.addAttribute("products", productService.findAll());
-		return forword(ViewName.insert);
+		return forward(ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -59,7 +59,7 @@ public class BoxSpecController extends CommonController {
 	public String edit(@PathVariable long id, Model model) {
 		logger.debug("edit: id[{}]", id);
 		model.addAttribute("products", productService.findAll());
-		return forword(ViewName.edit);
+		return forward(ViewName.edit);
 	}
 
 	@RequestMapping(value = "/update/{boxSpec.id}", method = RequestMethod.POST)
@@ -90,7 +90,7 @@ public class BoxSpecController extends CommonController {
 		return boxSpecService.get(id);
 	}
 	
-	private String forword(ViewName viewName){
+	private String forward(ViewName viewName){
 		return forward(Module.base, ResultPath.boxSpec, viewName);
 	}
 

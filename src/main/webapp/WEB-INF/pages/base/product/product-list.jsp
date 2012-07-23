@@ -95,7 +95,7 @@
 										<u:valueFormat value="${product.marketPrice}"/>
 									</td>
 									<td>
-										<u:valueFormat value="${product.retentioPeriod}"/>
+										<u:valueFormat value="${product.retentionPeriod}"/>
 									</td>
 									<td>
 										${product.status? '上架': '下架'}

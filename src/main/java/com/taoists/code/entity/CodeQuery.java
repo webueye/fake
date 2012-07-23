@@ -30,15 +30,32 @@ public class CodeQuery extends BaseEntity {
 	@Comment("查询方式")
 	private Integer queryWay;
 	@Comment("查询时间")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime queryDateTime;
-	@Comment("查询结果")
+	@Comment("查询结果: -1：不存在; 0：正品，且未被查询过; 1：正品，但已被查询过")
 	private Integer queryResult;
 	@Column(columnDefinition = "varchar(32) DEFAULT ''")
 	private String userNo;
 	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String userPhone;
+
+	public CodeQueryResult getCodeQueryResult() {
+		for (CodeQueryResult result : CodeQueryResult.values()) {
+			if (queryResult != null && queryResult.intValue() == result.getCode()) {
+				return result;
+			}
+		}
+		return null;
+	}
+
+	public QueryWayStatus getQueryWayStatus() {
+		for (QueryWayStatus result : QueryWayStatus.values()) {
+			if (queryWay != null && queryWay.intValue() == result.getCode()) {
+				return result;
+			}
+		}
+		return null;
+	}
 
 	public FakeCode getFakeCode() {
 		return fakeCode;

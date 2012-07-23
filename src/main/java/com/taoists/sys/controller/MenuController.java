@@ -68,8 +68,8 @@ public class MenuController extends CommonController {
 		logger.debug("create[{}]", menu);
 
 		if (StringUtils.isNotBlank(parentId)) {
-			Menu parent = new Menu();
-			parent.setId(Long.parseLong(parentId));
+			Menu parent = menuService.get(Long.parseLong(parentId));
+			menu.setWidth(parent.getWidth()+1);
 			menu.setParent(parent);
 		}
 		menuService.save(menu);
@@ -81,8 +81,8 @@ public class MenuController extends CommonController {
 		logger.debug("create[{}]", menu);
 
 		if (StringUtils.isNotBlank(parentId)) {
-			Menu parent = new Menu();
-			parent.setId(Long.parseLong(parentId));
+			Menu parent = menuService.get(Long.parseLong(parentId));
+			menu.setWidth(parent.getWidth()+1);
 			menu.setParent(parent);
 		}
 		menuService.merge(menu);

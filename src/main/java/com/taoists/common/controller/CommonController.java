@@ -21,7 +21,10 @@ import com.taoists.base.service.DataDictService;
 import com.taoists.base.service.DictCategoryService;
 import com.taoists.base.service.ProductService;
 import com.taoists.code.service.BoxCodeService;
+import com.taoists.code.service.BoxTraceService;
+import com.taoists.code.service.CodeHistoryService;
 import com.taoists.code.service.CodeIssueService;
+import com.taoists.code.service.CodeQueryService;
 import com.taoists.code.service.ExcelService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.ViewName;
@@ -32,7 +35,9 @@ import com.taoists.ias.service.WarehousingBoxService;
 import com.taoists.ias.service.WarehousingService;
 import com.taoists.sys.entity.Account;
 import com.taoists.sys.service.AccountService;
+import com.taoists.sys.service.DeptService;
 import com.taoists.sys.service.MenuService;
+import com.taoists.sys.service.RoleService;
 
 /**
  * @author rubys@vip.qq.com
@@ -150,5 +155,15 @@ public class CommonController {
 	protected BrandService brandService;
 	@Autowired
 	protected ExcelService excelService;
+	@Autowired
+	protected RoleService roleService;
+	@Autowired
+	protected DeptService deptService;
+	@Autowired
+	protected BoxTraceService boxTraceService;
+	@Autowired
+	protected CodeQueryService codeQueryService;
+	@Autowired
+	protected CodeHistoryService codeHistoryService;
 
 }

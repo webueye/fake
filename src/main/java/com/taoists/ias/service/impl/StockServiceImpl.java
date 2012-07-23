@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.taoists.code.controller.BoxModel;
+import com.taoists.code.model.BoxModel;
 import com.taoists.code.service.BoxTraceService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.crm.entity.Company;
@@ -61,7 +61,7 @@ public class StockServiceImpl extends HibernateDaoSupport<Stock> implements Stoc
 			}
 			save(stock);
 
-			boxTraceService.save(boxModel.getBoxCodes(), company);
+			boxTraceService.save(boxModel.getBoxCodes(), company, status);
 		}
 	}
 

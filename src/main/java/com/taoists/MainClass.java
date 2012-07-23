@@ -24,12 +24,17 @@
 //import org.springframework.context.ApplicationContext;
 //import org.springframework.context.support.ClassPathXmlApplicationContext;
 //
+//import com.google.common.collect.Sets;
+//import com.taoists.base.entity.Product;
 //import com.taoists.code.entity.BoxCode;
 //import com.taoists.code.service.FakeCodeService;
 //import com.taoists.code.service.BoxCodeService;
 //import com.taoists.code.util.BarCodeUtils;
+//import com.taoists.common.bean.Page;
 //import com.taoists.common.util.CodeUtils;
 //import com.taoists.common.util.DateUtils;
+//import com.taoists.sys.entity.Role;
+//import com.taoists.sys.service.RoleService;
 //
 ///**
 // * @author rubys@vip.qq.com
@@ -42,19 +47,6 @@
 //	public static void main(String[] args) throws Exception {
 //		ApplicationContext ctx = new ClassPathXmlApplicationContext("app.xml");
 //		BoxCodeService boxCodeService = (BoxCodeService) ctx.getBean("boxCodeService");
-//		FakeCodeService fakeCodeService = (FakeCodeService) ctx.getBean("fakeCodeService");
-//
-//		// List<FakeCode> fakeCodes = fakeCodeService.findAll();
-//		// long start = System.currentTimeMillis();
-//		// for (FakeCode fakeCode : fakeCodes) {
-//		// genBarCode(fakeCode.getPlainCode());
-//		// }
-//		// logger.error("----------[{}]", System.currentTimeMillis() - start);
-//
-//		BarCodeUtils.genBarCode("", "123456789012");
-//		
-//		pl(UnitConv.in2mm(1.0f / 250));
-//		
 //		
 //	}
 //
