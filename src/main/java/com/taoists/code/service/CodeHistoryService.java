@@ -12,6 +12,6 @@ import com.taoists.common.orm.dao.BaseDao;
  */
 public interface CodeHistoryService extends BaseDao<BoxCode> {
 	
-	List<ImpResult> imp(List<String> lines);
+	List<ImpResult> imp(List<String> lines, String summary);
 
 }

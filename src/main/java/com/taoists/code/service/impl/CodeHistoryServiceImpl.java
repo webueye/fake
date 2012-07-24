@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,29 +12,43 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
+import com.taoists.base.entity.BoxSpec;
+import com.taoists.base.service.BoxSpecService;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.FakeCode;
 import com.taoists.code.model.ImpResult;
 import com.taoists.code.model.ImpResult.Type;
+import com.taoists.code.model.SummaryModel;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.CodeHistoryService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
-import com.taoists.common.util.DateUtils;
 
 /**
  * @author rubys@vip.qq.com
  * @since 2012-7-22
  */
-@Service
+@Service("codeHistoryService")
 public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> implements CodeHistoryService {
 
 	public static final String COMMA = ",";
 
 	@Override
 	@Transactional
-	public List<ImpResult> imp(List<String> lines) {
+	public List<ImpResult> imp(List<String> lines, String summary) {
 		List<ImpResult> result = Lists.newArrayList();
+
+		SummaryModel summaryModel = new SummaryModel(summary);
+		if (!summaryModel.isComplete()) {
+			return result;
+		}
+
+		List<BoxSpec> boxSpecs = boxSpecService.ifNotExistCreate(summaryModel.getProductNo());
+		if (boxSpecs.isEmpty()) {
+			return result;
+		}
+
+		BoxSpec boxSpec = boxSpecs.get(0);
 		Multimap<String, String> group = group(lines, result);
 		for (Entry<String, Collection<String>> entry : group.asMap().entrySet()) {
 			BoxCode boxCode = boxCodeService.getByBoxCode(entry.getKey());
@@ -45,8 +57,9 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 				continue;
 			}
 			boxCode = new BoxCode();
+			boxCode.setBoxSpec(boxSpec);
 			boxCode.setBoxCode(entry.getKey());
-			boxCode.setProduceDate(getProduceDate(entry.getKey()));
+			boxCode.setProduceDate(summaryModel.getDate());
 			boxCodeService.save(boxCode);
 
 			for (String plainCode : entry.getValue()) {
@@ -82,14 +95,11 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 		return group;
 	}
 
-	private LocalDate getProduceDate(String boxCode) {
-		String date = boxCode.substring(0, 6);
-		return LocalDate.parse(date, DateTimeFormat.forPattern(DateUtils.YYMMDD));
-	}
-
 	@Autowired
 	private BoxCodeService boxCodeService;
 	@Autowired
 	private FakeCodeService fakeCodeService;
+	@Autowired
+	private BoxSpecService boxSpecService;
 
 }

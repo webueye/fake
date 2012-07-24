@@ -21,6 +21,8 @@ public class HistoryFileModel {
 			String lower = name.toLowerCase();
 			if (lower.contains(WS)) {
 				this.wsFileName = name;
+			} else if (lower.contains(BATCH)) {
+				this.batchFileName = name;
 			}
 		}
 	}

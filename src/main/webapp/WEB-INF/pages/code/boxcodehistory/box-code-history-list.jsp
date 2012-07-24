@@ -47,20 +47,24 @@
 				<table class="table table-bordered table-striped">
 					<thead>
 						<tr>
-							<th class="gray" colspan="9">文件列表</th>
+							<th class="gray" colspan="5">文件列表</th>
 						</tr>	
 						<tr>
 							<th><input type="checkbox" onclick="checkHandle(this);"/></th>
+							<th>编号</th>
+							<th>计划概要文件</th>
 							<th>码明细文件</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="historyFile" items="${files}">
+						<c:forEach var="historyFile" items="${files}" varStatus="status">
 							<tr>
 								<td>
 									<input type="checkbox" class="suffix" name="suffix" value="${historyFile.suffix}"/>
 								</td>
+								<td>${status.index+1}</td>
+								<td>${historyFile.batchFileName}</td>
 								<td>${historyFile.wsFileName}</td>
 								<td>
 									<a href="#" onclick="impData('${historyFile.suffix}');">导入</a>
@@ -69,7 +73,7 @@
 							</tr>
 						</c:forEach>
 						<tr>
-							<td colspan="3">
+							<td colspan="5">
 								<div align="center">
 									<button type="button" class="btn btn-primary" onclick="batchImp();">批量导入</button>
 								</div>

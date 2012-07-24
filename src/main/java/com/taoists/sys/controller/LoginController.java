@@ -50,10 +50,10 @@ public class LoginController extends CommonController {
 		
 		logger.debug("Captcha equals[{}]", captchaEquals);
 		
-		if (!captchaEquals) {
-			redirectAttributes.addFlashAttribute("msg", "captchaNotCorrect");
-			return redirect("/login");
-		}
+//		if (!captchaEquals) {
+//			redirectAttributes.addFlashAttribute("msg", "captchaNotCorrect");
+//			return redirect("/login");
+//		}
 
 		List<Account> accounts = accountService.findDatas("username", account.getUsername());
 		if (CollectionUtils.isEmpty(accounts)) {

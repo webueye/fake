@@ -1,6 +1,6 @@
 package com.taoists.code.controller;
 
-import static com.taoists.code.model.HistoryFileModel.WS;
+import static com.taoists.code.model.HistoryFileModel.*;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -52,13 +52,11 @@ public class BoxCodeHistoryController extends CommonController {
 	@RequestMapping
 	public String list(HttpServletRequest request, Model model) {
 		File realFile = new File(getRealPath(request) + UNZIP);
-
 		String[] files = realFile.list(new FilenameFilter() {
-
 			@Override
 			public boolean accept(File dir, String name) {
 				String lower = name.toLowerCase();
-				if (lower.contains(WS)) {
+				if (lower.contains(WS) || lower.contains(BATCH)) {
 					return true;
 				}
 				return false;
@@ -70,7 +68,8 @@ public class BoxCodeHistoryController extends CommonController {
 			for (String name : files) {
 				String lowerName = name.toLowerCase();
 				lowerName = lowerName.replace(WS, "");
-				group.put(lowerName, name);
+				lowerName = lowerName.replace(BATCH, "");
+				group.put(lowerName.substring(0, lowerName.length() - 5), name);
 			}
 
 			List<HistoryFileModel> models = Lists.newArrayList();
@@ -101,11 +100,30 @@ public class BoxCodeHistoryController extends CommonController {
 	public @ResponseBody
 	String imp(HttpServletRequest request, String[] suffix, Model model) {
 		if (suffix != null) {
-			List<String> lines = Lists.newArrayList();
+			List<ImpResult> results = Lists.newArrayList();
 			for (String suff : suffix) {
-				readFile(lines, request, suff);
+				List<File> files = FileUtils.search(getRealPath(request) + UNZIP, suff);
+				if (files != null && files.size() >= 2) {
+					File wsFile = null;
+					File batchFile = null;
+					for (File file : files) {
+						if (file.getName().toLowerCase().contains(WS)) {
+							wsFile = file;
+						} else if (file.getName().toLowerCase().contains(BATCH)) {
+							batchFile = file;
+						}
+					}
+					if (wsFile == null || batchFile == null) {
+						continue;
+					}
+					List<String> wsLines = readFile(wsFile);
+					List<String> batchLines = readFile(batchFile);
+					if (wsLines.isEmpty() || batchLines.isEmpty()) {
+						continue;
+					}
+					results.addAll(codeHistoryService.imp(wsLines, batchLines.get(0)));
+				}
 			}
-			List<ImpResult> results = codeHistoryService.imp(lines);
 			return JSONArray.fromObject(results).toString();
 		}
 		return null;
@@ -129,18 +147,18 @@ public class BoxCodeHistoryController extends CommonController {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void readFile(List<String> lines, HttpServletRequest request, String suffix) {
-		String path = getRealPath(request) + UNZIP;
-		File ws = new File(path + "WS" + suffix);
+	private List<String> readFile(File file) {
+		List<String> lines = Lists.newArrayList();
 		InputStream is = null;
 		try {
-			is = new FileInputStream(ws);
+			is = new FileInputStream(file);
 			lines.addAll(IOUtils.readLines(is));
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			IOUtils.closeQuietly(is);
 		}
+		return lines;
 	}
 
 	private String getRealPath(HttpServletRequest request) {

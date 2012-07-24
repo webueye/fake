@@ -2,14 +2,18 @@ package com.taoists.code.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author rubys@vip.qq.com
@@ -18,6 +22,23 @@ import org.apache.commons.io.IOUtils;
 public class FileUtils {
 
 	public static final String GBK = "GBK";
+	
+	public static List<File> search(String dir, final String similarName){
+		File realFile = new File(dir);
+		File[] files = realFile.listFiles(new FilenameFilter() {
+			@Override
+			public boolean accept(File dir, String name) {
+				if(name.toLowerCase().contains(similarName.toLowerCase())){
+					return true;
+				}
+				return false;
+			}
+		});
+		if(files != null){
+			return Lists.newArrayList(files);
+		}
+		return null;
+	}
 
 	public static void unZip(File zip, String unZipPath) {
 		ZipFile zipFile = null;
