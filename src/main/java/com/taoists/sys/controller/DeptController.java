@@ -34,8 +34,8 @@ import com.taoists.sys.entity.Dept;
 public class DeptController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Dept dept, Page page) {
-		deptService.findPage(dept, page);
+	public String list(Page page, Model model) {
+		deptService.findDatas("company.id", getAccount(model).getCompanyId(), page);
 		return forward(ViewName.list);
 	}
 

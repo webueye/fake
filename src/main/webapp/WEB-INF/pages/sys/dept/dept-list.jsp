@@ -23,6 +23,7 @@
 					            <input class="input-small" name="filter_LIKES_name" value="${filter_LIKES_name}" placeholder="名称"/>
 					           	
 							  	<button type="submit" class="btn btn-primary">查询</button>
+					            <input type="hidden" name="filter_EQL_company.id" value="${currentAccount.companyId}"/>
 					        </div>
 						</div>
 					  </div>

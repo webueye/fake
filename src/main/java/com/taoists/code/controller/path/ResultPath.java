@@ -9,6 +9,7 @@ public interface ResultPath {
 	String codeIssue = "/code-issue";
 	String boxCode = "/box-code";
 	String boxCodeHistory = "/box-code-history";
+	String deliveryHistory = "/delivery-history";
 	String fakeCode = "/fake-code";
 	String trace = "/trace";
 	String boxTrace = "/box-trace";

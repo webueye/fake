@@ -3,12 +3,15 @@ package com.taoists.sys.entity;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
 import com.taoists.common.Cons;
 import com.taoists.common.orm.entity.BaseEntity;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
@@ -23,6 +26,8 @@ public class Role extends BaseEntity {
 	private String description;
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentSet")
 	private Set<Long> menus;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company company;
 
 	public String getRoleName() {
 		return roleName;
@@ -46,6 +51,14 @@ public class Role extends BaseEntity {
 
 	public Set<Long> getMenus() {
 		return menus;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	public Company getCompany() {
+		return company;
 	}
 
 }

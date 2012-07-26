@@ -11,6 +11,6 @@ import com.taoists.common.orm.dao.BaseDao;
  */
 public interface BoxSpecService extends BaseDao<BoxSpec> {
 	
-	List<BoxSpec> ifNotExistCreate(String productNo);
+	List<BoxSpec> ifNotExistCreate(String productNo, int actualNum);
 
 }

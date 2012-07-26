@@ -1,6 +1,7 @@
 package com.taoists.code.controller;
 
-import static com.taoists.code.model.HistoryFileModel.*;
+import static com.taoists.code.model.HistoryFileModel.BATCH;
+import static com.taoists.code.model.HistoryFileModel.WS;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -30,12 +31,12 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.taoists.code.controller.path.ResultPath;
+import com.taoists.code.model.HistoryCodeModel;
 import com.taoists.code.model.HistoryFileModel;
 import com.taoists.code.model.ImpResult;
+import com.taoists.code.model.ImpResult.Type;
 import com.taoists.code.util.FileUtils;
-import com.taoists.common.ViewName;
 import com.taoists.common.controller.CommonController;
-import com.taoists.common.controller.Module;
 
 /**
  * @author rubys@vip.qq.com
@@ -79,7 +80,7 @@ public class BoxCodeHistoryController extends CommonController {
 
 			model.addAttribute("files", models);
 		}
-		return forword(ViewName.list);
+		return "/code/history/box-code-history-list";
 	}
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
@@ -100,33 +101,43 @@ public class BoxCodeHistoryController extends CommonController {
 	public @ResponseBody
 	String imp(HttpServletRequest request, String[] suffix, Model model) {
 		if (suffix != null) {
-			List<ImpResult> results = Lists.newArrayList();
-			for (String suff : suffix) {
-				List<File> files = FileUtils.search(getRealPath(request) + UNZIP, suff);
-				if (files != null && files.size() >= 2) {
-					File wsFile = null;
-					File batchFile = null;
-					for (File file : files) {
-						if (file.getName().toLowerCase().contains(WS)) {
-							wsFile = file;
-						} else if (file.getName().toLowerCase().contains(BATCH)) {
-							batchFile = file;
-						}
-					}
+			final List<ImpResult> results = Lists.newArrayList();
+			handle(request, suffix, new Execute() {
+				@Override
+				public void invoke(String suffix, File batchFile, File wsFile) {
 					if (wsFile == null || batchFile == null) {
-						continue;
+						results.add(new ImpResult(Type.other, suffix, "file not found"));
+					} else {
+						List<String> wsLines = readFile(wsFile);
+						List<String> batchLines = readFile(batchFile);
+						results.addAll(codeHistoryService.imp(wsLines, batchLines.get(0)));
 					}
-					List<String> wsLines = readFile(wsFile);
-					List<String> batchLines = readFile(batchFile);
-					if (wsLines.isEmpty() || batchLines.isEmpty()) {
-						continue;
-					}
-					results.addAll(codeHistoryService.imp(wsLines, batchLines.get(0)));
 				}
-			}
+			});
 			return JSONArray.fromObject(results).toString();
 		}
 		return null;
+	}
+
+	@RequestMapping("preview")
+	public String preview(HttpServletRequest request, String[] suffix, Model model) {
+		final List<HistoryCodeModel> results = Lists.newArrayList();
+		handle(request, suffix, new Execute() {
+			@Override
+			public void invoke(String suffix, File batchFile, File wsFile) {
+				HistoryCodeModel model = new HistoryCodeModel();
+				if (wsFile == null || batchFile == null) {
+					model.setResult(new ImpResult(Type.other, suffix, "file not found"));
+				} else {
+					List<String> wsLines = readFile(wsFile);
+					List<String> batchLines = readFile(batchFile);
+					results.add(codeHistoryService.prehandle(batchLines.get(0), wsLines));
+				}
+			}
+		});
+		model.addAttribute("results", results);
+		model.addAttribute("suffixes", suffix);
+		return "/code/history/preview-list";
 	}
 
 	@RequestMapping("delete/{suffix}")
@@ -161,12 +172,31 @@ public class BoxCodeHistoryController extends CommonController {
 		return lines;
 	}
 
-	private String getRealPath(HttpServletRequest request) {
-		return request.getSession().getServletContext().getRealPath(HISTORY);
+	private void handle(HttpServletRequest request, String[] suffix, Execute execute) {
+		for (String suff : suffix) {
+			List<File> files = FileUtils.search(getRealPath(request) + UNZIP, suff);
+			if (files != null && files.size() >= 2) {
+				File wsFile = null;
+				File batchFile = null;
+				for (File file : files) {
+					if (file.getName().toLowerCase().contains(WS)) {
+						wsFile = file;
+					} else if (file.getName().toLowerCase().contains(BATCH)) {
+						batchFile = file;
+					}
+				}
+				execute.invoke(suff, batchFile, wsFile);
+
+			}
+		}
 	}
 
-	private String forword(ViewName viewName) {
-		return forward(Module.code, ResultPath.boxCodeHistory, viewName);
+	static interface Execute {
+		void invoke(String suffix, File batchFile, File wsFile);
+	}
+
+	private String getRealPath(HttpServletRequest request) {
+		return request.getSession().getServletContext().getRealPath(HISTORY);
 	}
 
 }

@@ -13,9 +13,12 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.taoists.base.entity.BoxSpec;
+import com.taoists.base.entity.Product;
 import com.taoists.base.service.BoxSpecService;
+import com.taoists.base.service.ProductService;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.FakeCode;
+import com.taoists.code.model.HistoryCodeModel;
 import com.taoists.code.model.ImpResult;
 import com.taoists.code.model.ImpResult.Type;
 import com.taoists.code.model.SummaryModel;
@@ -40,11 +43,13 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 
 		SummaryModel summaryModel = new SummaryModel(summary);
 		if (!summaryModel.isComplete()) {
+			result.add(new ImpResult(Type.other, summary, "illegal"));
 			return result;
 		}
 
-		List<BoxSpec> boxSpecs = boxSpecService.ifNotExistCreate(summaryModel.getProductNo());
+		List<BoxSpec> boxSpecs = boxSpecService.ifNotExistCreate(summaryModel.getProductNo(), summaryModel.getActualNum());
 		if (boxSpecs.isEmpty()) {
+			result.add(new ImpResult(Type.other, summaryModel.getProductNo(), "product not existed"));
 			return result;
 		}
 
@@ -78,6 +83,51 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 		return result;
 	}
 
+	public HistoryCodeModel prehandle(String summary, List<String> lines) {
+		HistoryCodeModel model = new HistoryCodeModel();
+		SummaryModel summaryModel = new SummaryModel(summary);
+		if (!summaryModel.isComplete()) {
+			model.setResult(new ImpResult(Type.other, summary, "illegal"));
+			return model;
+		}
+
+		Product product = productService.getByProductNo(summaryModel.getProductNo());
+		if (product == null) {
+			model.setResult(new ImpResult(Type.other, summaryModel.getProductNo(), "product not existed"));
+			return model;
+		}
+
+		List<ImpResult> illegals = Lists.newArrayList();
+		Multimap<String, String> group = group(lines, illegals);
+		model.setIllegals(illegals);
+		List<HistoryCodeModel.Box> boxs = Lists.newArrayList();
+		for (Entry<String, Collection<String>> entry : group.asMap().entrySet()) {
+			BoxCode boxCode = boxCodeService.getByBoxCode(entry.getKey());
+			HistoryCodeModel.Box box = new HistoryCodeModel.Box();
+			if (boxCode != null) {
+				box.setBoxCode(entry.getKey());
+				box.setBoxCodeResult(new ImpResult(Type.box, entry.getKey(), "existed"));
+			}
+			box.setBoxCode(entry.getKey());
+			box.setProduceDate(summaryModel.getDate());
+
+			List<HistoryCodeModel.Fake> hFakes = Lists.newArrayList();
+			for (String plainCode : entry.getValue()) {
+				FakeCode fake = fakeCodeService.getByPlainCode(plainCode);
+				HistoryCodeModel.Fake hFake = new HistoryCodeModel.Fake();
+				if (fake != null) {
+					hFake.setFakeResult(new ImpResult(Type.fake, plainCode, "existed"));
+				}
+				hFake.setPlainCode(plainCode);
+				hFakes.add(hFake);
+			}
+			box.setFakes(hFakes);
+			boxs.add(box);
+		}
+		model.setBoxs(boxs);
+		return model;
+	}
+
 	private Multimap<String, String> group(List<String> lines, List<ImpResult> result) {
 		Multimap<String, String> group = HashMultimap.create();
 		for (String line : lines) {
@@ -85,6 +135,8 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 			if (columns.length >= 3) {
 				if (StringUtils.isBlank(columns[0]) || StringUtils.isBlank(columns[1])) {
 					result.add(new ImpResult(Type.other, line, "illegal"));
+				} else if ("2".equals(columns[2])) {
+					result.add(new ImpResult(Type.other, line, "enter"));
 				} else {
 					group.put(columns[1], columns[0]);
 				}
@@ -101,5 +153,7 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 	private FakeCodeService fakeCodeService;
 	@Autowired
 	private BoxSpecService boxSpecService;
+	@Autowired
+	private ProductService productService;
 
 }

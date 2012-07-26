@@ -19,7 +19,7 @@ import com.taoists.common.orm.dao.HibernateDaoSupport;
 @Service("boxSpecService")
 public class BoxSpecServiceImpl extends HibernateDaoSupport<BoxSpec> implements BoxSpecService {
 
-	public List<BoxSpec> ifNotExistCreate(String productNo) {
+	public List<BoxSpec> ifNotExistCreate(String productNo, int actualNum) {
 		List<BoxSpec> boxSpecs = findDatas("product.productNo", productNo);
 		if (boxSpecs.isEmpty()) {
 			Product product = productService.getByProductNo(productNo);
@@ -28,6 +28,7 @@ public class BoxSpecServiceImpl extends HibernateDaoSupport<BoxSpec> implements 
 			}
 			BoxSpec boxSpec = new BoxSpec();
 			boxSpec.setProduct(product);
+			boxSpec.setCapacity(actualNum);
 			save(boxSpec);
 			return Lists.newArrayList(boxSpec);
 		}

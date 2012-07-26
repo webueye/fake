@@ -35,8 +35,8 @@ import com.taoists.sys.entity.Role;
 public class RoleController extends CommonController {
 
 	@RequestMapping
-	public String list(Role role, Page page, Model model) {
-		roleService.findPage(role, page);
+	public String list(Page page, Model model) {
+		roleService.findDatas("company.id", getAccount(model).getCompanyId(), page);
 		return forward(ViewName.list);
 	}
 

@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.common.collect.Sets;
 import com.taoists.base.service.BoxSpecService;
@@ -43,6 +44,7 @@ import com.taoists.sys.service.RoleService;
  * @author rubys@vip.qq.com
  * @since 2012-5-30
  */
+@SessionAttributes("currentAccount")
 public class CommonController {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());

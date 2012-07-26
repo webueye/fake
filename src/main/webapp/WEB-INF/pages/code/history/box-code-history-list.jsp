@@ -60,13 +60,14 @@
 					<tbody>
 						<c:forEach var="historyFile" items="${files}" varStatus="status">
 							<tr>
-								<td>
+								<td style="padding-left: 18px;">
 									<input type="checkbox" class="suffix" name="suffix" value="${historyFile.suffix}"/>
 								</td>
 								<td>${status.index+1}</td>
 								<td>${historyFile.batchFileName}</td>
 								<td>${historyFile.wsFileName}</td>
 								<td>
+									<a href="${pageContext.request.contextPath}/box-code-history/preview?suffix=${historyFile.suffix}">预览导入</a>
 									<a href="#" onclick="impData('${historyFile.suffix}');">导入</a>
 									<a href="${pageContext.request.contextPath}/box-code-history/delete/${historyFile.suffix}">删除</a>
 								</td>
@@ -130,6 +131,7 @@
 			}
 			
 			function impData(value){
+				closeDiv();
 				$("#impMessage").show();
 				$("#backgroupDiv").show();
 				var suffix = {suffix: value};

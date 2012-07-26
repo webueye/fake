@@ -25,6 +25,7 @@
 								<th class="rth">角色名称：</th>
 								<td class="ltd">
 									<input class="input-xlarge required" name="roleName" type="text"/>
+									<input type="hidden" name="company.id" value="${currentAccount.companyId}"/>
 								</td>
 							</tr>
 							<tr class="th">
