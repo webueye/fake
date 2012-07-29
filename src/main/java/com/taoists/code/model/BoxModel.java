@@ -19,8 +19,8 @@ public class BoxModel {
 
 	private Product product;
 	private Collection<BoxCode> boxCodes;
-	
-	public static List<BoxModel> groupByProduct(List<BoxCode> boxCodes){
+
+	public static List<BoxModel> groupByProduct(List<BoxCode> boxCodes) {
 		Multimap<Product, BoxCode> map = HashMultimap.create();
 		for (BoxCode boxCode : boxCodes) {
 			map.put(boxCode.getBoxSpec().getProduct(), boxCode);
@@ -61,7 +61,9 @@ public class BoxModel {
 	public Integer getTotalCount() {
 		Integer totalCount = 0;
 		for (BoxCode bc : boxCodes) {
-			totalCount += bc.getBoxSpec().getCapacity();
+			if (bc.getBoxSpec().getCapacity() != null) {
+				totalCount += bc.getBoxSpec().getCapacity();
+			}
 		}
 		return totalCount;
 	}

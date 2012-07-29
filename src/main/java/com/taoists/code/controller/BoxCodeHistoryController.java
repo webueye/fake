@@ -135,8 +135,12 @@ public class BoxCodeHistoryController extends CommonController {
 				}
 			}
 		});
-		model.addAttribute("results", results);
-		model.addAttribute("suffixes", suffix);
+		Multimap<String, Object> group = HistoryCodeModel.group(results);
+
+		model.addAttribute("existed", HistoryCodeModel.groupByBox(group.get(HistoryCodeModel.EXISTED)));
+		model.addAttribute("notExisted", HistoryCodeModel.groupByBox(group.get(HistoryCodeModel.NOT_EXISTED)));
+		model.addAttribute("illegals", group.get(HistoryCodeModel.ILLEGAL));
+		model.addAttribute("suffixes", Lists.newArrayList(suffix));
 		return "/code/history/preview-list";
 	}
 
@@ -186,7 +190,6 @@ public class BoxCodeHistoryController extends CommonController {
 					}
 				}
 				execute.invoke(suff, batchFile, wsFile);
-
 			}
 		}
 	}

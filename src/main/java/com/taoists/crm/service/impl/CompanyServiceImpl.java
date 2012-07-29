@@ -1,5 +1,8 @@
 package com.taoists.crm.service.impl;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,15 @@ import com.taoists.crm.service.ContactService;
  */
 @Service("companyService")
 public class CompanyServiceImpl extends HibernateDaoSupport<Company> implements CompanyService {
+
+	@Override
+	public Company getByCompanyNo(String companyNo) {
+		List<Company> companies = findDatas("compnayNo", companyNo);
+		if (CollectionUtils.isNotEmpty(companies)) {
+			return companies.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	@Transactional

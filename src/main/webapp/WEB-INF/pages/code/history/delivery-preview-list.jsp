@@ -14,7 +14,7 @@
 		<div class="container">
 				
 			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/box-code-history/upload">	
-				
+				<input type="hidden" class="suffix" name="suffix" value="${stockOutFile}"/>
 				<div id="resultDiv" style="display: none;">
 					<table class="table table-bordered table-striped">
 						<thead>
@@ -46,24 +46,24 @@
 									<th class="gray" colspan="5">可导入码列表</th>
 								</tr>	
 								<tr>
+									<th>单据号</th>
+									<th>客户编号</th>
 									<th>箱码</th>
-									<th>盒码</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="box" items="${notExisted}">
-									<c:set var="state" value="false"/>
-									<c:forEach var="fake" items="${box.fakes}">
-										<tr >
-											<c:if test="${state == 'false'}">
-												<td rowspan="${box.size}">
-													${box.boxCode}[${box.size}]
-												</td>
-												<c:set var="state" value="true"/>
-											</c:if>
-											<td>${fake.plainCode}</td>
-										</tr>
-									</c:forEach>
+								<c:forEach var="delivery" items="${boxCodeExisted}">
+								<c:set var="state" value="false"/>
+								<c:forEach var="boxCode" items="${delivery.boxCodes}">
+									<tr>
+										<c:if test="${state == 'false'}">
+											<td rowspan="${delivery.boxCodeSize}">${delivery.deliveryNo}</td>
+											<td rowspan="${delivery.boxCodeSize}">${delivery.companyNo}</td>
+											<c:set var="state" value="true"/>
+										</c:if>
+										<td>${boxCode.boxCode}</td>
+									</tr>
+								</c:forEach>
 								</c:forEach>
 								<tr>
 									<td colspan="5">
@@ -80,29 +80,27 @@
 				      <table class="table table-bordered table-striped">
 							<thead>
 								<tr>
-									<th class="gray" colspan="5">已存在数据列表</th>
+									<th class="gray" colspan="5">箱码不存在列表</th>
 								</tr>	
 								<tr>
+									<th>单据号</th>
+									<th>客户编号</th>
 									<th>箱码</th>
-									<th>盒码</th>
-									<th>状态</th>
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="box" items="${existed}">
-									<c:set var="state" value="false"/>
-									<c:forEach var="fake" items="${box.fakes}">
-										<tr >
-											<c:if test="${state == 'false'}">
-												<td rowspan="${box.size}">
-													${box.boxCode}[${box.size}]
-												</td>
-												<c:set var="state" value="true"/>
-											</c:if>
-											<td>${fake.plainCode}</td>
-											<td>${fake.fakeResult.reason}</td>
-										</tr>
-									</c:forEach>
+								<c:forEach var="delivery" items="${boxCodeNotExisted}">
+								<c:set var="state" value="false"/>
+								<c:forEach var="code" items="${delivery.codes}">
+									<tr>
+										<c:if test="${state == 'false'}">
+											<td rowspan="${delivery.codeSize}">${delivery.deliveryNo}</td>
+											<td rowspan="${delivery.codeSize}">${delivery.companyNo}</td>
+											<c:set var="state" value="true"/>
+										</c:if>
+										<td>${code}</td>
+									</tr>
+								</c:forEach>
 								</c:forEach>
 							</tbody>
 						</table>
@@ -120,11 +118,11 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach var="illegal" items="${illegals}">
+								<c:forEach var="delivery" items="${illegals}">
 									<tr>
-										<td>${illegal.type}</td>
-										<td>${illegal.code}</td>
-										<td>${illegal.reason}</td>
+										<td>${delivery.impResult.type}</td>
+										<td>${delivery.impResult.code}</td>
+										<td>${delivery.impResult.reason}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -132,10 +130,6 @@
 				    </div>
 				  </div>
 				</div>
-				
-				<c:forEach var="suffix" items="${suffixes}">
-					<input type="hidden" class="suffix" name="suffix" value="${suffix}"/>
-				</c:forEach>
 				
 			</form>	
 						
@@ -171,8 +165,8 @@
 				closeDiv();
 				$("#impMessage").show();
 				$("#backgroupDiv").show();
-				var suffix = {suffix: value};
-				common.post(suffix, "/box-code-history/imp", function(data){
+				var suffix = {fileNames: value};
+				common.post(suffix, "/delivery-history/imp", function(data){
 					if(data && data.length > 0){
 						var arr = new Array();
 						for(var i = 0; i<data.length; i++){

@@ -26,6 +26,7 @@ import com.taoists.code.service.BoxTraceService;
 import com.taoists.code.service.CodeHistoryService;
 import com.taoists.code.service.CodeIssueService;
 import com.taoists.code.service.CodeQueryService;
+import com.taoists.code.service.DeliveryHistoryService;
 import com.taoists.code.service.ExcelService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.ViewName;
@@ -167,5 +168,7 @@ public class CommonController {
 	protected CodeQueryService codeQueryService;
 	@Autowired
 	protected CodeHistoryService codeHistoryService;
+	@Autowired
+	protected DeliveryHistoryService deliveryHistoryService;
 
 }

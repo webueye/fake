@@ -7,7 +7,7 @@ package com.taoists.code.model;
 public class ImpResult {
 
 	public static enum Type {
-		box, fake, other
+		box, fake, other, out
 	}
 
 	private String type;

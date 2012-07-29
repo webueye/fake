@@ -10,10 +10,19 @@ public class HistoryFileModel {
 
 	public static final String WS = "ws";
 	public static final String BATCH = "batch";
+	public static final String OUT = "out";
+	public static final String STOCK_OUT = "stockout";
 
 	private String suffix;
 	private String wsFileName;
 	private String batchFileName;
+	private Collection<String> outFileNames;
+	private String stockOutFileName;
+	private Collection<String> stockOutLines;
+
+	public HistoryFileModel() {
+
+	}
 
 	public HistoryFileModel(String suffix, Collection<String> names) {
 		this.suffix = suffix;
@@ -27,12 +36,19 @@ public class HistoryFileModel {
 		}
 	}
 
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
+	public int getOutFileSize() {
+		if (outFileNames == null) {
+			return 1;
+		}
+		return outFileNames.size();
 	}
 
 	public String getSuffix() {
 		return suffix;
+	}
+
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
 
 	public String getWsFileName() {
@@ -49,6 +65,30 @@ public class HistoryFileModel {
 
 	public void setBatchFileName(String batchFileName) {
 		this.batchFileName = batchFileName;
+	}
+
+	public Collection<String> getOutFileNames() {
+		return outFileNames;
+	}
+
+	public void setOutFileNames(Collection<String> outFileNames) {
+		this.outFileNames = outFileNames;
+	}
+
+	public String getStockOutFileName() {
+		return stockOutFileName;
+	}
+
+	public void setStockOutFileName(String stockOutFileName) {
+		this.stockOutFileName = stockOutFileName;
+	}
+
+	public Collection<String> getStockOutLines() {
+		return stockOutLines;
+	}
+
+	public void setStockOutLines(Collection<String> stockOutLines) {
+		this.stockOutLines = stockOutLines;
 	}
 
 }

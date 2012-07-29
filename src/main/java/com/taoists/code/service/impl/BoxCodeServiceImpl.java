@@ -17,7 +17,6 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
@@ -48,14 +47,28 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 	@Override
 	@Transactional
 	public void batchUpdate(Collection<BoxCode> boxCodes, BoxCodeStatus status, Company storageCompany) {
-		Assert.notNull(boxCodes, "boxCodes is required.");
-		Assert.notNull(status, "status is required.");
-
 		for (BoxCode boxCode : boxCodes) {
 			boxCode.setStatus(status);
 			boxCode.setStatusCode(status.getCode());
 			update(boxCode);
 		}
+	}
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<String> queryCodes(Collection<String> boxCodes) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		detachedCriteria.add(Restrictions.in("boxCode", boxCodes));
+		detachedCriteria.setProjection(Projections.groupProperty("boxCode"));
+		return detachedCriteria.getExecutableCriteria(getSession()).list();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<BoxCode> queryBoxCodes(Collection<String> boxCodes) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		detachedCriteria.add(Restrictions.in("boxCode", boxCodes));
+		return detachedCriteria.getExecutableCriteria(getSession()).list();
 	}
 
 	@Override
@@ -190,7 +203,9 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 				bm.setBatch(entry.getKey());
 				int fakeNum = 0;
 				for (BoxCode boxCode : entry.getValue()) {
-					fakeNum += boxCode.getBoxSpec().getCapacity();
+					if (boxCode.getBoxSpec().getCapacity() != null) {
+						fakeNum += boxCode.getBoxSpec().getCapacity();
+					}
 				}
 				bm.setBoxNum(entry.getValue().size());
 				bm.setFakeNum(fakeNum);
@@ -201,7 +216,6 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		}
 		return models;
 	}
-	
 
 	private static final int BOX_CODE_LENGTH = 12;
 

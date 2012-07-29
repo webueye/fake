@@ -2,6 +2,7 @@ package com.taoists.code.service.impl;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.taoists.base.entity.BoxSpec;
 import com.taoists.base.entity.Product;
@@ -83,6 +85,7 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 		return result;
 	}
 
+	@Override
 	public HistoryCodeModel prehandle(String summary, List<String> lines) {
 		HistoryCodeModel model = new HistoryCodeModel();
 		SummaryModel summaryModel = new SummaryModel(summary);
@@ -101,10 +104,21 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 		Multimap<String, String> group = group(lines, illegals);
 		model.setIllegals(illegals);
 		List<HistoryCodeModel.Box> boxs = Lists.newArrayList();
+
+		List<String> existedBoxCodes = boxCodeService.queryCodes(group.keySet());
+		Map<String, String> boxCodeMap = Maps.newHashMap();
+		for (String code : existedBoxCodes) {
+			boxCodeMap.put(code, code);
+		}
+		List<String> existedPlainCodes = fakeCodeService.queryPlainCodes(group.values());
+		Map<String, String> plainCodeMap = Maps.newHashMap();
+		for (String code : existedPlainCodes) {
+			plainCodeMap.put(code, code);
+		}
+
 		for (Entry<String, Collection<String>> entry : group.asMap().entrySet()) {
-			BoxCode boxCode = boxCodeService.getByBoxCode(entry.getKey());
 			HistoryCodeModel.Box box = new HistoryCodeModel.Box();
-			if (boxCode != null) {
+			if (boxCodeMap.get(entry.getKey()) != null) {
 				box.setBoxCode(entry.getKey());
 				box.setBoxCodeResult(new ImpResult(Type.box, entry.getKey(), "existed"));
 			}
@@ -112,10 +126,10 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 			box.setProduceDate(summaryModel.getDate());
 
 			List<HistoryCodeModel.Fake> hFakes = Lists.newArrayList();
+
 			for (String plainCode : entry.getValue()) {
-				FakeCode fake = fakeCodeService.getByPlainCode(plainCode);
 				HistoryCodeModel.Fake hFake = new HistoryCodeModel.Fake();
-				if (fake != null) {
+				if (plainCodeMap.get(plainCode) != null) {
 					hFake.setFakeResult(new ImpResult(Type.fake, plainCode, "existed"));
 				}
 				hFake.setPlainCode(plainCode);

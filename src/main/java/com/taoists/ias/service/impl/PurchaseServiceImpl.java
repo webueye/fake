@@ -3,6 +3,7 @@ package com.taoists.ias.service.impl;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,15 @@ import com.taoists.sys.entity.Account;
  */
 @Service("purchaseService")
 public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implements PurchaseService {
+
+	@Override
+	public Purchase getByPurchaseNo(String purchaseNo) {
+		List<Purchase> purchases = findDatas("purchaseNo", purchaseNo);
+		if (CollectionUtils.isNotEmpty(purchases)) {
+			return purchases.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	@Transactional
@@ -80,11 +90,11 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 
 		if (PurchaseStatus.inTransit.getCode() == pur.getStatus().getCode()) {
 			stockService.outStock(BoxModel.groupByProduct(getBoxCodes(pur)), account);
-			
+
 			boxCodeService.batchUpdate(getBoxCodes(pur), BoxCodeStatus.inTransit, new Company(account.getCompanyId()));
 		} else if (PurchaseStatus.receive.getCode() == pur.getStatus().getCode()) {
 			stockService.inStock(BoxModel.groupByProduct(getBoxCodes(pur)), account);
-			
+
 			boxCodeService.batchUpdate(getBoxCodes(pur), BoxCodeStatus.warehousing, new Company(account.getCompanyId()));
 		}
 	}

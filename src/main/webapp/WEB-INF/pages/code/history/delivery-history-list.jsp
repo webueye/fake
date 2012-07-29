@@ -13,7 +13,7 @@
 	
 		<div class="container">
 				
-			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/box-code-history/upload" enctype="multipart/form-data">	
+			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/delivery-history/upload" enctype="multipart/form-data">	
 				<div class="search">
 					<div class="row">
 						<div class="span12">
@@ -52,25 +52,35 @@
 						<tr>
 							<th><input type="checkbox" onclick="checkHandle(this);"/></th>
 							<th>编号</th>
-							<th>计划概要文件</th>
-							<th>码明细文件</th>
+							<th>单据文件</th>
+							<th>明细文件</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="historyFile" items="${files}" varStatus="status">
+						<c:set var="state" value="false"/>
+						<c:forEach var="outFile" items="${historyFile.outFileNames}">
 							<tr>
-								<td style="padding-left: 18px;">
-									<input type="checkbox" class="suffix" name="suffix" value="${historyFile.suffix}"/>
-								</td>
-								<td>${status.index+1}</td>
-								<td>${historyFile.batchFileName}</td>
-								<td>${historyFile.wsFileName}</td>
-								<td>
-									<a href="#" onclick="impData('${historyFile.suffix}');">导入</a>
-									<a href="${pageContext.request.contextPath}/box-code-history/delete/${historyFile.suffix}">删除</a>
-								</td>
+								<c:if test="${state == 'false'}">
+									<td style="padding-left: 18px;" rowspan="${historyFile.outFileSize}">
+										<input type="checkbox" class="suffix" name="suffix" value="${historyFile.stockOutFileName}"/>
+									</td>
+									<td rowspan="${historyFile.outFileSize}">${status.index+1}</td>
+									<td rowspan="${historyFile.outFileSize}">${historyFile.stockOutFileName}</td>
+								</c:if>
+								<td>${outFile}</td>
+								
+								<c:if test="${state == 'false'}">
+									<td rowspan="${historyFile.outFileSize}">
+										<a href="${pageContext.request.contextPath}/delivery-history/preview?stockOutFile=${historyFile.stockOutFileName}">导入预览</a>
+										<a href="#" onclick="impData('${historyFile.stockOutFileName}');">导入</a>
+										<a href="${pageContext.request.contextPath}/delivery-history/delete?stockOutFile=${historyFile.stockOutFileName}">删除</a>
+									</td>
+									<c:set var="state" value="true"/>
+								</c:if>
 							</tr>
+						</c:forEach>
 						</c:forEach>
 						<tr>
 							<td colspan="5">
@@ -133,8 +143,8 @@
 				closeDiv();
 				$("#impMessage").show();
 				$("#backgroupDiv").show();
-				var suffix = {suffix: value};
-				common.post(suffix, "/box-code-history/imp", function(data){
+				var suffix = {fileNames: value};
+				common.post(suffix, "/delivery-history/imp", function(data){
 					if(data && data.length > 0){
 						var arr = new Array();
 						for(var i = 0; i<data.length; i++){
