@@ -62,6 +62,7 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 				PurchaseBox purchaseBox = new PurchaseBox();
 				purchaseBox.setBoxCode(boxCode);
 				purchaseBox.setPurchase(purchase);
+				purchaseBox.setPurchaseItem(purchaseItem);
 				purchaseBoxService.save(purchaseBox);
 			}
 		}
