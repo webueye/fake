@@ -2,7 +2,7 @@ package com.taoists.ias.service;
 
 import java.util.List;
 
-import com.taoists.code.controller.BoxModel;
+import com.taoists.code.model.BoxModel;
 import com.taoists.common.orm.dao.BaseDao;
 import com.taoists.crm.entity.Company;
 import com.taoists.ias.entity.Stock;

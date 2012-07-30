@@ -18,7 +18,7 @@ import com.taoists.common.util.DateUtils;
 public class DateFormat extends TagSupport {
 	
 	private String value;
-	private String pattern = "yyyy-MM-dd HH:mm:ss";
+	private String pattern = DateUtils.PATTERN;
 
 	public int doEndTag() throws JspException {
 		JspWriter out = pageContext.getOut();

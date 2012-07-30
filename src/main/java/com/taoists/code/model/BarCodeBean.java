@@ -1,4 +1,4 @@
-package com.taoists.code.controller;
+package com.taoists.code.model;
 
 
 /**

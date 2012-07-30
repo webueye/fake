@@ -19,7 +19,7 @@
 					<table class="table table-bordered table-striped">
 						<tbody>
 							<tr>
-								<th  class="th" colspan="4" align="right">
+								<th class="th" colspan="4" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/menu/edit-new">
 											菜单添加
@@ -44,16 +44,16 @@
 											<td>
 																
 											<c:if test="${!menu.leaf}">						
-													<c:if test="${menu.expanded}">
-														<a href="${pageContext.request.contextPath}/menu/${menu.id }/expand">
-															<img border='0' width="16" height="13" title="折 叠" src="${pageContext.request.contextPath}/images/folder_open.gif"/>
-														</a>
-													</c:if>
-													<c:if test="${!menu.expanded}">
-														<a href="${pageContext.request.contextPath}/menu/${menu.id }/expand">
-															<img border='0' width="16" height="13" title="展 开" src="${pageContext.request.contextPath}/images/folder.gif"/>
-														</a>
-													</c:if>
+												<c:if test="${menu.expanded}">
+													<a href="${pageContext.request.contextPath}/menu/${menu.id }/expand">
+														<img border='0' width="16" height="13" title="折 叠" src="${pageContext.request.contextPath}/images/folder_open.gif"/>
+													</a>
+												</c:if>
+												<c:if test="${!menu.expanded}">
+													<a href="${pageContext.request.contextPath}/menu/${menu.id }/expand">
+														<img border='0' width="16" height="13" title="展 开" src="${pageContext.request.contextPath}/images/folder.gif"/>
+													</a>
+												</c:if>
 											</c:if>
 									
 											<c:if test="${menu.leaf}">

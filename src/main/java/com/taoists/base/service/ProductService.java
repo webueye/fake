@@ -8,5 +8,7 @@ import com.taoists.common.orm.dao.BaseDao;
  * @since 2012-6-2
  */
 public interface ProductService extends BaseDao<Product> {
+	
+	Product getByProductNo(String productNo);
 
 }

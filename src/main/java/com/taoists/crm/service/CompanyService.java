@@ -10,6 +10,8 @@ import com.taoists.crm.entity.Company;
  */
 public interface CompanyService extends BaseDao<Company> {
 
+	Company getByCompanyNo(String companyNo);
+
 	void save(Company company, ContactModel contactModel);
 
 }

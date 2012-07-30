@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.common.collect.Sets;
 import com.taoists.base.service.BoxSpecService;
@@ -21,7 +22,11 @@ import com.taoists.base.service.DataDictService;
 import com.taoists.base.service.DictCategoryService;
 import com.taoists.base.service.ProductService;
 import com.taoists.code.service.BoxCodeService;
+import com.taoists.code.service.BoxTraceService;
+import com.taoists.code.service.CodeHistoryService;
 import com.taoists.code.service.CodeIssueService;
+import com.taoists.code.service.CodeQueryService;
+import com.taoists.code.service.DeliveryHistoryService;
 import com.taoists.code.service.ExcelService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.ViewName;
@@ -32,12 +37,15 @@ import com.taoists.ias.service.WarehousingBoxService;
 import com.taoists.ias.service.WarehousingService;
 import com.taoists.sys.entity.Account;
 import com.taoists.sys.service.AccountService;
+import com.taoists.sys.service.DeptService;
 import com.taoists.sys.service.MenuService;
+import com.taoists.sys.service.RoleService;
 
 /**
  * @author rubys@vip.qq.com
  * @since 2012-5-30
  */
+@SessionAttributes("currentAccount")
 public class CommonController {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -150,5 +158,17 @@ public class CommonController {
 	protected BrandService brandService;
 	@Autowired
 	protected ExcelService excelService;
+	@Autowired
+	protected RoleService roleService;
+	@Autowired
+	protected DeptService deptService;
+	@Autowired
+	protected BoxTraceService boxTraceService;
+	@Autowired
+	protected CodeQueryService codeQueryService;
+	@Autowired
+	protected CodeHistoryService codeHistoryService;
+	@Autowired
+	protected DeliveryHistoryService deliveryHistoryService;
 
 }

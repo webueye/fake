@@ -28,7 +28,7 @@
 									<input class="input-xlarge required" name="issueName" type="text" style="width:300px"/>
 								</td>
 							</tr>
-							<tr class="th">
+							<tr class="th" style="display: none;">
 								<th class="rth">包装箱种类：</th>
 								<td class="ltd">
 									<select name="boxSpec.id" class="required" style="width:300px">
@@ -45,7 +45,7 @@
 									<input class="input-xlarge required number" name="issueCount" type="text" style="width:300px"/>
 								</td>
 							</tr>
-							<tr class="th">
+							<tr class="th" style="display: none;">
 								<th class="rth">码长度：</th>
 								<td class="ltd">
 									<select name="codeLength" style="width: 300px;">

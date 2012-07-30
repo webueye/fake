@@ -17,6 +17,8 @@ import com.taoists.common.orm.entity.BaseEntity;
 @MappedSuperclass
 public class NodeModel extends BaseEntity {
 
+	public static final String CHECKED = "checked";
+
 	private Boolean expanded;
 	private Boolean leaf;
 	@Column(columnDefinition = "int(11) default '0'")
@@ -35,6 +37,15 @@ public class NodeModel extends BaseEntity {
 	@Transient
 	private List<? extends NodeModel> child = new ArrayList<NodeModel>();
 
+	@Transient
+	public String getIndent() {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 1; i < getWidth(); i++) {
+			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+		}
+		return sb.toString();
+	}
+
 	public Boolean getExpanded() {
 		return expanded;
 	}
@@ -52,7 +63,7 @@ public class NodeModel extends BaseEntity {
 	}
 
 	public Integer getWidth() {
-		if(width == null){
+		if (width == null) {
 			return 0;
 		}
 		return width;

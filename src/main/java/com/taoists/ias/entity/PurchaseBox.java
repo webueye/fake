@@ -1,6 +1,7 @@
 package com.taoists.ias.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,9 +18,11 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "purchase_box")
 public class PurchaseBox extends BaseEntity {
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Purchase purchase;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	private PurchaseItem purchaseItem;
+	@ManyToOne(fetch = FetchType.LAZY)
 	private BoxCode boxCode;
 
 	public Purchase getPurchase() {
@@ -36,6 +39,14 @@ public class PurchaseBox extends BaseEntity {
 
 	public void setBoxCode(BoxCode boxCode) {
 		this.boxCode = boxCode;
+	}
+
+	public PurchaseItem getPurchaseItem() {
+		return purchaseItem;
+	}
+
+	public void setPurchaseItem(PurchaseItem purchaseItem) {
+		this.purchaseItem = purchaseItem;
 	}
 
 }

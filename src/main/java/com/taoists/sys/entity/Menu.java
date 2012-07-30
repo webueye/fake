@@ -6,7 +6,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.taoists.common.Cons;
 
@@ -19,27 +18,18 @@ import com.taoists.common.Cons;
 @Table(name = Cons.tablePrefix + "menu")
 public class Menu extends NodeModel {
 
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String name;
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String icon;
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String label;
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = "DEFAULT ''")
 	private String action;
 	private Integer orderValue;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_id")
 	private Menu parent;
-
-	@Transient
-	public String getIndent() {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 1; i < getWidth(); i++) {
-			sb.append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-		}
-		return sb.toString();
-	}
 
 	public String getName() {
 		return name;

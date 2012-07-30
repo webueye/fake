@@ -30,7 +30,7 @@ public class BrandController extends CommonController {
 	@RequestMapping
 	public String list(Brand brand, Page page) {
 		brandService.findPage(page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -38,12 +38,12 @@ public class BrandController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		brandService.findPage(page, filters);
 		extractParams(request);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		return forword(ViewName.insert);
+		return forward(ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -56,7 +56,7 @@ public class BrandController extends CommonController {
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable long id, Model model) {
 		logger.debug("edit: id[{}]", id);
-		return forword(ViewName.edit);
+		return forward(ViewName.edit);
 	}
 
 	@RequestMapping(value = "/update/{brand.id}", method = RequestMethod.POST)
@@ -85,7 +85,7 @@ public class BrandController extends CommonController {
 		return brandService.get(id);
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return forward(Module.base, ResultPath.brand, viewName);
 	}
 

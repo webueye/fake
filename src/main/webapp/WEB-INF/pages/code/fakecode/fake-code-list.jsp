@@ -89,7 +89,7 @@
 										<u:valueFormat value="${fakeCode.boxCode.status.value}"/>
 									</td>
 									<td>
-										<u:valueFormat value="${fakeCode.boxSpec.specName}"/>
+										<u:valueFormat value="${fakeCode.boxCode.boxSpec.specName}"/>
 									</td>
 									<td>
 										<u:dateFormat value="${fakeCode.createDateTime}"/>

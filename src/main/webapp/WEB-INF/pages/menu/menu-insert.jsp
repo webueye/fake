@@ -83,10 +83,6 @@
 		<jsp:include page="/common/footer.jsp"/>
 		
 		<script type="text/javascript">
-			$(document).ready(function() {
-				$("#validateForm").validate();
-			});
-		
 			function rowEnable(vl, compName){
 				if('true' == vl){
 					$("#"+ compName).hide();

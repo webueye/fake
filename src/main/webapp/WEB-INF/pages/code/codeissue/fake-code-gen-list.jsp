@@ -37,7 +37,7 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th class="th" colspan="7" align="right">
+								<th class="th" colspan="5" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/code-issue/fake-code-gen">
 											防伪码生成
@@ -46,14 +46,14 @@
 								</th>
 							</tr>
 							<tr>
-								<th class="gray" colspan="7">防伪码生成记录</th>
+								<th class="gray" colspan="5">防伪码生成记录</th>
 							</tr>
 							<tr>
 								<th>编号</th>
 								<th>标题</th>
-								<th>包装箱规格</th>
+								<th style="display: none;">包装箱规格</th>
 								<th>数量</th>
-								<th>码长度</th>
+								<th style="display: none;">码长度</th>
 								<th>生成日期</th>
 								<th>操作</th>
 							</tr>
@@ -65,13 +65,13 @@
 									<td>
 										<u:valueFormat value="${codeIssue.issueName}"/>
 									</td>
-									<td>
+									<td style="display: none;">
 										<u:valueFormat value="${codeIssue.boxSpec.specName}"/>
 									</td>
 									<td>
 										<u:valueFormat value="${codeIssue.issueCount}"/>
 									</td>
-									<td>
+									<td style="display: none;">
 										<u:valueFormat value="${codeIssue.codeLength}"/>
 									</td>
 									<td>
@@ -85,7 +85,7 @@
 							</c:forEach>
 							
 							<jsp:include page="/common/no-data.jsp">
-								<jsp:param value="7" name="colspan"/>
+								<jsp:param value="5" name="colspan"/>
 							</jsp:include>
 							
 						</tbody>

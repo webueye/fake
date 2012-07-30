@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.common.collect.Lists;
-import com.taoists.code.controller.BoxModel;
 import com.taoists.code.entity.BoxCode;
+import com.taoists.code.model.BoxModel;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;

@@ -1,5 +1,8 @@
 package com.taoists.code.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.taoists.code.entity.FakeCode;
 import com.taoists.common.orm.dao.BaseDao;
 
@@ -10,5 +13,7 @@ import com.taoists.common.orm.dao.BaseDao;
 public interface FakeCodeService extends BaseDao<FakeCode> {
 
 	FakeCode getByPlainCode(String plainCode);
+
+	List<String> queryPlainCodes(Collection<String> plainCodes);
 
 }

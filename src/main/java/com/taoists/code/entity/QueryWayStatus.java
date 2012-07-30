@@ -8,8 +8,8 @@ public enum QueryWayStatus {
 
 	phone(1, "电话"), sms(2, "短信"), site(3, "网站");
 
-	int code;
-	String value;
+	private int code;
+	private String value;
 
 	QueryWayStatus(int code, String value) {
 		this.code = code;

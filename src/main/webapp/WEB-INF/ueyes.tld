@@ -37,6 +37,19 @@
 		</attribute>
 	</tag>
 	<tag>
+		<name>datePlus</name>
+		<tag-class>com.taoists.common.tag.DatePlus</tag-class>
+		<attribute>
+			<name>date</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>plusDays</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
 		<name>valueFormat</name>
 		<tag-class>com.taoists.common.tag.ValueFormat</tag-class>
 		<attribute>

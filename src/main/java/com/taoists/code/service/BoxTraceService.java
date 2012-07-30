@@ -6,6 +6,7 @@ import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxTrace;
 import com.taoists.common.orm.dao.BaseDao;
 import com.taoists.crm.entity.Company;
+import com.taoists.ias.entity.Stock.ChangeTypeStatus;
 
 /**
  * @author rubys@vip.qq.com
@@ -13,6 +14,6 @@ import com.taoists.crm.entity.Company;
  */
 public interface BoxTraceService extends BaseDao<BoxTrace> {
 
-	void save(Collection<BoxCode> boxCodes, Company company);
+	void save(Collection<BoxCode> boxCodes, Company company, ChangeTypeStatus eventType);
 
 }

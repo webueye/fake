@@ -3,6 +3,7 @@ package com.taoists.crm.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -21,13 +22,14 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class Company extends BaseEntity {
 
 	@Comment("公司编号")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String compnayNo;
 	@Comment("公司名称")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String companyName;
 	@Comment("类型（1：生产商；2：经销商；3：终端客户；4：潜在客户）")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "companyTypeId")	
 	private DataDict companyType;
 	@Comment("状态（0：禁用；1：启用）")
 	private Boolean status;
@@ -35,54 +37,57 @@ public class Company extends BaseEntity {
 	private Long parentId;
 	@Comment("所性销售区域")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "saleRegionId")	
 	private DataDict saleRegion;
 	@Comment("区域码")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String zoneNo;// TODO
 	@Comment("企业性质")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "companyNatureId")	
 	private DataDict companyNature;
 	@Comment("销售形式")
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "saleFormId")	
 	private DataDict saleForm;
 	@Comment("企业规模")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String scale;
 	@Comment("仓库面积")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String depotArea;
 	@Comment("员工数")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String employeeCount;
 	@Comment("业务人员人数")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String businessCount;
 	@Comment("公司地址")
-	@Column(columnDefinition = "varchar(128) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String address;
 	@Comment("公司邮编")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String companyZip;
 	@Comment("开户行名称")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String belongBankName;
 	@Comment("户名")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String bankAccountName;
 	@Comment("银行帐号")
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String bankAccountNo;
 	@Comment("收货地址")
-	@Column(columnDefinition = "varchar(128) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String shippingAddress;
 	@Comment("收货人")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String shippingMan;
 	@Comment("收货电话")
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String shippingPhone;
 	@Comment("备注")
-	@Column(columnDefinition = "varchar(255) DEFAULT ''")
+	@Column(columnDefinition = " DEFAULT ''")
 	private String memo;
 
 	public Company() {

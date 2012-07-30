@@ -25,11 +25,11 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 	@Transactional
 	public void genCode(CodeIssue codeIssue) {
 		save(codeIssue);
-		Long boxCodeBatchNum = super.count("codeType", Boolean.TRUE);
-		Long fakeCodeBatchNum = super.count("codeType", Boolean.FALSE);
 		if (codeIssue.getCodeType()) {
+			Long boxCodeBatchNum = super.count("codeType", Boolean.TRUE);
 			genBoxCode(codeIssue, boxCodeBatchNum);
 		} else {
+			Long fakeCodeBatchNum = super.count("codeType", Boolean.FALSE);
 			genFakeCode(codeIssue, fakeCodeBatchNum);
 		}
 	}
@@ -38,11 +38,12 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 		BoxSpec boxSpec = boxSpecService.get(codeIssue.getBoxSpec().getId());
 
 		String codePrefix = CodeUtils.getCodePrefix(batchNum);
-		int code = 10000;
+		int code = 0;
+		int length = 5;
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			BoxCode boxCode = new BoxCode();
 			boxCode.setCodeIssue(codeIssue);
-			boxCode.setBoxCode(codePrefix + boxSpec.getSpecNo() + (++code));
+			boxCode.setBoxCode(codePrefix + boxSpec.getSpecNo() + CodeUtils.fillZero(String.valueOf((++code)), length));
 			boxCode.setBoxSpec(boxSpec);
 			boxCode.setCreationCompany(codeIssue.getCreationCompany());
 			boxCode.setStorageCompany(codeIssue.getCreationCompany());
@@ -54,14 +55,15 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 
 	private void genFakeCode(CodeIssue codeIssue, Long batchNum) {
 		String codePrefix = CodeUtils.getCodePrefix(batchNum);
-		int plainCode = 100000;
+		int plainCode = 0;
+		int length = 6;
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			FakeCode fakeCode = new FakeCode();
 			fakeCode.setCodeIssue(codeIssue);
-			fakeCode.setBoxSpec(codeIssue.getBoxSpec());
+//			fakeCode.setBoxSpec(codeIssue.getBoxSpec());
 			String randomCode = CodeUtils.genCode(7);
 			fakeCode.setFakeCode("0" + randomCode.substring(0, 3) + codePrefix + randomCode.substring(3, 7));
-			fakeCode.setPlainCode(codePrefix + (++plainCode));
+			fakeCode.setPlainCode(codePrefix + CodeUtils.fillZero(String.valueOf((++plainCode)), length));
 			fakeCode.setStatus(codeIssue.getStatus());
 			insert(fakeCode);
 		}

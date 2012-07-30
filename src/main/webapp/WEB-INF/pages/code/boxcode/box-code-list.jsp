@@ -49,7 +49,7 @@
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr>
-								<th class="gray" colspan="9">箱码列表</th>
+								<th class="gray" colspan="10">箱码列表</th>
 							</tr>							
 							<tr>
 								<th class="${page.orderBy == 'id'? page.className: 'cursor'}" onclick="javascript: common.sort('id', 'desc');" title="点击按编号排序">编号</th>
@@ -60,6 +60,7 @@
 								<th>箱码状态</th>
 								<th>所在公司[位置]</th>
 								<th>生成日期</th>
+								<th>创建日期</th>
 								<th>防伪码</th>
 							</tr>
 						</thead>
@@ -86,6 +87,9 @@
 										<u:valueFormat value="${boxCode.storageCompany.companyName}"/>
 									</td>
 									<td>
+										<u:dateFormat value="${boxCode.produceDate}" pattern="yyyy-MM-dd"/>
+									</td>
+									<td>
 										<u:dateFormat value="${boxCode.createDateTime}"/>
 									</td>
 									<td>
@@ -95,7 +99,7 @@
 							</c:forEach>
 							
 							<jsp:include page="/common/no-data.jsp">
-								<jsp:param value="9" name="colspan"/>
+								<jsp:param value="10" name="colspan"/>
 							</jsp:include>
 							
 						</tbody>

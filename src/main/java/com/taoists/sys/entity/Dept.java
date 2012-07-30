@@ -1,12 +1,18 @@
-package com.taoists.crm.entity;
+package com.taoists.sys.entity;
+
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 import com.taoists.common.Cons;
-import com.taoists.common.orm.entity.BaseEntity;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
@@ -15,23 +21,27 @@ import com.taoists.common.orm.entity.BaseEntity;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = Cons.tablePrefix + "dept")
-public class Dept extends BaseEntity {
+public class Dept extends NodeModel {
 
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column
 	private String name;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "parent_id")
 	private Dept parent;
-	// private Integer level;
-	// private Integer subCount;
-	@Column(columnDefinition = "varchar(32) DEFAULT ''")
+	@Column
 	private String deptNo;
-	private Integer ordres;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	private Integer orderValue;
+	@Column
 	private String telNo;
-	@Column(columnDefinition = "varchar(16) DEFAULT ''")
+	@Column
 	private String faxNo;
 	private Integer recordStatus;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "companyId")
 	private Company company;
+
+	@Type(type = "com.taoists.common.orm.entity.type.PersistentSet")
+	private Set<Long> roles;
 
 	public String getName() {
 		return name;
@@ -57,12 +67,12 @@ public class Dept extends BaseEntity {
 		this.deptNo = deptNo;
 	}
 
-	public Integer getOrdres() {
-		return ordres;
+	public void setOrderValue(Integer orderValue) {
+		this.orderValue = orderValue;
 	}
 
-	public void setOrdres(Integer ordres) {
-		this.ordres = ordres;
+	public Integer getOrderValue() {
+		return orderValue;
 	}
 
 	public String getTelNo() {
@@ -97,12 +107,12 @@ public class Dept extends BaseEntity {
 		this.company = company;
 	}
 
-	@Override
-	public String toString() {
-		return "Dept [name=" + name + ", parent=" + parent + ", deptNo="
-				+ deptNo + ", ordres=" + ordres + ", telNo=" + telNo
-				+ ", faxNo=" + faxNo + ", recordStatus=" + recordStatus
-				+ ", company=" + company + "]";
+	public void setRoles(Set<Long> roles) {
+		this.roles = roles;
+	}
+
+	public Set<Long> getRoles() {
+		return roles;
 	}
 
 }

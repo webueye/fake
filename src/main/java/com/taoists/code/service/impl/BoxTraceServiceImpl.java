@@ -11,6 +11,7 @@ import com.taoists.code.entity.BoxTrace;
 import com.taoists.code.service.BoxTraceService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.crm.entity.Company;
+import com.taoists.ias.entity.Stock.ChangeTypeStatus;
 
 /**
  * @author rubys@vip.qq.com
@@ -21,10 +22,10 @@ public class BoxTraceServiceImpl extends HibernateDaoSupport<BoxTrace> implement
 
 	@Override
 	@Transactional
-	public void save(Collection<BoxCode> boxCodes, Company company) {
+	public void save(Collection<BoxCode> boxCodes, Company company, ChangeTypeStatus eventType) {
 		for (BoxCode boxCode : boxCodes) {
 			BoxTrace boxTrace = new BoxTrace();
-
+			boxTrace.setEventType(eventType);
 			boxTrace.setBoxCode(boxCode);
 			boxTrace.setCompany(company);
 			boxTrace.setTraceDateTime(new DateTime());

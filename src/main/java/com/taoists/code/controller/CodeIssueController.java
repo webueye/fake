@@ -125,12 +125,12 @@ public class CodeIssueController extends CommonController {
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		if (codeIssue.getCodeType()) {
 			byte[] bytes = excelService.exportBoxCodes(codeIssue);
-			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName("箱码") + ".xls");
+			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName(boxCodeFileName));
 			response.addHeader("Content-Length", "" + bytes.length);
 			IOUtils.write(bytes, response.getOutputStream());
 		} else {
 			byte[] bytes = excelService.exportFakeCodes(codeIssue);
-			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName("防伪码") + ".xls");
+			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName(fakeCodeFileName));
 			response.addHeader("Content-Length", "" + bytes.length);
 			IOUtils.write(bytes, response.getOutputStream());
 		}
@@ -150,11 +150,14 @@ public class CodeIssueController extends CommonController {
 	}
 
 	private String getExportFileName(String name) throws Exception {
-		return new String(name.getBytes("UTF-8"), "ISO8859-1");
+		return new String(name.getBytes("GBK"), "ISO8859-1");
 	}
 
 	private String forword(ViewName viewName) {
 		return forward(Module.code, ResultPath.codeIssue, viewName);
 	}
+
+	private static final String boxCodeFileName = "箱码.xls";
+	private static final String fakeCodeFileName = "防伪码.xls";
 
 }

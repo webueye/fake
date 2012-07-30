@@ -6,7 +6,7 @@ package com.taoists.common.controller;
  */
 public enum Module {
 
-	crm("/crm"), base("/base"), code("/code"), ias("/ias");
+	crm("/crm"), base("/base"), code("/code"), ias("/ias"), sys("/sys");
 
 	String name;
 

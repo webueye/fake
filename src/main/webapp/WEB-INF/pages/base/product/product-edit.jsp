@@ -69,7 +69,7 @@
 								</td>
 								<th class="rth">保持期：</th>
 								<td class="ltd">
-									<input class="input-xlarge required number" name="retentioPeriod" value="${product.retentioPeriod}" type="text"/>
+									<input class="input-xlarge required number" name="retentionPeriod" value="${product.retentionPeriod}" type="text"/>
 								</td>
 							</tr>
 							<tr class="th">

@@ -9,9 +9,11 @@ import com.taoists.sys.entity.Account;
  * @since 2012-6-9
  */
 public interface PurchaseService extends BaseDao<Purchase> {
-	
+
+	Purchase getByPurchaseNo(String purchaseNo);
+
 	void save(Purchase purchase, String[] boxCodes);
-	
+
 	void udpateStatus(Purchase purchase, int state, Account account);
 
 }
