@@ -95,6 +95,13 @@ public class CompanyController extends CommonController {
 		return redirect(ResultPath.company);
 	}
 
+	@RequestMapping("account-list/{companyId}")
+	public String accountList(@PathVariable Long companyId, Page page, Model model) {
+		accountService.findDatas("companyId", companyId, page);
+		model.addAttribute("company", companyService.get(companyId));
+		return "account/account-list";
+	}
+
 	@ModelAttribute("company")
 	public Company getCompany(HttpServletRequest request) {
 		String requestURI = request.getRequestURI();

@@ -81,6 +81,15 @@
 								</td>
 							</tr>
 							<tr>
+								<td>所属部门:</td>
+								<td colspan="1">
+									<select id="deptId" name="deptId" class="input-xlarge">
+										<option value="">--请选择--</option>
+									</select>
+								</td>
+								<td colspan="2"></td>
+							</tr>
+							<tr>
 								<td colspan="4" align="center">
 									<div align="center">
 										<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
@@ -96,6 +105,30 @@
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>
+		
+		<script type="text/javascript">
+			getDepts();
+			
+			function getDepts(defaultSelect) {
+				$.ajax({
+					type : 'post',
+					url : '${pageContext.request.contextPath}/dept/nodes',
+					dataType : 'json',
+					success : function(data) {
+						if (data) {
+							for ( var i = 0; i < data.length; i++) {
+								var op = new Option(data[i].name, data[i].id);
+								op.innerHTML = data[i].name;
+								if(defaultSelect == data[i].id){
+									op.selected = true;
+								}
+								$("#deptId").append(op);
+							}
+						}
+					}
+				});
+			}
+		</script>
 		
 	</body>
 
