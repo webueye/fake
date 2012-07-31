@@ -107,7 +107,7 @@
 										<a onclick="return handleState('${pageContext.request.contextPath}/company/state/${company.id}');" href="#">${company.status == false? '禁用': '启用'}</a>
 									</td>
 									<td>
-										<a href="${pageContext.request.contextPath}/account?companyId=${company.id}">帐号管理</a>
+										<a href="${pageContext.request.contextPath}/company/account-list/${company.id}">帐号管理</a>
 									</td>
 									<td>
 										<a href="${pageContext.request.contextPath}/company/edit/${company.id}">修改</a>

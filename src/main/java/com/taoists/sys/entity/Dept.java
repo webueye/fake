@@ -43,6 +43,14 @@ public class Dept extends NodeModel {
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentSet")
 	private Set<Long> roles;
 
+	public Dept() {
+
+	}
+
+	public Dept(Long id) {
+		this.setId(id);
+	}
+
 	public String getName() {
 		return name;
 	}

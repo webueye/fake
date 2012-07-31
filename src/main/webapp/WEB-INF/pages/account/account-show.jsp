@@ -5,7 +5,7 @@
 <html>
 
 	<head>
-		<title>用户编辑</title>
+		<title>用户详情</title>
 		<jsp:include page="/common/header.jsp"/>
 	</head>
 
@@ -26,60 +26,45 @@
 							</tr>
 							<tr>
 								<td>用户编号：</td>
-								<td>
-									<input class="input-xlarge" name="userNo" value="${account.userNo}" type="text" style="width: 80%"/>
+								<td>${account.userNo}
 								</td>
 								<td>用户昵称：</td>
-								<td>
-									<input class="input-xlarge" name="nickname" value="${account.nickname}" type="text" style="width: 80%"/>
+								<td>${account.nickname}
 								</td>
 							</tr>
 							<tr>
 								<td>登陆名称：</td>
-								<td colspan="3">
-									<input class="input-xlarge required" name="username" value="${account.username}" type="text" style="width: 250px;"/>
+								<td colspan="3">${account.username}
 								</td>
 								
 							</tr>
 							<tr>
 								<td>邮箱：</td>
-								<td>
-									<input class="input-xlarge required email" name="email" value="${account.email}" type="text" style="width: 80%"/>
+								<td>${account.email}
 								</td>
 								<td>性别：</td>
-								<td>
-									男<input class="input-xlarge" name="sex" style="margin-right: 20px;" value="true" type="radio" ${account.sex? 'checked': ''}/>
-									女<input class="input-xlarge" name="sex" value="false" type="radio" ${account.sex? '': 'checked'}/>
+								<td>${account.sex? '男': '女'}
 								</td>
 							</tr>
 							<tr>
 								<td>电话：</td>
-								<td>
-									<input class="input-xlarge" name="phone" value="${account.phone}" type="text" style="width: 80%"/>
+								<td>${account.phone}
 								</td>
 								<td>手机：</td>
-								<td>
-									<input class="input-xlarge" name="mobile" value="${account.mobile}" type="text" style="width: 80%"/>
+								<td>${account.mobile}
 								</td>
 							</tr>
 							<tr>
 								<td>用户类型：</td>
-								<td>
-									管理员<input class="input-xlarge required" name="admin" style="margin-right: 20px;" value="true" type="radio" ${account.admin? 'checked': ''}/>
-									普通用户<input class="input-xlarge required" name="admin" value="false" type="radio" ${account.admin? '': 'checked'}/>
+								<td>${account.admin? '管理员': '普通用户'}
 								</td>
 								<td>用户状态：</td>
-								<td>
-									启用<input class="input-xlarge required" name="status" style="margin-right: 20px;" value="true" type="radio" ${account.status? 'checked': ''}/>
-									禁用<input class="input-xlarge required" name="status" value="false" type="radio" ${account.status? '': 'checked'}/>
+								<td>${account.status? '启用': '禁用'}
 								</td>
 							</tr>
 							<tr>
-								<td>所属部门:</td>
-								<td colspan="1">
-									<select id="deptId" name="deptId" class="input-xlarge">
-										<option value="">--请选择--</option>
-									</select>
+								<td>所属部门：</td>
+								<td colspan="1">${account.dept.name}
 								</td>
 								<td colspan="2"></td>
 							</tr>

@@ -1,8 +1,14 @@
 package com.taoists.sys.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 import com.taoists.common.Cons;
 import com.taoists.common.orm.entity.BaseEntity;
@@ -34,9 +40,13 @@ public class Account extends BaseEntity {
 	@Column(columnDefinition = "DEFAULT ''")
 	private String mobile;
 	@Column(columnDefinition = "DEFAULT ''")
-	private String memo;	
+	private String memo;
 
 	private Long companyId;
+	@Type(type = "com.taoists.common.orm.entity.type.PersistentSet")
+	private Set<Long> roles;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Dept dept;
 
 	public String getUserNo() {
 		return userNo;
@@ -117,7 +127,7 @@ public class Account extends BaseEntity {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	
+
 	public String getMemo() {
 		return memo;
 	}
@@ -125,6 +135,7 @@ public class Account extends BaseEntity {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+
 	public Long getCompanyId() {
 		return companyId;
 	}
@@ -133,11 +144,19 @@ public class Account extends BaseEntity {
 		this.companyId = companyId;
 	}
 
-	@Override
-	public String toString() {
-		return "Account [userNo=" + userNo + ", nickname=" + nickname + ", email=" + email + ", username=" + username + ", password=" + password
-				+ ", status=" + status + ", admin=" + admin + ", sex=" + sex + ", phone=" + phone + ", mobile=" + mobile + ", companyId=" + companyId
-				+ "]";
+	public void setRoles(Set<Long> roles) {
+		this.roles = roles;
 	}
 
+	public Set<Long> getRoles() {
+		return roles;
+	}
+
+	public void setDept(Dept dept) {
+		this.dept = dept;
+	}
+
+	public Dept getDept() {
+		return dept;
+	}
 }

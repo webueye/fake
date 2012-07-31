@@ -12,14 +12,28 @@
 	<body>
 	
 		<div class="container">
-			<div class="row">
+			<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/account/search">
+				<div class="search">
+					<div class="row">
+						<div class="span12">
+							<div class="control-group">
+					           	<span style="margin-left: 10px;">昵称 </span>
+					            <input class="input-small" name="filter_LIKES_nickname" value="${filter_LIKES_nickname}" placeholder="昵称"/>
+					           	
+							  	<button type="submit" class="btn btn-primary">查询</button>
+					            <input type="hidden" name="filter_EQL_companyId" value="${company.id}"/>
+					        </div>
+						</div>
+					  </div>
+				</div>
+				<div>
 					<table class="table table-bordered table-striped">
 						<tbody>
 							<tr>
-								<th  class="th" colspan="7" align="right">
+								<th  class="th" colspan="8" align="right">
 									<div align=right style="margin-right:10px;">
 										<a href="${pageContext.request.contextPath}/account/edit-new/${company.id}">
-											${company.companyName}帐号添加
+											帐号添加
 										</a>
 									</div>
 								</th>
@@ -31,6 +45,7 @@
 								<th>邮箱</th>
 								<th>帐号类型</th>
 								<th>帐号状态</th>
+								<th>角色分配</th>
 								<th>编辑</th>
 							</tr>
 							<c:forEach var="account" items="${page.datas}">
@@ -42,6 +57,9 @@
 									<td>${account.admin? '管理员': '普通帐号'}</td>
 									<td>${account.status? '启用': '冻结'}</td>
 									<td>
+										<a href="${pageContext.request.contextPath}/account/role/${account.id}">角色分配</a>
+									</td>
+									<td>
 										<a href="${pageContext.request.contextPath}/account/show/${account.id}">详情</a>
 										<a href="${pageContext.request.contextPath}/account/edit/${account.id}">修改</a>
 										<a href="${pageContext.request.contextPath}/account/destroy/${account.id}">删除</a>
@@ -50,13 +68,12 @@
 							</c:forEach>
 						</tbody>
 					</table>
+				</div>
+				<jsp:include page="/common/page.jsp">
+					<jsp:param name="actionURL" value="account"/>
+				</jsp:include>
+			</form>	
 					
-					<jsp:include page="/common/page.jsp">
-						<jsp:param name="actionURL" value="account"/>
-					</jsp:include>
-					
-					
-			</div>
 		</div>
 		
 		<jsp:include page="/common/footer.jsp"/>

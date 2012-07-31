@@ -65,7 +65,7 @@ public class LoginController extends CommonController {
 			redirectAttributes.addFlashAttribute("msg", "passwordNotCorrect");
 			return redirect("/login");
 		}
-		if (BooleanUtils.isFalse(acc.getStatus())) {
+		if (BooleanUtils.isNotTrue(acc.getStatus())) {
 			redirectAttributes.addFlashAttribute("msg", "accountInactive");
 			return redirect("/login");
 		}

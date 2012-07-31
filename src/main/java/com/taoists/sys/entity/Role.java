@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -28,6 +29,8 @@ public class Role extends BaseEntity {
 	private Set<Long> menus;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
+	@Transient
+	private String checked;
 
 	public String getRoleName() {
 		return roleName;
@@ -61,4 +64,11 @@ public class Role extends BaseEntity {
 		return company;
 	}
 
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
+
+	public String getChecked() {
+		return checked;
+	}
 }
