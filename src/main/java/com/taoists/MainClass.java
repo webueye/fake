@@ -20,7 +20,10 @@ public class MainClass {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("app.xml");
 		CodeHistoryService hs = (CodeHistoryService) ctx.getBean("codeHistoryService");
 		
-		hs.imp(Lists.newArrayList("a"), "080923067,067,3000,3000,2008-09-26 08:49:44,");
+//		hs.imp(Lists.newArrayList("a"), "080923067,067,3000,3000,2008-09-26 08:49:44,");
+		
+		hs.prehandle("", Lists.newArrayList("a"));
+		hs.prehandle("", Lists.newArrayList("a"));
 		
 	}
 
