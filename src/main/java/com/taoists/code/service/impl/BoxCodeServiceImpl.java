@@ -11,6 +11,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.LocalDate;
@@ -23,17 +24,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Sets;
-import com.taoists.base.entity.Product;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.FakeCode;
-import com.taoists.code.model.ProductModel;
-import com.taoists.code.model.ProductModel.BatchModel;
+import com.taoists.code.model.BoxCodeGroup;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.common.bean.Page;
+import com.taoists.common.orm.PropertyFilter;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
-import com.taoists.common.util.DateUtils;
 import com.taoists.crm.entity.Company;
 
 /**
@@ -62,7 +61,7 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		detachedCriteria.setProjection(Projections.groupProperty("boxCode"));
 		return detachedCriteria.getExecutableCriteria(getSession()).list();
 	}
-	
+
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<BoxCode> queryBoxCodes(Collection<String> boxCodes) {
@@ -159,62 +158,30 @@ public class BoxCodeServiceImpl extends HibernateDaoSupport<BoxCode> implements 
 		return criteria.getExecutableCriteria(getSession()).list();
 	}
 
-	@Override
 	@SuppressWarnings("unchecked")
-	public List<ProductModel> batchTrace(Product p, Page page) {
-		DetachedCriteria detachedCriteria = createDetachedCriteria();
-
-		detachedCriteria.setProjection(Projections.groupProperty("boxSpec.product"));
-		detachedCriteria.createAlias("boxSpec", "boxSpec");
-		detachedCriteria.createAlias("boxSpec.product", "boxSpec.product");
-
-		Criteria criteria = detachedCriteria.getExecutableCriteria(getSession());
-		List<Product> products = criteria.list();
-
-		List<Long> idList = Lists.newArrayList();
-		for (Product product : products) {
-			idList.add(product.getId());
-		}
-
-		detachedCriteria = createDetachedCriteria();
-		detachedCriteria.add(Restrictions.in("boxSpec.product.id", idList));
-		detachedCriteria.createAlias("boxSpec", "boxSpec");
-		detachedCriteria.createAlias("boxSpec.product", "boxSpec.product");
-		List<BoxCode> boxCodes = detachedCriteria.getExecutableCriteria(getSession()).list();
-
-		Multimap<Long, BoxCode> productGroup = HashMultimap.create();
-		for (BoxCode boxCode : boxCodes) {
-			productGroup.put(boxCode.getBoxSpec().getProduct().getId(), boxCode);
-		}
-
-		List<ProductModel> models = Lists.newArrayList();
-		for (Product product : products) {
-			ProductModel model = new ProductModel();
-			model.setProduct(product);
-
-			Collection<BoxCode> subBoxCodes = productGroup.get(product.getId());
-			Multimap<String, BoxCode> batchGroup = HashMultimap.create();
-			for (BoxCode boxCode : subBoxCodes) {
-				batchGroup.put(DateUtils.toString(boxCode.getProduceDate(), DateUtils.YYMMDD), boxCode);
+	public List<BoxCodeGroup> batchTrack(Page page, List<PropertyFilter> filters) {
+		String propertyName = "produceDate";
+		Criteria criteria = createCriteria(buildCriterionByPropertyFilter(filters));
+		criteria.setProjection(Projections.groupProperty(propertyName));
+		criteria.addOrder(Order.asc(propertyName));
+		createAlias(criteria, filters);
+		List<LocalDate> dates = criteria.list();
+		if (CollectionUtils.isNotEmpty(dates)) {
+			page.setTotalCount(dates.size());
+			List<LocalDate> subDates = dates.subList(page.getBeginIndex(), page.getEndIndex() > dates.size() ? dates.size() : page.getEndIndex());
+			criteria = createCriteria(buildCriterionByPropertyFilter(filters));
+			criteria.add(Restrictions.in(propertyName, subDates));
+			createAlias(criteria, filters);
+			List<BoxCode> boxCodes = criteria.list();
+			Multimap<LocalDate, BoxCode> group = HashMultimap.create();
+			for (BoxCode boxCode : boxCodes) {
+				group.put(boxCode.getProduceDate(), boxCode);
 			}
-			List<BatchModel> batchModels = Lists.newArrayList();
-			for (Entry<String, Collection<BoxCode>> entry : batchGroup.asMap().entrySet()) {
-				BatchModel bm = new BatchModel();
-				bm.setBatch(entry.getKey());
-				int fakeNum = 0;
-				for (BoxCode boxCode : entry.getValue()) {
-					if (boxCode.getBoxSpec().getCapacity() != null) {
-						fakeNum += boxCode.getBoxSpec().getCapacity();
-					}
-				}
-				bm.setBoxNum(entry.getValue().size());
-				bm.setFakeNum(fakeNum);
-				batchModels.add(bm);
-			}
-			model.setBatchs(batchModels);
-			models.add(model);
+			page.setDatas(BoxCodeGroup.getList(group));
+			return (List<BoxCodeGroup>) page.getDatas();
+		} else {
+			return Lists.newArrayList();
 		}
-		return models;
 	}
 
 	private static final int BOX_CODE_LENGTH = 12;

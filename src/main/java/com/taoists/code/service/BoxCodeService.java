@@ -5,11 +5,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import com.taoists.base.entity.Product;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.BoxCodeStatus;
-import com.taoists.code.model.ProductModel;
+import com.taoists.code.model.BoxCodeGroup;
 import com.taoists.common.bean.Page;
+import com.taoists.common.orm.PropertyFilter;
 import com.taoists.common.orm.dao.BaseDao;
 import com.taoists.crm.entity.Company;
 
@@ -37,6 +37,6 @@ public interface BoxCodeService extends BaseDao<BoxCode> {
 
 	List<BoxCode> findBoxCodes(long codeIssueId, String startCode, String endCode);
 
-	List<ProductModel> batchTrace(Product product, Page page);
+	List<BoxCodeGroup> batchTrack(Page page, List<PropertyFilter> filters);
 
 }

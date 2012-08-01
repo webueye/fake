@@ -121,7 +121,7 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		return totalCount;
 	}
 
-	private Criteria createCriteria(final Criterion... criterions) {
+	protected Criteria createCriteria(final Criterion... criterions) {
 		DetachedCriteria detachedCriteria = createDetachedCriteria();
 		for (Criterion c : criterions) {
 			detachedCriteria.add(c);
@@ -147,7 +147,7 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		return (List<T>) page.getDatas();
 	}
 
-	private void createAlias(Criteria criteria, final List<PropertyFilter> filters) {
+	protected void createAlias(Criteria criteria, final List<PropertyFilter> filters) {
 		for (PropertyFilter filter : filters) {
 			for (String propertyName : filter.getPropertyNames()) {
 				if (propertyName.indexOf(".") != -1) {
@@ -167,7 +167,7 @@ public class HibernateDaoSupport<T extends BaseEntity> extends BaseDaoSupport<T>
 		}
 	}
 
-	private Criterion[] buildCriterionByPropertyFilter(final List<PropertyFilter> filters) {
+	protected Criterion[] buildCriterionByPropertyFilter(final List<PropertyFilter> filters) {
 		List<Criterion> criterions = Lists.newArrayList();
 		for (PropertyFilter filter : filters) {
 			if (filter.hasMultiProperties()) {
