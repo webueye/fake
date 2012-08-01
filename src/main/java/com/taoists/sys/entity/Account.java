@@ -2,7 +2,6 @@ package com.taoists.sys.entity;
 
 import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -22,24 +21,16 @@ import com.taoists.common.orm.entity.BaseEntity;
 @Table(name = Cons.tablePrefix + "account")
 public class Account extends BaseEntity {
 
-	@Column(columnDefinition = "DEFAULT ''")
 	private String userNo;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String nickname;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String email;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String username;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String password;
 	private Boolean status;
 	private Boolean admin;
 	private Boolean sex;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String phone;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String mobile;
-	@Column(columnDefinition = "DEFAULT ''")
 	private String memo;
 
 	private Long companyId;
