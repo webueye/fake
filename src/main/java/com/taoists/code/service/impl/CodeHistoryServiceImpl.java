@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
-import org.perf4j.aop.Profiled;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,7 +86,6 @@ public class CodeHistoryServiceImpl extends HibernateDaoSupport<BoxCode> impleme
 	}
 
 	@Override
-	@Profiled
 	public HistoryCodeModel prehandle(String summary, List<String> lines) {
 		HistoryCodeModel model = new HistoryCodeModel();
 		SummaryModel summaryModel = new SummaryModel(summary);

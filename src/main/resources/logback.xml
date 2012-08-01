@@ -9,9 +9,9 @@
 
 	<logger name="com.taoists" level="debug" />
 	
-	<logger name="org.perf4j" level="debug"/>
+	<logger name="org.perf4j" level="info"/>
 
-	<root level="warn">
+	<root level="error">
 		<appender-ref ref="STDOUT" />
 	</root>
 </configuration>
