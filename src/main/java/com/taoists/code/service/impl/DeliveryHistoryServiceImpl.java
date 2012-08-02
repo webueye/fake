@@ -70,7 +70,7 @@ public class DeliveryHistoryServiceImpl extends HibernateDaoSupport<Purchase> im
 				pur.setPurchaseCompany(company);
 
 				purchaseService.save(pur, boxCodes.toArray(new String[boxCodes.size()]));
-				purchaseService.udpateStatus(pur, PurchaseStatus.inTransit.getCode(), account);
+				purchaseService.updateStatus(pur, PurchaseStatus.inTransit.getCode(), account);
 			}
 			Collection<String> codes = deliveryModel.getCodes();
 			codes.removeAll(boxCodes);

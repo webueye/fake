@@ -1,12 +1,14 @@
 package com.taoists.ias.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import com.taoists.base.entity.Product;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
@@ -22,9 +24,10 @@ import com.taoists.crm.entity.Company;
 public class ProductInventory extends BaseEntity {
 
 	@Comment("产品ID")
-	private Integer productId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Product product;
 	@Comment("公司")
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Company company;
 	@Comment("当前可用库存")
 	private Integer availableQty;
@@ -38,12 +41,12 @@ public class ProductInventory extends BaseEntity {
 	@Comment("盘点周期：单位： 天")
 	private Integer checkInterval;
 
-	public Integer getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Integer productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	public Company getCompany() {

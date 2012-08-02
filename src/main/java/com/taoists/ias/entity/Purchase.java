@@ -82,6 +82,18 @@ public class Purchase extends BaseEntity {
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime completeDateTime;
 
+	public PurchaseTypeEnum getPurchaseTypeEnum() {
+		if (purchaseType == null) {
+			return null;
+		}
+		for (PurchaseTypeEnum pte : PurchaseTypeEnum.values()) {
+			if (pte.getCode() == purchaseType.intValue()) {
+				return pte;
+			}
+		}
+		return null;
+	}
+
 	public String getPurchaseNo() {
 		return purchaseNo;
 	}

@@ -14,6 +14,8 @@ public interface PurchaseService extends BaseDao<Purchase> {
 
 	void save(Purchase purchase, String[] boxCodes);
 
-	void udpateStatus(Purchase purchase, int state, Account account);
+	void returnedPurchase(Purchase purchase, String[] boxCodeValues, Account account);
+
+	void updateStatus(Purchase purchase, int state, Account account);
 
 }

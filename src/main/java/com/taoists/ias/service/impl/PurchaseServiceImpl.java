@@ -20,6 +20,7 @@ import com.taoists.ias.entity.Purchase;
 import com.taoists.ias.entity.PurchaseBox;
 import com.taoists.ias.entity.PurchaseItem;
 import com.taoists.ias.entity.PurchaseStatus;
+import com.taoists.ias.entity.PurchaseTypeEnum;
 import com.taoists.ias.service.PurchaseBoxService;
 import com.taoists.ias.service.PurchaseItemService;
 import com.taoists.ias.service.PurchaseService;
@@ -70,7 +71,35 @@ public class PurchaseServiceImpl extends HibernateDaoSupport<Purchase> implement
 
 	@Override
 	@Transactional
-	public void udpateStatus(Purchase purchase, int state, Account account) {
+	public void returnedPurchase(Purchase purchase, String[] boxCodeValues, Account account) {
+		purchase.setStatus(PurchaseStatus.inTransit);
+		purchase.setStatusCode(PurchaseStatus.inTransit.getCode());
+		purchase.setPurchaseType(PurchaseTypeEnum.returnedPurchase.getCode());
+		this.save(purchase);
+
+		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(Arrays.asList(boxCodeValues));
+		List<BoxModel> models = BoxModel.groupByProduct(boxCodes);
+		for (BoxModel model : models) {
+			PurchaseItem purchaseItem = new PurchaseItem();
+			purchaseItem.setPurchase(purchase);
+			purchaseItem.setProduct(model.getProduct());
+			purchaseItem.setActualQty(model.getTotalCount());
+			purchaseItemService.save(purchaseItem);
+
+			for (BoxCode boxCode : model.getBoxCodes()) {
+				PurchaseBox purchaseBox = new PurchaseBox();
+				purchaseBox.setBoxCode(boxCode);
+				purchaseBox.setPurchase(purchase);
+				purchaseBox.setPurchaseItem(purchaseItem);
+				purchaseBoxService.save(purchaseBox);
+			}
+		}
+		updateStatus(purchase, PurchaseStatus.inTransit.getCode(), account);
+	}
+
+	@Override
+	@Transactional
+	public void updateStatus(Purchase purchase, int state, Account account) {
 		Purchase pur = get(purchase.getId());
 		if (PurchaseStatus.inTransit.getCode() == state) {
 			pur.setDeliveryMemo(purchase.getDeliveryMemo());

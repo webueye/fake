@@ -9,7 +9,7 @@
 
 	<logger name="com.taoists" level="debug" />
 	
-	<logger name="org.perf4j" level="info"/>
+	<logger name="org.perf4j" level="error" />
 
 	<root level="error">
 		<appender-ref ref="STDOUT" />

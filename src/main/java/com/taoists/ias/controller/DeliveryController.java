@@ -94,7 +94,7 @@ public class DeliveryController extends CommonController {
 	public @ResponseBody
 	String updateState(Purchase purchase, int state, @ModelAttribute("currentAccount") Account account) {
 		logger.debug("send: purchase[{}]", purchase);
-		purchaseService.udpateStatus(purchase, state, account);
+		purchaseService.updateStatus(purchase, state, account);
 		return "";
 	}
 

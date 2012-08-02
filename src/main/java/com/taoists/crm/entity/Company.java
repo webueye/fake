@@ -35,6 +35,8 @@ public class Company extends BaseEntity {
 	private Boolean status;
 	@Comment("上级公司")
 	private Long parentId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company parent;
 	@Comment("所性销售区域")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "saleRegionId")
@@ -136,6 +138,14 @@ public class Company extends BaseEntity {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+
+	public void setParent(Company parent) {
+		this.parent = parent;
+	}
+
+	public Company getParent() {
+		return parent;
 	}
 
 	public DataDict getSaleRegion() {
@@ -272,157 +282,6 @@ public class Company extends BaseEntity {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((bankAccountName == null) ? 0 : bankAccountName.hashCode());
-		result = prime * result + ((bankAccountNo == null) ? 0 : bankAccountNo.hashCode());
-		result = prime * result + ((belongBankName == null) ? 0 : belongBankName.hashCode());
-		result = prime * result + ((businessCount == null) ? 0 : businessCount.hashCode());
-		result = prime * result + ((companyName == null) ? 0 : companyName.hashCode());
-		result = prime * result + ((companyNature == null) ? 0 : companyNature.hashCode());
-		result = prime * result + ((companyType == null) ? 0 : companyType.hashCode());
-		result = prime * result + ((companyZip == null) ? 0 : companyZip.hashCode());
-		result = prime * result + ((compnayNo == null) ? 0 : compnayNo.hashCode());
-		result = prime * result + ((depotArea == null) ? 0 : depotArea.hashCode());
-		result = prime * result + ((employeeCount == null) ? 0 : employeeCount.hashCode());
-		result = prime * result + ((memo == null) ? 0 : memo.hashCode());
-		result = prime * result + ((parentId == null) ? 0 : parentId.hashCode());
-		result = prime * result + ((saleForm == null) ? 0 : saleForm.hashCode());
-		result = prime * result + ((saleRegion == null) ? 0 : saleRegion.hashCode());
-		result = prime * result + ((scale == null) ? 0 : scale.hashCode());
-		result = prime * result + ((shippingAddress == null) ? 0 : shippingAddress.hashCode());
-		result = prime * result + ((shippingMan == null) ? 0 : shippingMan.hashCode());
-		result = prime * result + ((shippingPhone == null) ? 0 : shippingPhone.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + ((zoneNo == null) ? 0 : zoneNo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Company other = (Company) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (bankAccountName == null) {
-			if (other.bankAccountName != null)
-				return false;
-		} else if (!bankAccountName.equals(other.bankAccountName))
-			return false;
-		if (bankAccountNo == null) {
-			if (other.bankAccountNo != null)
-				return false;
-		} else if (!bankAccountNo.equals(other.bankAccountNo))
-			return false;
-		if (belongBankName == null) {
-			if (other.belongBankName != null)
-				return false;
-		} else if (!belongBankName.equals(other.belongBankName))
-			return false;
-		if (businessCount == null) {
-			if (other.businessCount != null)
-				return false;
-		} else if (!businessCount.equals(other.businessCount))
-			return false;
-		if (companyName == null) {
-			if (other.companyName != null)
-				return false;
-		} else if (!companyName.equals(other.companyName))
-			return false;
-		if (companyNature == null) {
-			if (other.companyNature != null)
-				return false;
-		} else if (!companyNature.equals(other.companyNature))
-			return false;
-		if (companyType == null) {
-			if (other.companyType != null)
-				return false;
-		} else if (!companyType.equals(other.companyType))
-			return false;
-		if (companyZip == null) {
-			if (other.companyZip != null)
-				return false;
-		} else if (!companyZip.equals(other.companyZip))
-			return false;
-		if (compnayNo == null) {
-			if (other.compnayNo != null)
-				return false;
-		} else if (!compnayNo.equals(other.compnayNo))
-			return false;
-		if (depotArea == null) {
-			if (other.depotArea != null)
-				return false;
-		} else if (!depotArea.equals(other.depotArea))
-			return false;
-		if (employeeCount == null) {
-			if (other.employeeCount != null)
-				return false;
-		} else if (!employeeCount.equals(other.employeeCount))
-			return false;
-		if (memo == null) {
-			if (other.memo != null)
-				return false;
-		} else if (!memo.equals(other.memo))
-			return false;
-		if (parentId == null) {
-			if (other.parentId != null)
-				return false;
-		} else if (!parentId.equals(other.parentId))
-			return false;
-		if (saleForm == null) {
-			if (other.saleForm != null)
-				return false;
-		} else if (!saleForm.equals(other.saleForm))
-			return false;
-		if (saleRegion == null) {
-			if (other.saleRegion != null)
-				return false;
-		} else if (!saleRegion.equals(other.saleRegion))
-			return false;
-		if (scale == null) {
-			if (other.scale != null)
-				return false;
-		} else if (!scale.equals(other.scale))
-			return false;
-		if (shippingAddress == null) {
-			if (other.shippingAddress != null)
-				return false;
-		} else if (!shippingAddress.equals(other.shippingAddress))
-			return false;
-		if (shippingMan == null) {
-			if (other.shippingMan != null)
-				return false;
-		} else if (!shippingMan.equals(other.shippingMan))
-			return false;
-		if (shippingPhone == null) {
-			if (other.shippingPhone != null)
-				return false;
-		} else if (!shippingPhone.equals(other.shippingPhone))
-			return false;
-		if (status == null) {
-			if (other.status != null)
-				return false;
-		} else if (!status.equals(other.status))
-			return false;
-		if (zoneNo == null) {
-			if (other.zoneNo != null)
-				return false;
-		} else if (!zoneNo.equals(other.zoneNo))
-			return false;
-		return true;
 	}
 
 }

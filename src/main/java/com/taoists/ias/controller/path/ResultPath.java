@@ -7,6 +7,7 @@ package com.taoists.ias.controller.path;
 public interface ResultPath {
 	
 	String purchase = "/purchase";
+	String returnedPurchase = "/returned-purchase";
 	String delivery = "/delivery";
 	String warehousing = "/warehousing";
 	String warehousingBox = "/warehousing-box";

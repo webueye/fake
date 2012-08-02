@@ -15,6 +15,7 @@ import com.taoists.crm.entity.Company;
 import com.taoists.ias.entity.Stock;
 import com.taoists.ias.entity.Stock.ChangeTypeStatus;
 import com.taoists.ias.entity.Warehousing;
+import com.taoists.ias.service.ProductInventoryService;
 import com.taoists.ias.service.StockService;
 import com.taoists.ias.service.WarehousingService;
 import com.taoists.sys.entity.Account;
@@ -55,9 +56,11 @@ public class StockServiceImpl extends HibernateDaoSupport<Stock> implements Stoc
 			if (ChangeTypeStatus.in.getCode() == status.getCode()) {
 				stock.setInCount(boxModel.getTotalCount());
 				stock.setInAmount(boxModel.getProduct().getMarketPrice().multiply(new BigDecimal(boxModel.getBoxCount())));
+				productInventoryService.inStock(boxModel, company);
 			} else {
 				stock.setOutCount(boxModel.getTotalCount());
 				stock.setOutAmount(boxModel.getProduct().getMarketPrice().multiply(new BigDecimal(boxModel.getBoxCount())));
+				productInventoryService.outStock(boxModel, company);
 			}
 			save(stock);
 
@@ -69,5 +72,7 @@ public class StockServiceImpl extends HibernateDaoSupport<Stock> implements Stoc
 	private BoxTraceService boxTraceService;
 	@Autowired
 	private WarehousingService warehousingService;
+	@Autowired
+	private ProductInventoryService productInventoryService;
 
 }
