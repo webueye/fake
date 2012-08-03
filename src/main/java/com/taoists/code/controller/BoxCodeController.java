@@ -94,7 +94,7 @@ public class BoxCodeController extends CommonController {
 	public String list(BoxCode boxCode, Page page) {
 		logger.debug("list: boxCode[{}]", boxCode);
 		boxCodeService.findPage(boxCode, page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -103,7 +103,7 @@ public class BoxCodeController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		boxCodeService.findPage(page, filters);
 		extractParams(request);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/box-group", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
@@ -149,7 +149,7 @@ public class BoxCodeController extends CommonController {
 		return json;
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxCode, viewName);
 	}
 

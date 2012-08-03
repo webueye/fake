@@ -19,8 +19,7 @@
 						<tbody>
 							<tr>
 								<th>所属公司：</th>
-								<th colspan="3">${company.companyName}
-									<input name="companyId" value="${company.id}" type="hidden"/>
+								<th colspan="3">${currentAccount.company.companyName}
 									<input name="id" value="${account.id}" type="hidden"/>
 								</th>
 							</tr>
@@ -71,7 +70,6 @@
 							<tr>
 								<td colspan="4" align="center">
 									<div align="center">
-										<button type="submit" class="btn btn-primary">提&nbsp;&nbsp;&nbsp;交</button>
 										<button type="button" class="btn btn-primary historyBackClass">返&nbsp;&nbsp;&nbsp;回</button>
 									</div>
 								</td>

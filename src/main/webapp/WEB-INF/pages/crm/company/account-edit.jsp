@@ -20,7 +20,7 @@
 							<tr>
 								<th>所属公司：</th>
 								<th colspan="3">${company.companyName}
-									<input name="companyId" value="${company.id}" type="hidden"/>
+									<input name="company.id" value="${company.id}" type="hidden"/>
 									<input name="id" value="${account.id}" type="hidden"/>
 								</th>
 							</tr>

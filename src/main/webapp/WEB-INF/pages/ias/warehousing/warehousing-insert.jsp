@@ -30,7 +30,7 @@
 							<tr>
 								<td><b>输入箱码</b></td>
 								<td colspan="3">
-									<input name="company.id" value="${currentAccount.companyId}" type="hidden"/>
+									<input name="company.id" value="${currentAccount.company.id}" type="hidden"/>
 								
 									<textarea class="required" id="boxCodeValues" name="boxCodeValues" rows="5" cols="80"></textarea>
 									<label id="boxCodeValuesVerify" for="boxCodeValues" class="error" style="display: none;">请输入输入箱码</label>

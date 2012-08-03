@@ -30,13 +30,13 @@ public class FakeCodeController extends CommonController {
 	public String list(FakeCode fakeCode, Page page) {
 		logger.debug("list: fakeCode[{}]", fakeCode);
 		fakeCodeService.findPage(fakeCode, page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/boxcode")
 	public String listByBoxCode(HttpServletRequest request, Page page) {
 		search(request, page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -44,17 +44,17 @@ public class FakeCodeController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		fakeCodeService.findPage(page, filters);
 		extractParams(request);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping("/show/{id}")
 	public String show(@PathVariable long id, Model model) {
 		logger.debug("edit: id[{}]", id);
 		model.addAttribute("fakeCode", fakeCodeService.get(id));
-		return forword(ViewName.show);
+		return forward(ViewName.show);
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.fakeCode, viewName);
 	}
 

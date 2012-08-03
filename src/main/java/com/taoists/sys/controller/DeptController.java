@@ -35,7 +35,7 @@ public class DeptController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(Page page, Model model) {
-		deptService.findDatas("company.id", getAccount(model).getCompanyId(), page);
+		deptService.findDatas("company.id", getAccount(model).getCompany().getId(), page);
 		return forward(ViewName.list);
 	}
 

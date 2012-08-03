@@ -23,18 +23,18 @@ public class WarehousingBoxController extends CommonController {
 
 	@RequestMapping
 	public String list(Model model, Page page) {
-		warehousingBoxService.findWarehousings(null, new Company(getAccount(model).getCompanyId()), page);
-		return forword(ViewName.list);
+		warehousingBoxService.findWarehousings(null, new Company(getAccount(model).getCompany().getId()), page);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(String boxCode, Model model, Page page) {
-		warehousingBoxService.findWarehousings(boxCode, new Company(getAccount(model).getCompanyId()), page);
+		warehousingBoxService.findWarehousings(boxCode, new Company(getAccount(model).getCompany().getId()), page);
 		model.addAttribute("boxCode", boxCode);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return "/ias/warehousing/warehousing-box" + viewName.getValue();
 	}
 

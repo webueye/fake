@@ -1,7 +1,6 @@
 package com.taoists.ias.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +30,10 @@ public class WarehousingServiceImpl extends HibernateDaoSupport<Warehousing> imp
 
 	@Override
 	@Transactional
-	public void save(Warehousing warehousing, String[] boxCodeValues) {
+	public void saveByBoxCode(Warehousing warehousing, List<String> boxCodeValues) {
 		save(warehousing);
 
-		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(Arrays.asList(boxCodeValues));
+		List<BoxCode> boxCodes = boxCodeService.findBoxCodes(boxCodeValues);
 		List<BoxModel> boxModels = BoxModel.groupByProduct(boxCodes);
 
 		save(warehousing, boxModels);

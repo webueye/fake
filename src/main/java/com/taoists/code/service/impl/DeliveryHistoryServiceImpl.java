@@ -66,10 +66,10 @@ public class DeliveryHistoryServiceImpl extends HibernateDaoSupport<Purchase> im
 				Purchase pur = new Purchase();
 				pur.setCreaterId(account.getId());
 				pur.setCreater(account.getNickname());
-				pur.setSupplierCompany(new Company(account.getCompanyId()));
+				pur.setSupplierCompany(new Company(account.getCompany().getId()));
 				pur.setPurchaseCompany(company);
 
-				purchaseService.save(pur, boxCodes.toArray(new String[boxCodes.size()]));
+				purchaseService.save(pur, boxCodes);
 				purchaseService.updateStatus(pur, PurchaseStatus.inTransit.getCode(), account);
 			}
 			Collection<String> codes = deliveryModel.getCodes();

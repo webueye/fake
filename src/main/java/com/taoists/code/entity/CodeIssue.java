@@ -45,7 +45,6 @@ public class CodeIssue extends BaseEntity {
 	@Comment("创建公司ID")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company creationCompany;
-	// private Long companyId;
 	@Comment("生成码类型: 防伪码/箱码")
 	private Boolean codeType;
 
@@ -117,14 +116,6 @@ public class CodeIssue extends BaseEntity {
 	public Company getCreationCompany() {
 		return creationCompany;
 	}
-
-	// public Long getCompanyId() {
-	// return companyId;
-	// }
-	//
-	// public void setCompanyId(Long companyId) {
-	// this.companyId = companyId;
-	// }
 
 	public Boolean getCodeType() {
 		return codeType;

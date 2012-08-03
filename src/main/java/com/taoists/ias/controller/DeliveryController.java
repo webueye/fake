@@ -22,11 +22,13 @@ import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
 import com.taoists.common.controller.Module;
 import com.taoists.common.orm.PropertyFilter;
+import com.taoists.common.util.StringUtils;
 import com.taoists.crm.entity.Company;
 import com.taoists.ias.controller.path.ResultPath;
 import com.taoists.ias.entity.Purchase;
 import com.taoists.ias.entity.PurchaseBox;
 import com.taoists.ias.entity.PurchaseStatus;
+import com.taoists.ias.entity.PurchaseTypeEnum;
 import com.taoists.sys.entity.Account;
 
 /**
@@ -39,41 +41,44 @@ import com.taoists.sys.entity.Account;
 public class DeliveryController extends CommonController {
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(Purchase purchase, Page page, @ModelAttribute("currentAccount") Account account) {
-		purchaseService.findDatas("supplierCompany.id", account.getCompanyId(), page);
-		return forword(ViewName.list);
+	public String list(Page page, Model model) {
+		PropertyFilter filter = new PropertyFilter("EQL_supplierCompany.id", "" + getAccount(model).getCompany().getId());
+		PropertyFilter filter2 = new PropertyFilter("EQI_purchaseType", "" + PurchaseTypeEnum.purchase.getCode());
+		purchaseService.findPage(page, Lists.newArrayList(filter, filter2));
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page, Model model) {
 		purchaseService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
 		extractParams(request);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		model.addAttribute("companies", companyService.findDatas("parentId", getAccount(model).getCompanyId()));
-		return forword(ViewName.insert);
+		model.addAttribute("companies", companyService.findDatas("parent.id", getAccount(model).getCompany().getId()));
+		return forward(ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String create(HttpServletRequest request, Purchase purchase, String deliveryDate, @ModelAttribute("currentAccount") Account account) {
 		logger.debug("create: purchase[{}], purchaseDate[{}]", purchase, deliveryDate);
+		purchase.setPurchaseType(PurchaseTypeEnum.purchase.getCode());
 		purchase.setCreaterId(account.getId());
 		purchase.setCreater(account.getNickname());
-		purchase.setSupplierCompany(new Company(account.getCompanyId()));
-		String[] boxCodes = request.getParameterValues("boxCodes");
-		// purchase.setDeliveryDateTime(DateUtils.toDateTime(deliveryDate));
-		purchaseService.save(purchase, boxCodes);
+		purchase.setSupplierCompany(new Company(account.getCompany().getId()));
+		String boxCodeValues = request.getParameter("boxCodeValues");
+		
+		purchaseService.save(purchase, StringUtils.stringTokenizer(boxCodeValues));
 		return redirect(ResultPath.delivery);
 	}
 
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable long id, Model model) {
 		logger.debug("edit: id[{}]", id);
-		model.addAttribute("companies", companyService.findDatas("parentId", getAccount(model).getCompanyId()));
-		return forword(ViewName.edit);
+		model.addAttribute("companies", companyService.findDatas("parent.id", getAccount(model).getCompany().getId()));
+		return forward(ViewName.edit);
 	}
 
 	@RequestMapping("/show/{id}")
@@ -87,7 +92,7 @@ public class DeliveryController extends CommonController {
 		}
 
 		model.addAttribute("boxModels", BoxModel.groupByProduct(boxCodes));
-		return forword(ViewName.show);
+		return forward(ViewName.show);
 	}
 
 	@RequestMapping(value = "/state/{purchase.id}", method = RequestMethod.POST)
@@ -123,7 +128,7 @@ public class DeliveryController extends CommonController {
 		return purchaseService.get(id);
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return Module.ias + "/purchase/delivery-" + viewName;
 	}
 

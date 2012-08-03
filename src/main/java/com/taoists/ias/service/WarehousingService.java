@@ -12,7 +12,7 @@ import com.taoists.ias.entity.Warehousing;
  */
 public interface WarehousingService extends BaseDao<Warehousing> {
 
-	void save(Warehousing warehousing, String[] boxCodeValues);
+	void saveByBoxCode(Warehousing warehousing, List<String> boxCodeValues);
 
 	void save(Warehousing warehousing, List<BoxModel> boxModels);
 

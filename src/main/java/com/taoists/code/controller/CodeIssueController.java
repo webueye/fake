@@ -36,7 +36,7 @@ public class CodeIssueController extends CommonController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String list(CodeIssue codeIssue, Page page) {
 		codeIssueService.findPage(codeIssue, page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -55,7 +55,7 @@ public class CodeIssueController extends CommonController {
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
 		model.addAttribute("boxSpecs", boxSpecService.findAll());
-		return forword(ViewName.insert);
+		return forward(ViewName.insert);
 	}
 
 	@RequestMapping("/box-code-gen")
@@ -85,7 +85,7 @@ public class CodeIssueController extends CommonController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String create(Model model, CodeIssue codeIssue) {
 		logger.debug("create: codeIssue[{}]", codeIssue);
-		codeIssue.setCreationCompany(new Company(getAccount(model).getCompanyId()));
+		codeIssue.setCreationCompany(new Company(getAccount(model).getCompany().getId()));
 		codeIssueService.genCode(codeIssue);
 		if (codeIssue.getCodeType()) {
 			return redirect(ResultPath.codeIssue + "/box-code-gen-list");
@@ -153,7 +153,7 @@ public class CodeIssueController extends CommonController {
 		return new String(name.getBytes("GBK"), "ISO8859-1");
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.codeIssue, viewName);
 	}
 

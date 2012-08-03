@@ -34,9 +34,9 @@ public class AccountController extends CommonController {
 	@RequestMapping
 	public String list(Page page, Model model) {
 		Account currentAccount = getAccount(model);
-		accountService.findDatas("companyId", currentAccount.getCompanyId(), page);
-		if (currentAccount.getCompanyId() != null) {
-			model.addAttribute("company", companyService.get(currentAccount.getCompanyId()));
+		accountService.findDatas("company.id", currentAccount.getCompany().getId(), page);
+		if (currentAccount.getCompany().getId() != null) {
+			model.addAttribute("company", companyService.get(currentAccount.getCompany().getId()));
 		}
 		return forward(ResultPath.account, ViewName.list);
 	}
@@ -62,7 +62,7 @@ public class AccountController extends CommonController {
 		logger.debug("create: account[{}]", account);
 
 		List<Account> accounts = accountService.findDatas("username", account.getUsername());
-		model.addAttribute("company", companyService.get(account.getCompanyId()));
+		model.addAttribute("company", companyService.get(account.getCompany().getId()));
 		if (CollectionUtils.isNotEmpty(accounts)) {
 			model.addAttribute("msg", "用户名已存在");
 			return forward(ResultPath.account, ViewName.insert);
@@ -73,14 +73,14 @@ public class AccountController extends CommonController {
 
 		account.setPassword(EncodeUtils.md5(account.getPassword()));
 		accountService.save(account);
-		return redirect(ResultPath.account + "?companyId=" + account.getCompanyId());
+		return redirect(ResultPath.account);
 	}
 
 	@RequestMapping("/edit/{id}")
 	public String edit(@PathVariable long id, Account account, Model model) {
 		logger.debug("edit: id[{}], account[{}]", id, account);
 
-		model.addAttribute("company", companyService.get(account.getCompanyId()));
+		model.addAttribute("company", companyService.get(account.getCompany().getId()));
 		return forward(ResultPath.account, ViewName.edit);
 	}
 
@@ -91,7 +91,7 @@ public class AccountController extends CommonController {
 			account.setDept(new Dept(Long.valueOf(deptId)));
 		}
 		accountService.saveOrUpdate(account);
-		return redirect(ResultPath.account + "?companyId=" + account.getCompanyId());
+		return redirect(ResultPath.account);
 	}
 
 	@RequestMapping("/show/{id}")
@@ -124,7 +124,7 @@ public class AccountController extends CommonController {
 	public String role(@PathVariable Long id, Model model) {
 		Account account = accountService.get(id);
 		Account currentAccount = getAccount(model);
-		List<Role> roles = roleService.findDatas("company.id", currentAccount.getCompanyId());
+		List<Role> roles = roleService.findDatas("company.id", currentAccount.getCompany().getId());
 		if (CollectionUtils.isNotEmpty(account.getRoles())) {
 			for (Role role : roles) {
 				for (Long roleId : account.getRoles()) {

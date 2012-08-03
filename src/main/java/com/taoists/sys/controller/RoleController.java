@@ -36,7 +36,7 @@ public class RoleController extends CommonController {
 
 	@RequestMapping
 	public String list(Page page, Model model) {
-		roleService.findDatas("company.id", getAccount(model).getCompanyId(), page);
+		roleService.findDatas("company.id", getAccount(model).getCompany().getId(), page);
 		return forward(ViewName.list);
 	}
 

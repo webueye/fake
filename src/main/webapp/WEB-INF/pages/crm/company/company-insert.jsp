@@ -22,7 +22,7 @@
 							<tr class="th">
 								<th class="rth">企业名称：</th>
 								<td class="ltd">
-									<input name="parentId" value="${currentAccount.companyId}" type="hidden" style="width: 80%"/>
+									<input name="parent.id" value="${currentAccount.company.id}" type="hidden"/>
 									<input class="input-xlarge required" name="companyName" type="text" style="width: 80%"/>
 								</td>
 								<th class="rth">状态：</th>

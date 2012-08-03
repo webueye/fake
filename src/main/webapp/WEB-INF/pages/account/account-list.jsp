@@ -21,7 +21,7 @@
 					            <input class="input-small" name="filter_LIKES_nickname" value="${filter_LIKES_nickname}" placeholder="昵称"/>
 					           	
 							  	<button type="submit" class="btn btn-primary">查询</button>
-					            <input type="hidden" name="filter_EQL_companyId" value="${company.id}"/>
+					            <input type="hidden" name="filter_EQL_company.id" value="${company.id}"/>
 					        </div>
 						</div>
 					  </div>

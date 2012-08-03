@@ -2,17 +2,18 @@ package com.taoists.ias.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.taoists.base.entity.BoxSpec;
+import com.google.common.collect.Lists;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
 import com.taoists.common.controller.Module;
+import com.taoists.common.orm.PropertyFilter;
+import com.taoists.common.util.StringUtils;
 import com.taoists.crm.entity.Company;
 import com.taoists.ias.controller.path.ResultPath;
 import com.taoists.ias.entity.Purchase;
@@ -28,30 +29,38 @@ import com.taoists.sys.entity.Account;
 public class ReturnedPurchaseController extends CommonController {
 
 	@RequestMapping
-	public String list(BoxSpec boxSpec, Page page) {
-		purchaseService.findDatas("purchaseType", PurchaseTypeEnum.returnedPurchase.getCode(), page);
+	public String list(Page page, Model model) {
+		PropertyFilter filter = new PropertyFilter("EQL_purchaseCompany.id", "" + getAccount(model).getCompany().getId());
+		PropertyFilter filter2 = new PropertyFilter("EQI_purchaseType", "" + PurchaseTypeEnum.returnedPurchase.getCode());
+		purchaseService.findPage(page, Lists.newArrayList(filter, filter2));
+		return forward(ViewName.list);
+	}
+	
+	@RequestMapping(value = "/search", method = RequestMethod.POST)
+	public String search(HttpServletRequest request, Page page, Model model) {
+		purchaseService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
+		extractParams(request);
 		return forward(ViewName.list);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String create(HttpServletRequest request, Purchase purchase, Model model) {
 		Account account = getAccount(model);
-		Company company = companyService.get(account.getCompanyId());
-		Company supplierCompany = companyService.get(company.getParentId());
+		Company company = companyService.get(account.getCompany().getId());
 		logger.debug("create: purchase[{}]", purchase);
 		purchase.setCreaterId(account.getId());
 		purchase.setCreater(account.getNickname());
-		purchase.setSupplierCompany(supplierCompany);
+		purchase.setSupplierCompany(company.getParent());
 		purchase.setPurchaseCompany(company);
-		String[] boxCodes = request.getParameterValues("boxCodes");
-		purchase.setDeliveryDateTime(DateTime.now());
-		purchaseService.returnedPurchase(purchase, boxCodes, account);
+		
+		String boxCodeValues = request.getParameter("boxCodeValues");
+		purchaseService.returnedPurchase(purchase, StringUtils.stringTokenizer(boxCodeValues), account);
 		return redirect(ResultPath.returnedPurchase);
 	}
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		Company company = companyService.get(getAccount(model).getCompanyId());
+		Company company = companyService.get(getAccount(model).getCompany().getId());
 		model.addAttribute("company", company);
 		return forward(ViewName.insert);
 	}

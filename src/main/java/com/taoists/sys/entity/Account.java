@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 
 import com.taoists.common.Cons;
 import com.taoists.common.orm.entity.BaseEntity;
+import com.taoists.crm.entity.Company;
 
 /**
  * @author rubys@vip.qq.com
@@ -33,7 +34,9 @@ public class Account extends BaseEntity {
 	private String mobile;
 	private String memo;
 
-	private Long companyId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Company company;
+
 	@Type(type = "com.taoists.common.orm.entity.type.PersistentSet")
 	private Set<Long> roles;
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -127,12 +130,12 @@ public class Account extends BaseEntity {
 		this.memo = memo;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public Company getCompany() {
+		return company;
 	}
 
 	public void setRoles(Set<Long> roles) {

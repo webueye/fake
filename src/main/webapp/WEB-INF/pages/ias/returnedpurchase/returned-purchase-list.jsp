@@ -16,7 +16,7 @@
 		<div class="container">
 			<div class="row">
 					
-				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/delivery/search">	
+				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/returned-purchase/search">	
 					<div class="search">
 						<div class="row">
 							<div class="span12">
@@ -26,7 +26,8 @@
 						            <input class="input-small" name="filter_BAD_deliveryDateTime" value="${filter_BAD_deliveryDateTime_}" onFocus="WdatePicker()" placeholder="结束日期"/>
 								  	
 								  	<button type="submit" class="btn btn-primary">查询</button>
-						            <input name="filter_EQL_supplierCompany.id" value="${currentAccount.companyId}" type="hidden"/>
+						            <input name="filter_EQL_purchaseCompany.id" value="${currentAccount.company.id}" type="hidden"/>
+						            <input name="filter_EQI_purchaseType" value="6" type="hidden"/>
 						        </div>
 							</div>
 						  </div>

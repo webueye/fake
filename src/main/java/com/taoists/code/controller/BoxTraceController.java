@@ -27,7 +27,7 @@ public class BoxTraceController extends CommonController {
 	@RequestMapping
 	public String list(BoxTrace boxTrace, Page page) {
 		boxTraceService.findPage(boxTrace, page);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
@@ -35,10 +35,10 @@ public class BoxTraceController extends CommonController {
 		List<PropertyFilter> filters = PropertyFilter.buildFromHttpRequest(request);
 		boxTraceService.findPage(page, filters);
 		extractParams(request);
-		return forword(ViewName.list);
+		return forward(ViewName.list);
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxTrace, viewName);
 	}
 

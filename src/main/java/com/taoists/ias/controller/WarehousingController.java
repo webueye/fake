@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.taoists.common.ViewName;
 import com.taoists.common.controller.CommonController;
 import com.taoists.common.controller.Module;
+import com.taoists.common.util.StringUtils;
 import com.taoists.ias.controller.path.ResultPath;
 import com.taoists.ias.entity.Warehousing;
 
@@ -23,18 +24,18 @@ public class WarehousingController extends CommonController {
 
 	@RequestMapping("/edit-new")
 	public String editNew() {
-		return forword(ViewName.insert);
+		return forward(ViewName.insert);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public String create(HttpServletRequest request, Warehousing warehousing, RedirectAttributes redirectAttributes) {
-		String[] boxCodes = request.getParameterValues("boxCodes");
-		warehousingService.save(warehousing, boxCodes);
+		String boxCodeValues = request.getParameter("boxCodeValues");
+		warehousingService.saveByBoxCode(warehousing, StringUtils.stringTokenizer(boxCodeValues));
 		redirectAttributes.addAttribute("msg", "success");
 		return redirect(ResultPath.warehousing + "/edit-new");
 	}
 
-	private String forword(ViewName viewName) {
+	private String forward(ViewName viewName) {
 		return forward(Module.ias, ResultPath.warehousing, viewName);
 	}
 

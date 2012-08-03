@@ -22,6 +22,7 @@
 							<tr class="th">
 								<th class="rth">企业名称：</th>
 								<td class="ltd">
+									<input name="parent.id" value="${currentAccount.company.id}" type="hidden"/>
 									<input name="id" value="${company.id}" type="hidden" style="width: 80%"/>
 									<input class="input-xlarge required" name="companyName" value="${company.companyName}" type="text" style="width: 80%"/>
 								</td>

@@ -24,11 +24,13 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 	@Override
 	@Transactional
 	public void genCode(CodeIssue codeIssue) {
-		save(codeIssue);
 		if (codeIssue.getCodeType()) {
+			save(codeIssue);
 			Long boxCodeBatchNum = super.count("codeType", Boolean.TRUE);
 			genBoxCode(codeIssue, boxCodeBatchNum);
 		} else {
+			codeIssue.setBoxSpec(null);
+			save(codeIssue);
 			Long fakeCodeBatchNum = super.count("codeType", Boolean.FALSE);
 			genFakeCode(codeIssue, fakeCodeBatchNum);
 		}

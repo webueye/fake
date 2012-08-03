@@ -31,18 +31,18 @@ public class StockServiceImpl extends HibernateDaoSupport<Stock> implements Stoc
 	@Transactional
 	public void inStock(List<BoxModel> boxModels, Account account) {
 		Warehousing warehousing = new Warehousing();
-		warehousing.setCompany(new Company(account.getCompanyId()));
+		warehousing.setCompany(new Company(account.getCompany().getId()));
 		warehousing.setOperator(account);
 		warehousing.setWarehousingDateTime(new DateTime());
 
 		warehousingService.save(warehousing, boxModels);
-		saveStock(boxModels, new Company(account.getCompanyId()), ChangeTypeStatus.in);
+		saveStock(boxModels, new Company(account.getCompany().getId()), ChangeTypeStatus.in);
 	}
 
 	@Override
 	@Transactional
 	public void outStock(List<BoxModel> boxModels, Account account) {
-		saveStock(boxModels, new Company(account.getCompanyId()), ChangeTypeStatus.out);
+		saveStock(boxModels, new Company(account.getCompany().getId()), ChangeTypeStatus.out);
 	}
 
 	@Override

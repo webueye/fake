@@ -45,7 +45,7 @@
 					           		<option value="0"  ${filter_EQB_status == '0'? 'selected': ''}>禁用</option>
 					           	</select>
 							  	<button type="submit" class="btn btn-primary">查询</button>
-					            <input class="input-large" name="filter_EQL_parentId" value="${currentAccount.companyId}" type="hidden"/>
+					            <input class="input-large" name="filter_EQL_parent.id" value="${currentAccount.company.id}" type="hidden"/>
 					        </div>
 						</div>
 					  </div>

@@ -1,6 +1,5 @@
 package com.taoists.crm.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -22,10 +21,8 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class Company extends BaseEntity {
 
 	@Comment("公司编号")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String compnayNo;
 	@Comment("公司名称")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String companyName;
 	@Comment("类型（1：生产商；2：经销商；3：终端客户；4：潜在客户）")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -34,7 +31,6 @@ public class Company extends BaseEntity {
 	@Comment("状态（0：禁用；1：启用）")
 	private Boolean status;
 	@Comment("上级公司")
-	private Long parentId;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company parent;
 	@Comment("所性销售区域")
@@ -42,7 +38,6 @@ public class Company extends BaseEntity {
 	@JoinColumn(name = "saleRegionId")
 	private DataDict saleRegion;
 	@Comment("区域码")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String zoneNo;// TODO
 	@Comment("企业性质")
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -53,43 +48,30 @@ public class Company extends BaseEntity {
 	@JoinColumn(name = "saleFormId")
 	private DataDict saleForm;
 	@Comment("企业规模")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String scale;
 	@Comment("仓库面积")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String depotArea;
 	@Comment("员工数")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String employeeCount;
 	@Comment("业务人员人数")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String businessCount;
 	@Comment("公司地址")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String address;
 	@Comment("公司邮编")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String companyZip;
 	@Comment("开户行名称")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String belongBankName;
 	@Comment("户名")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String bankAccountName;
 	@Comment("银行帐号")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String bankAccountNo;
 	@Comment("收货地址")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String shippingAddress;
 	@Comment("收货人")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String shippingMan;
 	@Comment("收货电话")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String shippingPhone;
 	@Comment("备注")
-	@Column(columnDefinition = " DEFAULT ''")
 	private String memo;
 
 	public Company() {
@@ -130,14 +112,6 @@ public class Company extends BaseEntity {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
-	}
-
-	public Long getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
 	}
 
 	public void setParent(Company parent) {
@@ -282,6 +256,16 @@ public class Company extends BaseEntity {
 
 	public void setMemo(String memo) {
 		this.memo = memo;
+	}
+
+	@Override
+	public String toString() {
+		return "Company [compnayNo=" + compnayNo + ", companyName=" + companyName + ", companyType=" + companyType + ", status=" + status
+				+ ", parent=" + parent + ", saleRegion=" + saleRegion + ", zoneNo=" + zoneNo + ", companyNature=" + companyNature + ", saleForm="
+				+ saleForm + ", scale=" + scale + ", depotArea=" + depotArea + ", employeeCount=" + employeeCount + ", businessCount="
+				+ businessCount + ", address=" + address + ", companyZip=" + companyZip + ", belongBankName=" + belongBankName + ", bankAccountName="
+				+ bankAccountName + ", bankAccountNo=" + bankAccountNo + ", shippingAddress=" + shippingAddress + ", shippingMan=" + shippingMan
+				+ ", shippingPhone=" + shippingPhone + ", memo=" + memo + "]";
 	}
 
 }

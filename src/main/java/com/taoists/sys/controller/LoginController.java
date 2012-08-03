@@ -69,6 +69,7 @@ public class LoginController extends CommonController {
 			redirectAttributes.addFlashAttribute("msg", "accountInactive");
 			return redirect("/login");
 		}
+		acc.getCompany().getId();
 		session.setAttribute("currentAccount", acc);
 		return redirect("/main/index.jsp");
 	}

@@ -6,7 +6,7 @@ package com.taoists.ias.entity;
  */
 public enum PurchaseTypeEnum {
 
-	returnedPurchase(6, "退货");
+	purchase(2, "采购"), returnedPurchase(6, "退货");
 
 	int code;
 	String value;

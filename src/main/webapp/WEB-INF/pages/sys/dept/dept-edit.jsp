@@ -25,7 +25,7 @@
 								<th class="rth">部门编号：</th>
 								<td class="ltd">
 									<input type="hidden" name="id" value="${dept.id}"/>
-									<input type="hidden" name="company.id" value="${currentAccount.companyId}"/>
+									<input type="hidden" name="company.id" value="${currentAccount.company.id}"/>
 									<input class="input-xlarge required number" name="deptNo" type="text" value="${dept.deptNo}"/>
 								</td>
 							</tr>
