@@ -35,7 +35,7 @@ public class ReturnedPurchaseController extends CommonController {
 		purchaseService.findPage(page, Lists.newArrayList(filter, filter2));
 		return forward(ViewName.list);
 	}
-	
+
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public String search(HttpServletRequest request, Page page, Model model) {
 		purchaseService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
@@ -52,7 +52,7 @@ public class ReturnedPurchaseController extends CommonController {
 		purchase.setCreater(account.getNickname());
 		purchase.setSupplierCompany(company.getParent());
 		purchase.setPurchaseCompany(company);
-		
+
 		String boxCodeValues = request.getParameter("boxCodeValues");
 		purchaseService.returnedPurchase(purchase, StringUtils.stringTokenizer(boxCodeValues), account);
 		return redirect(ResultPath.returnedPurchase);
@@ -60,9 +60,22 @@ public class ReturnedPurchaseController extends CommonController {
 
 	@RequestMapping("/edit-new")
 	public String editNew(Model model) {
-		Company company = companyService.get(getAccount(model).getCompany().getId());
-		model.addAttribute("company", company);
 		return forward(ViewName.insert);
+	}
+
+	@RequestMapping("handle-list")
+	public String handleList(Page page, Model model) {
+		PropertyFilter filter = new PropertyFilter("EQL_supplierCompany.id", "" + getAccount(model).getCompany().getId());
+		PropertyFilter filter2 = new PropertyFilter("EQI_purchaseType", "" + PurchaseTypeEnum.returnedPurchase.getCode());
+		purchaseService.findPage(page, Lists.newArrayList(filter, filter2));
+		return "/ias/returnedpurchase/returned-purchase-handle-list";
+	}
+
+	@RequestMapping(value = "/handle-search", method = RequestMethod.POST)
+	public String handleSearch(HttpServletRequest request, Page page, Model model) {
+		purchaseService.findPage(page, PropertyFilter.buildFromHttpRequest(request));
+		extractParams(request);
+		return "/ias/returnedpurchase/returned-purchase-handle-list";
 	}
 
 	private String forward(ViewName viewName) {

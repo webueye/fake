@@ -16,17 +16,20 @@
 		<div class="container">
 			<div class="row">
 					
-				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/returned-purchase/search">	
+				<form id="validateForm" class="form-horizontal" method="post" action="${pageContext.request.contextPath }/returned-purchase/handle-search">	
 					<div class="search">
 						<div class="row">
 							<div class="span12">
 								<div class="control-group">
+						           	<span style="margin-left: 10px;">经销商： </span>
+						            <input class="input-small" name="filter_LIKES_purchaseCompany.companyName" value="${filter_LIKES_purchaseCompany_companyName}" placeholder="经销商"/>
+						           	
 						           	<span style="margin-left: 10px;">退货日期： </span>
 						            <input class="input-small" name="filter_BAD_deliveryDateTime" value="${filter_BAD_deliveryDateTime}" onFocus="WdatePicker()" placeholder="开始日期"/>
 						            <input class="input-small" name="filter_BAD_deliveryDateTime" value="${filter_BAD_deliveryDateTime_}" onFocus="WdatePicker()" placeholder="结束日期"/>
 								  	
 								  	<button type="submit" class="btn btn-primary">查询</button>
-						            <input name="filter_EQL_purchaseCompany.id" value="${currentAccount.company.id}" type="hidden"/>
+						            <input name="filter_EQL_supplierCompany.id" value="${currentAccount.company.id}" type="hidden"/>
 						            <input name="filter_EQI_purchaseType" value="6" type="hidden"/>
 						        </div>
 							</div>
@@ -41,7 +44,7 @@
 							<tr>
 								<th>编号</th>
 								<th>发货单号</th>
-								<th>供应商</th>
+								<th>经销商</th>
 								<th>发货人</th>
 								<th>收货人</th>
 								<th>发货日期</th>
@@ -55,7 +58,7 @@
 								<tr>
 									<td>${purchase.id}</td>
 									<td>${purchase.purchaseNo}</td>
-									<td>${purchase.supplierCompany.companyName}</td>
+									<td>${purchase.purchaseCompany.companyName}</td>
 									<td>${purchase.deliveryName}</td>
 									<td>${purchase.arrivalName}</td>
 									<td>

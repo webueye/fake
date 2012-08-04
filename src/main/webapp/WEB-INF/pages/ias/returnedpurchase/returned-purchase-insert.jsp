@@ -23,7 +23,7 @@
 						<tbody>
 							<tr class="th">
 								<th class="rth">供应商：</th>
-								<td class="ltd"><b>${company.parent.companyName}</b></td>
+								<td class="ltd"><b>${currentAccount.company.parent.companyName}</b></td>
 							</tr>
 							<tr class="th">
 								<th class="rth">备注：</th>
