@@ -35,7 +35,7 @@ public class WarehousingController extends CommonController {
 		return redirect(ResultPath.warehousing + "/edit-new");
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.ias, ResultPath.warehousing, viewName);
 	}
 

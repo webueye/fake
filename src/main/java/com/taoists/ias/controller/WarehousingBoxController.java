@@ -34,7 +34,7 @@ public class WarehousingBoxController extends CommonController {
 		return forward(ViewName.list);
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return "/ias/warehousing/warehousing-box" + viewName.getValue();
 	}
 

@@ -85,7 +85,7 @@ public class BrandController extends CommonController {
 		return brandService.get(id);
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.base, ResultPath.brand, viewName);
 	}
 

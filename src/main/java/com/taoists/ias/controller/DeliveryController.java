@@ -128,7 +128,7 @@ public class DeliveryController extends CommonController {
 		return purchaseService.get(id);
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return Module.ias + "/purchase/delivery-" + viewName;
 	}
 

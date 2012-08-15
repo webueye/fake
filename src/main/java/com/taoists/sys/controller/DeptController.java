@@ -141,7 +141,7 @@ public class DeptController extends CommonController {
 		return sb.toString();
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.sys, ResultPath.dept, viewName);
 	}
 

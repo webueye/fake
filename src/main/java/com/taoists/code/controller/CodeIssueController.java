@@ -153,7 +153,7 @@ public class CodeIssueController extends CommonController {
 		return new String(name.getBytes("GBK"), "ISO8859-1");
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.codeIssue, viewName);
 	}
 

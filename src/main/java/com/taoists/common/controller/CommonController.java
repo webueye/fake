@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.common.collect.Sets;
@@ -49,6 +50,15 @@ import com.taoists.sys.service.RoleService;
 public class CommonController {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
+
+	protected String getModule() {
+		return "";
+	}
+
+	protected String forward(ViewName viewName) {
+		String path = this.getClass().getAnnotation(RequestMapping.class).value()[0];
+		return getModule() + path.replaceAll("-", "") + path + viewName.getValue();
+	}
 
 	protected String forward(String path, ViewName viewName) {
 		return path + path + viewName.getValue();

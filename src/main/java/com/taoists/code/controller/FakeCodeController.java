@@ -54,7 +54,7 @@ public class FakeCodeController extends CommonController {
 		return forward(ViewName.show);
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.fakeCode, viewName);
 	}
 

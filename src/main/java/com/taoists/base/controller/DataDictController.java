@@ -105,7 +105,7 @@ public class DataDictController extends CommonController {
 		return dataDictService.get(id);
 	}
 	
-	private String forward(ViewName viewName){
+	protected String forward(ViewName viewName){
 		return forward(Module.base, ResultPath.dataDict, viewName);
 	}
 

@@ -81,7 +81,7 @@ public class DictCategoryController extends CommonController {
 		return dictCategoryService.get(id);
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		String path = (Module.base + "/datadict" + ResultPath.dictCategory + viewName.getValue()); 
 		logger.debug("forward: path[{}]", path);
 		return path;

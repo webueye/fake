@@ -149,7 +149,7 @@ public class BoxCodeController extends CommonController {
 		return json;
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxCode, viewName);
 	}
 

@@ -104,7 +104,7 @@ public class ProductController extends CommonController {
 		request.setAttribute("brands", brandService.findAll());
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		String path = forward(Module.base, ResultPath.product, viewName);
 		logger.debug("forward: path[{}]", path);
 		return path;

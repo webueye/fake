@@ -146,7 +146,7 @@ public class RoleController extends CommonController {
 		return menus;
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.sys, ResultPath.role, viewName);
 	}
 

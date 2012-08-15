@@ -78,7 +78,7 @@ public class ReturnedPurchaseController extends CommonController {
 		return "/ias/returnedpurchase/returned-purchase-handle-list";
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.ias, ResultPath.returnedPurchase, viewName);
 	}
 

@@ -38,7 +38,7 @@ public class BoxTraceController extends CommonController {
 		return forward(ViewName.list);
 	}
 
-	private String forward(ViewName viewName) {
+	protected String forward(ViewName viewName) {
 		return forward(Module.code, ResultPath.boxTrace, viewName);
 	}
 
