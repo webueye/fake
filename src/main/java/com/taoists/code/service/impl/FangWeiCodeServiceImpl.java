@@ -1,5 +1,9 @@
 package com.taoists.code.service.impl;
 
+import java.util.List;
+
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Service;
 
 import com.taoists.code.entity.FangWeiCode;
@@ -12,5 +16,14 @@ import com.taoists.common.orm.dao.HibernateDaoSupport;
  */
 @Service
 public class FangWeiCodeServiceImpl extends HibernateDaoSupport<FangWeiCode> implements FangWeiCodeService {
+
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<FangWeiCode> findCodes(String code, String codeType) {
+		DetachedCriteria detachedCriteria = createDetachedCriteria();
+		detachedCriteria.add(Restrictions.eq("codeNo", code));
+		detachedCriteria.add(Restrictions.eq("codeType", codeType));
+		return detachedCriteria.getExecutableCriteria(getSession()).list();
+	}
 
 }

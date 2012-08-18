@@ -24,7 +24,7 @@
 							<tr class="th">
 								<th class="rth">标题：</th>
 								<td class="ltd">
-									<input name="codeType" value="false" type="hidden"/>
+									<input name="codeType" value="fakeCode" type="hidden"/>
 									<input class="input-xlarge required" name="issueName" type="text" style="width:300px"/>
 								</td>
 							</tr>

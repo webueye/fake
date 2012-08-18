@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import com.taoists.base.entity.BoxSpec;
+import com.taoists.code.entity.enums.BoxCodeStatus;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;

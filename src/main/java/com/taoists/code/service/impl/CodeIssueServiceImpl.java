@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.taoists.base.entity.BoxSpec;
 import com.taoists.base.service.BoxSpecService;
 import com.taoists.code.entity.BoxCode;
-import com.taoists.code.entity.BoxCodeStatus;
 import com.taoists.code.entity.CodeIssue;
 import com.taoists.code.entity.FakeCode;
+import com.taoists.code.entity.FangWeiCode;
+import com.taoists.code.entity.enums.BoxCodeStatus;
+import com.taoists.code.entity.enums.CodeIssueTypeEnum;
 import com.taoists.code.service.CodeIssueService;
 import com.taoists.common.orm.dao.HibernateDaoSupport;
 import com.taoists.common.util.CodeUtils;
@@ -24,15 +26,20 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 	@Override
 	@Transactional
 	public void genCode(CodeIssue codeIssue) {
-		if (codeIssue.getCodeType()) {
+		if (CodeIssueTypeEnum.boxCode.value().equals(codeIssue.getCodeType())) {
 			save(codeIssue);
-			Long boxCodeBatchNum = super.count("codeType", Boolean.TRUE);
+			Long boxCodeBatchNum = super.count("codeType", CodeIssueTypeEnum.boxCode.value());
 			genBoxCode(codeIssue, boxCodeBatchNum);
+		} else if (CodeIssueTypeEnum.fakeCode.value().equals(codeIssue.getCodeType())) {
+			codeIssue.setBoxSpec(null);
+			save(codeIssue);
+			Long fakeCodeBatchNum = super.count("codeType", CodeIssueTypeEnum.fakeCode.value());
+			genFakeCode(codeIssue, fakeCodeBatchNum);
 		} else {
 			codeIssue.setBoxSpec(null);
 			save(codeIssue);
-			Long fakeCodeBatchNum = super.count("codeType", Boolean.FALSE);
-			genFakeCode(codeIssue, fakeCodeBatchNum);
+			Long fangWeiCodeBatchNum = super.count("codeType", CodeIssueTypeEnum.fangWeiCode.value());
+			genFangWeiCode(codeIssue, fangWeiCodeBatchNum);
 		}
 	}
 
@@ -62,12 +69,30 @@ public class CodeIssueServiceImpl extends HibernateDaoSupport<CodeIssue> impleme
 		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
 			FakeCode fakeCode = new FakeCode();
 			fakeCode.setCodeIssue(codeIssue);
-//			fakeCode.setBoxSpec(codeIssue.getBoxSpec());
+			// fakeCode.setBoxSpec(codeIssue.getBoxSpec());
 			String randomCode = CodeUtils.genCode(7);
 			fakeCode.setFakeCode("0" + randomCode.substring(0, 3) + codePrefix + randomCode.substring(3, 7));
 			fakeCode.setPlainCode(codePrefix + CodeUtils.fillZero(String.valueOf((++plainCode)), length));
 			fakeCode.setStatus(codeIssue.getStatus());
 			insert(fakeCode);
+		}
+	}
+
+	private void genFangWeiCode(CodeIssue codeIssue, Long batchNum) {
+		String codePrefix = CodeUtils.getCodePrefix(batchNum);
+		for (int i = 0; i < codeIssue.getIssueCount(); i++) {
+			FangWeiCode fangWeiCode = new FangWeiCode();
+			fangWeiCode.setCodeType(codeIssue.getCodeType());
+			fangWeiCode.setCodeIssue(codeIssue);
+
+			String randomCode = CodeUtils.genCode(7);
+			if (CodeIssueTypeEnum.fangWeiCode.value().equals(codeIssue.getCodeType())) {
+				fangWeiCode.setCodeNo("0" + randomCode.substring(0, 3) + codePrefix + randomCode.substring(3, 7));
+			} else {
+				fangWeiCode.setCodeNo("1" + randomCode.substring(0, 3) + codePrefix + randomCode.substring(3, 7));
+			}
+			fangWeiCode.setStatus(codeIssue.getStatus());
+			insert(fangWeiCode);
 		}
 	}
 

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
+import com.taoists.code.entity.enums.QueryWayStatus;
 import com.taoists.common.Cons;
 import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
@@ -39,6 +40,9 @@ public class CodeQuery extends BaseEntity {
 	@Column(columnDefinition = "varchar(16) DEFAULT ''")
 	private String userPhone;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	private FangWeiCode fangWeiCode;
+
 	public CodeQueryResult getCodeQueryResult() {
 		for (CodeQueryResult result : CodeQueryResult.values()) {
 			if (queryResult != null && queryResult.intValue() == result.getCode()) {
@@ -55,6 +59,14 @@ public class CodeQuery extends BaseEntity {
 			}
 		}
 		return null;
+	}
+
+	public void setFangWeiCode(FangWeiCode fangWeiCode) {
+		this.fangWeiCode = fangWeiCode;
+	}
+
+	public FangWeiCode getFangWeiCode() {
+		return fangWeiCode;
 	}
 
 	public FakeCode getFakeCode() {

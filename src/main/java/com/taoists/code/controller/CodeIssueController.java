@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.google.common.collect.Lists;
 import com.taoists.code.controller.path.ResultPath;
 import com.taoists.code.entity.CodeIssue;
+import com.taoists.code.entity.enums.CodeIssueTypeEnum;
 import com.taoists.common.ViewName;
 import com.taoists.common.bean.Page;
 import com.taoists.common.controller.CommonController;
@@ -66,7 +67,7 @@ public class CodeIssueController extends CommonController {
 
 	@RequestMapping("/box-code-gen-list")
 	public String boxCodeGenList(Page page) {
-		codeIssueService.findDatas("codeType", true, page);
+		codeIssueService.findDatas("codeType", CodeIssueTypeEnum.boxCode.value(), page);
 		return Module.code.getName() + "/codeissue/box-code-gen-list";
 	}
 
@@ -76,10 +77,32 @@ public class CodeIssueController extends CommonController {
 		return Module.code.getName() + "/codeissue/fake-code-gen";
 	}
 
+	@RequestMapping("/code-gen")
+	public String codeGen(Model model) {
+		return Module.code.getName() + "/codeissue/code-gen";
+	}
+	
+	@RequestMapping("/stick-gen")
+	public String stickGen(Model model) {
+		return Module.code.getName() + "/codeissue/stick-gen";
+	}
+
 	@RequestMapping("/fake-code-gen-list")
 	public String fakeCodeGenList(Page page) {
-		codeIssueService.findDatas("codeType", false, page);
+		codeIssueService.findDatas("codeType", CodeIssueTypeEnum.fakeCode.value(), page);
 		return Module.code.getName() + "/codeissue/fake-code-gen-list";
+	}
+	
+	@RequestMapping("/code-gen-list")
+	public String codeGenList(Page page) {
+		codeIssueService.findDatas("codeType", CodeIssueTypeEnum.fangWeiCode.value(), page);
+		return Module.code.getName() + "/codeissue/code-gen-list";
+	}
+	
+	@RequestMapping("/stick-gen-list")
+	public String stickGenList(Page page) {
+		codeIssueService.findDatas("codeType", CodeIssueTypeEnum.stick.value(), page);
+		return Module.code.getName() + "/codeissue/stick-code-gen-list";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
@@ -87,16 +110,20 @@ public class CodeIssueController extends CommonController {
 		logger.debug("create: codeIssue[{}]", codeIssue);
 		codeIssue.setCreationCompany(new Company(getAccount(model).getCompany().getId()));
 		codeIssueService.genCode(codeIssue);
-		if (codeIssue.getCodeType()) {
+		if (CodeIssueTypeEnum.boxCode.value().equals(codeIssue.getCodeType())) {
 			return redirect(ResultPath.codeIssue + "/box-code-gen-list");
-		} else {
+		} else if (CodeIssueTypeEnum.fakeCode.value().equals(codeIssue.getCodeType())) {
 			return redirect(ResultPath.codeIssue + "/fake-code-gen-list");
+		} else if (CodeIssueTypeEnum.fangWeiCode.value().equals(codeIssue.getCodeType())) {
+			return redirect(ResultPath.codeIssue + "/code-gen-list");
+		}else{
+			return redirect(ResultPath.codeIssue + "/stick-gen-list");			
 		}
 	}
 
 	@RequestMapping("/code/{codeIssue.id}")
 	public String codeList(@ModelAttribute("codeIssue") CodeIssue codeIssue, Page page) {
-		if (codeIssue.getCodeType()) {
+		if (CodeIssueTypeEnum.boxCode.value().equals(codeIssue.getCodeType())) {
 			boxCodeService.findDatas("codeIssue.id", codeIssue.getId(), page);
 			return "/code/codeissue/box-code-list";
 		} else {
@@ -111,7 +138,7 @@ public class CodeIssueController extends CommonController {
 		extractParams(request);
 		codeIssue = codeIssueService.get(id);
 		request.setAttribute("codeIssue", codeIssue);
-		if (codeIssue.getCodeType()) {
+		if (CodeIssueTypeEnum.boxCode.value().equals(codeIssue.getCodeType())) {
 			boxCodeService.findPage(page, filters);
 			return "/code/codeissue/box-code-list";
 		} else {
@@ -123,14 +150,24 @@ public class CodeIssueController extends CommonController {
 	@RequestMapping("/export/{codeIssue.id}")
 	public void export(@ModelAttribute("codeIssue") CodeIssue codeIssue, HttpServletResponse response) throws Exception {
 		response.setContentType("application/octet-stream; charset=UTF-8");
-		if (codeIssue.getCodeType()) {
+		if (CodeIssueTypeEnum.boxCode.value().equals(codeIssue.getCodeType())) {
 			byte[] bytes = excelService.exportBoxCodes(codeIssue);
 			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName(boxCodeFileName));
 			response.addHeader("Content-Length", "" + bytes.length);
 			IOUtils.write(bytes, response.getOutputStream());
-		} else {
+		} else if (CodeIssueTypeEnum.fakeCode.value().equals(codeIssue.getCodeType())) {
 			byte[] bytes = excelService.exportFakeCodes(codeIssue);
 			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName(fakeCodeFileName));
+			response.addHeader("Content-Length", "" + bytes.length);
+			IOUtils.write(bytes, response.getOutputStream());
+		} else if (CodeIssueTypeEnum.fangWeiCode.value().equals(codeIssue.getCodeType())) {
+			byte[] bytes = excelService.exportCodes(codeIssue);
+			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName(fangWeiFileName));
+			response.addHeader("Content-Length", "" + bytes.length);
+			IOUtils.write(bytes, response.getOutputStream());
+		} else {
+			byte[] bytes = excelService.exportCodes(codeIssue);
+			response.setHeader("Content-Disposition", "attachment; filename=" + getExportFileName(stickFileName));
 			response.addHeader("Content-Length", "" + bytes.length);
 			IOUtils.write(bytes, response.getOutputStream());
 		}
@@ -159,5 +196,7 @@ public class CodeIssueController extends CommonController {
 
 	private static final String boxCodeFileName = "箱码.xls";
 	private static final String fakeCodeFileName = "防伪码.xls";
+	private static final String fangWeiFileName = "防伪码.xls";
+	private static final String stickFileName = "贴码.xls";
 
 }

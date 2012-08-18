@@ -21,9 +21,11 @@ import org.springframework.stereotype.Service;
 import com.taoists.code.entity.BoxCode;
 import com.taoists.code.entity.CodeIssue;
 import com.taoists.code.entity.FakeCode;
+import com.taoists.code.entity.FangWeiCode;
 import com.taoists.code.service.BoxCodeService;
 import com.taoists.code.service.ExcelService;
 import com.taoists.code.service.FakeCodeService;
+import com.taoists.code.service.FangWeiCodeService;
 import com.taoists.common.bean.Page;
 import com.taoists.common.util.DateUtils;
 
@@ -39,8 +41,10 @@ public class ExcelServiceImpl implements ExcelService {
 	private int pageSize = 1000;
 	public static String[] boxCodeHeader = { "箱码", "包装箱规格", "箱容量", "生成日期" };
 	public static String[] fakeCodeHeader = { "明码", "防伪码", "生成日期" };
+	public static String[] codeHeader = { "码", "生成日期" };
 	public static String boxCodeSheetName = "箱码";
 	public static String fakeCodeSheetName = "防伪码";
+	public static String codeSheetName = "码";
 	public static int singleSheetMaxRows = 65001;
 
 	@Override
@@ -124,6 +128,47 @@ public class ExcelServiceImpl implements ExcelService {
 		}
 		return outputStream.toByteArray();
 	}
+	
+	@Override
+	public byte[] exportCodes(CodeIssue codeIssue) {
+		int row = 1;
+		int sheetIndex = 0;
+		Page page = new Page();
+		page.setPageSize(pageSize);
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		
+		WritableWorkbook writableWorkbook = createWritableWorkbook(outputStream);
+		try {
+			WritableSheet sheet = createWritableSheet(writableWorkbook, codeHeader, codeSheetName, sheetIndex);
+			
+			logger.debug("Starting export codes");
+			while (true) {
+				List<FangWeiCode> fangWeiCodes = fangWeiCodeService.findDatas("codeIssue.id", codeIssue.getId(), page);
+				if (CollectionUtils.isEmpty(fangWeiCodes)) {
+					break;
+				}
+				row = writeCodeContent(fangWeiCodes, sheet, row);
+				
+				if (page.getPageNum() == page.getTotalPages()) {
+					break;
+				}
+				
+				page.setPageNum(page.getPageNum() + 1);
+				if (row + page.getPageSize() > singleSheetMaxRows) {
+					sheet = createWritableSheet(writableWorkbook, codeHeader, codeSheetName, ++sheetIndex);
+					row = 1;
+				}
+			}
+			logger.debug("Ending export codes");
+		} catch (Exception e) {
+			throw new IllegalStateException(e);
+		} finally {
+			close(writableWorkbook);
+			IOUtils.closeQuietly(outputStream);
+		}
+		return outputStream.toByteArray();
+	}
 
 	public void writeHeader(WritableSheet writableSheet, String[] headers) throws Exception, WriteException {
 		for (int column = 0; column < headers.length; column++) {
@@ -149,6 +194,15 @@ public class ExcelServiceImpl implements ExcelService {
 			writableSheet.addCell(new Label(1, row, fakeCode.getFakeCode()));
 //			writableSheet.addCell(new Label(2, row, fakeCode.getBoxSpec().getSpecName()));
 			writableSheet.addCell(new Label(3, row, DateUtils.toString(fakeCode.getCreateDateTime())));
+			row += 1;
+		}
+		return row;
+	}
+	
+	public int writeCodeContent(List<FangWeiCode> fangWeiCodes, WritableSheet writableSheet, int row) throws Exception {
+		for (FangWeiCode fangWei : fangWeiCodes) {
+			writableSheet.addCell(new Label(0, row, fangWei.getCodeNo()));
+			writableSheet.addCell(new Label(1, row, DateUtils.toString(fangWei.getCreateDateTime())));
 			row += 1;
 		}
 		return row;
@@ -182,5 +236,7 @@ public class ExcelServiceImpl implements ExcelService {
 	private BoxCodeService boxCodeService;
 	@Autowired
 	private FakeCodeService fakeCodeService;
+	@Autowired
+	private FangWeiCodeService fangWeiCodeService;
 
 }

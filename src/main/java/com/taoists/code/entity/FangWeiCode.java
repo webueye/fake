@@ -5,9 +5,11 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import com.taoists.common.Cons;
+import com.taoists.common.orm.Comment;
 import com.taoists.common.orm.entity.BaseEntity;
 
 /**
@@ -20,11 +22,33 @@ import com.taoists.common.orm.entity.BaseEntity;
 public class FangWeiCode extends BaseEntity {
 
 	private String codeNo;
+	@Type(type = "com.taoists.common.orm.entity.type.PersistentDateTime")
 	private DateTime firstQueryDateTime;
 	private Integer queryCount;
 	private Boolean status;
 	@ManyToOne(fetch = FetchType.LAZY)
 	private CodeIssue codeIssue;
+
+	@Comment("查询方式：1电话，2短信，3网站")
+	private Integer queryWayStatus;
+
+	private String codeType;
+
+	public void setQueryWayStatus(Integer queryWayStatus) {
+		this.queryWayStatus = queryWayStatus;
+	}
+
+	public Integer getQueryWayStatus() {
+		return queryWayStatus;
+	}
+
+	public void setCodeType(String codeType) {
+		this.codeType = codeType;
+	}
+
+	public String getCodeType() {
+		return codeType;
+	}
 
 	public String getCodeNo() {
 		return codeNo;

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.taoists.code.entity.CodeQuery;
 import com.taoists.code.entity.FakeCode;
-import com.taoists.code.entity.QueryWayStatus;
+import com.taoists.code.entity.enums.QueryWayStatus;
 import com.taoists.code.service.CodeQueryService;
 import com.taoists.code.service.FakeCodeService;
 import com.taoists.code.webservice.FakeWebService;

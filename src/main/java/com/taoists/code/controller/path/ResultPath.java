@@ -11,6 +11,7 @@ public interface ResultPath {
 	String boxCodeHistory = "/box-code-history";
 	String deliveryHistory = "/delivery-history";
 	String fakeCode = "/fake-code";
+	String fangWeiCode = "/fang-wei-code";
 	String trace = "/trace";
 	String boxTrace = "/box-trace";
 	String codeQuery = "/code-query";

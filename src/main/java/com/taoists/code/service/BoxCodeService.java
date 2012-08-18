@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.taoists.code.entity.BoxCode;
-import com.taoists.code.entity.BoxCodeStatus;
+import com.taoists.code.entity.enums.BoxCodeStatus;
 import com.taoists.code.model.BoxCodeGroup;
 import com.taoists.common.bean.Page;
 import com.taoists.common.orm.PropertyFilter;

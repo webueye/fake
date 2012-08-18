@@ -1,4 +1,4 @@
-package com.taoists.code.entity;
+package com.taoists.code.entity.enums;
 
 /**
  * @author rubys@vip.qq.com

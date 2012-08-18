@@ -12,4 +12,7 @@ http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
 	<jaxws:endpoint implementor="#fakeWebServiceImpl"
 		address="/fakeWebService" />
 
+	<jaxws:endpoint implementor="#fangWeiWebServiceImpl"
+		address="/fangWeiWebService" />
+
 </beans>

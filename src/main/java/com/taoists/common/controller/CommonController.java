@@ -30,6 +30,7 @@ import com.taoists.code.service.CodeQueryService;
 import com.taoists.code.service.DeliveryHistoryService;
 import com.taoists.code.service.ExcelService;
 import com.taoists.code.service.FakeCodeService;
+import com.taoists.code.service.FangWeiCodeService;
 import com.taoists.common.ViewName;
 import com.taoists.crm.service.CompanyService;
 import com.taoists.ias.service.PurchaseBoxService;
@@ -53,6 +54,11 @@ public class CommonController {
 
 	protected String getModule() {
 		return "";
+	}
+
+	protected String forward(String viewName) {
+		String path = this.getClass().getAnnotation(RequestMapping.class).value()[0];
+		return getModule() + path.replaceAll("-", "") + "/" + viewName;
 	}
 
 	protected String forward(ViewName viewName) {
@@ -180,5 +186,7 @@ public class CommonController {
 	protected CodeHistoryService codeHistoryService;
 	@Autowired
 	protected DeliveryHistoryService deliveryHistoryService;
+	@Autowired
+	protected FangWeiCodeService fangWeiCodeService;
 
 }

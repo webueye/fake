@@ -11,5 +11,7 @@ public interface ExcelService {
 	byte[] exportBoxCodes(CodeIssue codeIssue);
 
 	byte[] exportFakeCodes(CodeIssue codeIssue);
+	
+	byte[] exportCodes(CodeIssue codeIssue);
 
 }

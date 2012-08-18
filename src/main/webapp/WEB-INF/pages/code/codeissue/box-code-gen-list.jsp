@@ -29,7 +29,7 @@
 					            <input class="input-small" name="filter_BAD_createDateTime" value="${filter_BAD_createDateTime}" onFocus="WdatePicker()" placeholder="开始日期"/>
 					            <input class="input-small" name="filter_BAD_createDateTime" value="${filter_BAD_createDateTime_}" onFocus="WdatePicker()" placeholder="结束日期"/>
 					            
-					            <input name="filter_EQB_codeType" value="true" type="hidden"/>
+					            <input name="filter_EQS_codeType" value="boxCode" type="hidden"/>
 							  	<button type="submit" class="btn btn-primary">查询</button>
 					        </div>
 						</div>
@@ -79,7 +79,7 @@
 									<td>
 										<a href="#" onclick="printHandle('${codeIssue.id}');">打印</a>
 										<a href="${pageContext.request.contextPath}/code-issue/export/${codeIssue.id}">导出</a>&nbsp;
-										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">${codeIssue.codeType? '箱码': '防伪码'}列表</a>
+										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">箱码列表</a>
 									</td>
 								</tr>
 							</c:forEach>

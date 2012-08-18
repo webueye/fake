@@ -6,7 +6,7 @@
 <html>
 
 	<head>
-		<title>防伪码生成记录</title>
+		<title>码生成记录</title>
 		<jsp:include page="/common/header.jsp"/>
 	</head>
 
@@ -39,14 +39,14 @@
 							<tr>
 								<th class="th" colspan="5" align="right">
 									<div align=right style="margin-right:10px;">
-										<a href="${pageContext.request.contextPath}/code-issue/fake-code-gen">
-											防伪码生成
+										<a href="${pageContext.request.contextPath}/code-issue/code-gen">
+											码生成
 										</a>
 									</div>
 								</th>
 							</tr>
 							<tr>
-								<th class="gray" colspan="5">防伪码生成记录</th>
+								<th class="gray" colspan="5">码生成记录</th>
 							</tr>
 							<tr>
 								<th>编号</th>
@@ -79,7 +79,7 @@
 									</td>
 									<td>
 										<a href="${pageContext.request.contextPath}/code-issue/export/${codeIssue.id}">导出</a>&nbsp;
-										<a href="${pageContext.request.contextPath}/code-issue/code/${codeIssue.id}">防伪码列表</a>
+										<a href="${pageContext.request.contextPath}/fang-wei-code?filter_LIKES_codeIssue.issueName=${codeIssue.issueName}">码列表</a>
 									</td>
 								</tr>
 							</c:forEach>

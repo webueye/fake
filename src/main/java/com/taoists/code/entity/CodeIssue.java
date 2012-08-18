@@ -46,7 +46,7 @@ public class CodeIssue extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Company creationCompany;
 	@Comment("生成码类型: 防伪码/箱码")
-	private Boolean codeType;
+	private String codeType;
 
 	@Comment("操作人")
 	@ManyToOne
@@ -117,11 +117,11 @@ public class CodeIssue extends BaseEntity {
 		return creationCompany;
 	}
 
-	public Boolean getCodeType() {
+	public String getCodeType() {
 		return codeType;
 	}
 
-	public void setCodeType(Boolean codeType) {
+	public void setCodeType(String codeType) {
 		this.codeType = codeType;
 	}
 
